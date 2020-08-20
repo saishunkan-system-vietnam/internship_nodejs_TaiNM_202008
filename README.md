@@ -9,13 +9,13 @@ Xây dựng ứng dụng đặt vé máy bay theo mô hình ứng dụng phân t
 	Quản lý vé máy bay đã đặt (hủy vé)
 
 ### Back-end quản lý
-	CRUD quản lý danh mục:
+	CRUD quản lý danh mục ( 1 service ):
 		Tên hãng bay
 		Loại ghế
-	CRUD quản lý vé máy bay
+	CRUD quản lý vé máy bay ( 1 service ):
 		Hãng bay, loại ghế, số lượng ghế, giá tiền
-	CRUD quản lý thông tin đặt vé
-	Thống kê thông tin đặt vé.
+	CRUD quản lý thông tin đặt vé ( 1 service ).
+	Thống kê thông tin đặt vé ( 1 service ).
 
 ### Login hệ thống
 	Login cho khách hàng
@@ -26,4 +26,4 @@ Xây dựng ứng dụng đặt vé máy bay theo mô hình ứng dụng phân t
 Vì là ứng dụng phân tán, nên cần chú ý đến xử lý cookie - session nếu không khi login thành công, khi truy cập đến các module khác sẽ không có thông tin session.
 - Convention code phải thống nhất với nhau.
 - Sử dụng MySQL là cơ sở dữ liệu nên cần chú ý đến SQL Injection
-- Sử dụng cơ chế truyền dữ liệu MQTT
+- Sử dụng cơ chế truyền dữ liệu MQTT để thông báo real-time cho người dùng.
