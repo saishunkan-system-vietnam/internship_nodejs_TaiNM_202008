@@ -4,22 +4,22 @@ Xây dựng ứng dụng đặt vé máy bay theo mô hình ứng dụng phân t
 
 # Các module trong ứng dụng
 - Front-end người dùng
-+ Tìm kiếm vé máy bay
-+ Đặt vé máy bay
-+ Quản lý vé máy bay đã đặt (hủy vé)
+ + Tìm kiếm vé máy bay
+ + Đặt vé máy bay
+ + Quản lý vé máy bay đã đặt (hủy vé)
 
 - Back-end quản lý
-+ CRUD quản lý danh mục:
-++ Tên hãng bay
-++ Loại ghế
-+ CRUD quản lý vé máy bay
-++ Hãng bay, loại ghế, số lượng ghế, giá tiền
-+ CRUD quản lý thông tin đặt vé
-+ Thống kê thông tin đặt vé.
+ + CRUD quản lý danh mục:
+   ++ Tên hãng bay
+   ++ Loại ghế
+ + CRUD quản lý vé máy bay
+   ++ Hãng bay, loại ghế, số lượng ghế, giá tiền
+ + CRUD quản lý thông tin đặt vé
+ + Thống kê thông tin đặt vé.
 
 - Login hệ thống
-+ Login cho khách hàng
-+ Login cho quản lý
+ + Login cho khách hàng
+ + Login cho quản lý
 
 # Các CHÚ Ý khi phát triển
 - Xử lý cookie - session:
