@@ -3,23 +3,23 @@ Thực tập NodeJS (NestJS) - Xây dựng ứng dụng phân tán
 Xây dựng ứng dụng đặt vé máy bay theo mô hình ứng dụng phân tán theo module.
 
 # Các module trong ứng dụng
-- Front-end người dùng
- Tìm kiếm vé máy bay
- Đặt vé máy bay
- Quản lý vé máy bay đã đặt (hủy vé)
+### Front-end người dùng
+	Tìm kiếm vé máy bay
+	Đặt vé máy bay
+	Quản lý vé máy bay đã đặt (hủy vé)
 
-- Back-end quản lý
- CRUD quản lý danh mục:
-   Tên hãng bay
-   Loại ghế
- CRUD quản lý vé máy bay
-   Hãng bay, loại ghế, số lượng ghế, giá tiền
- CRUD quản lý thông tin đặt vé
- Thống kê thông tin đặt vé.
+### Back-end quản lý
+	CRUD quản lý danh mục:
+		Tên hãng bay
+		Loại ghế
+	CRUD quản lý vé máy bay
+		Hãng bay, loại ghế, số lượng ghế, giá tiền
+	CRUD quản lý thông tin đặt vé
+	Thống kê thông tin đặt vé.
 
-- Login hệ thống
-   Login cho khách hàng
-   Login cho quản lý
+### Login hệ thống
+	Login cho khách hàng
+	Login cho quản lý
 
 # Các CHÚ Ý khi phát triển
 - Xử lý cookie - session:
