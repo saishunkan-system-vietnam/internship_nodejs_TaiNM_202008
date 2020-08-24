@@ -26,7 +26,7 @@ export class DatabaseService {
             return myTable
                 .select()
                 .execute(function (row) {
-                console.log(row);
+                    console.log(row);
                 });
         })
         .then(function (myResult) {
