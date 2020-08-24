@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import mysqlx from '@mysql/xdevapi';
+import mysqlx from 'mysqlx';
 var myTable;
 @Injectable()
 
@@ -43,10 +43,9 @@ export class UsersService {
 
     async findAll(){
         myTable = await this.connectDB();
-        myTable.select()
-        .execute(function (row) {
-            console.log(row);
-        });   
+        var result = await myTable.select()
+        .execute();  
+        return await result.objects; 
     }
 
     async findById(id){
