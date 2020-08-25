@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import mysqlx from '@mysql/xdevapi';
+import bcrypt from 'bcrypt';
 
 var myTable;
 var session;
@@ -71,5 +72,15 @@ export class UsersService {
 
         // console.log(result.fetchAll());
     }
+
+    async bcryptPass(string){
+        var saltRounds = 10;
+        let password = await bcrypt.hash(string, saltRounds);
+        return password;
+    }
+
+    // async passCompare(password){
+    //     return bcrypt.compare(password, hash);
+    // }
 
 }

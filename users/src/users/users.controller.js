@@ -1,5 +1,6 @@
-import { Controller, Get, Query, Dependencies, Post, Bind, Param } from '@nestjs/common';
+import { Controller, Get, Query, Dependencies, Post, Bind, Param, Body, Res, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
+import bcrypt from 'bcrypt';
 
 @Controller('users')
 @Dependencies(UsersService)
@@ -22,8 +23,20 @@ export class UsersController {
     }
 
     @Post()
-    insertUser(){
-        return this.usersService.insertUser();
+    @Bind(Req())
+    async insertUser(req){
+        let email = req.body.email;
+        //  req.body.password;
+        let password = await this.usersService.bcryptPass(req.body.password);
+        let name = req.body.name;
+        let phone = req.body.phone;
+        let address = req.body.address;
+        let level = req.body.level;
+        
+        // console.log(password);
+        return this.usersService.insertUser(email, password, name, phone, address, level);
+
+        // console.log(req.body.name);
     }
 
 }
