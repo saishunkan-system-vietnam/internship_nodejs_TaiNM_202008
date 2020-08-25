@@ -1,31 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import mysqlx from 'mysqlx';
+import mysqlx from '@mysql/xdevapi';
+
 var myTable;
+var session;
 @Injectable()
 
 export class UsersService {
     async connectDB(){
-        var session = await mysqlx
+        session = await mysqlx
           .getSession({
             user: 'root',
             password: '123456',
             host: 'localhost',
             port: 33060
           })
-    myTable = await session.getSchema('mydb').getTable('users');
-    return myTable; 
-        
+        return session;
+    }
+
+    async getSchema(){
+        myTable = await session.getSchema('mydb').getTable('users');
+        return myTable; 
     }
 
     async insertUser(email, password, name, phone, address, level){
-        myTable = await this.connectDB();
+        await this.connectDB();
+        await this.getSchema();
         myTable.insert(['email','password','name','phone','address','level'])
           .values([email,password,name,phone,address,level])
           .execute();
     }
 
     async updateUser(id, email, password, name, phone, address, level){
-        myTable = await this.connectDB();
+        await this.connectDB();
+        await this.getSchema();
         myTable.update()
           .set([email,password,name,phone,address,level])
           .where('id = :param')
@@ -34,7 +41,8 @@ export class UsersService {
     }
 
     async deleteUser(id){
-        myTable = await this.connectDB();
+        await this.connectDB();
+        await this.getSchema();
         myTable.delete()
         .where('id = :param')
         .bind('param',id)
@@ -42,20 +50,26 @@ export class UsersService {
     }
 
     async findAll(){
-        myTable = await this.connectDB();
-        var result = await myTable.select()
+        await this.connectDB();
+        await this.getSchema();
+        let result = await myTable.select()
         .execute();  
-        return await result.objects; 
+        return result.fetchAll(); 
     }
 
     async findById(id){
-        myTable = await this.connectDB();
-        myTable.select()
+        await this.connectDB();
+        await this.getSchema();
+        let result = await myTable.select()
         .where('id = :param')
         .bind('param',id)
-        .execute(function (row) {
-            console.log(row);
-        });   
+        .execute();
+        return result.fetchAll();
+        // await this.connectDB();
+        // await session.sql('use mydb').execute();
+        // var result = await session.sql('SELECT * FROM users').execute();
+
+        // console.log(result.fetchAll());
     }
 
 }

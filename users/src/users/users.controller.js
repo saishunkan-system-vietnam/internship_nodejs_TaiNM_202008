@@ -1,4 +1,4 @@
-import { Controller, Get, Dependencies, Post } from '@nestjs/common';
+import { Controller, Get, Query, Dependencies, Post, Bind, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -9,12 +9,20 @@ export class UsersController {
     }
 
     @Get()
-    selectTable(){
+    @Bind(Query())
+    findAll(){
         return this.usersService.findAll();
     }
 
+    @Get(':id')
+    @Bind(Param())
+    findById(params){
+        // console.log(params.id);
+        return this.usersService.findById(params.id);
+    }
+
     @Post()
-    postUser(){
+    insertUser(){
         return this.usersService.insertUser();
     }
 
