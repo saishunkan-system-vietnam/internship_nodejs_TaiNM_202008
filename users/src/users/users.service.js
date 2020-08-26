@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import mysqlx from '@mysql/xdevapi';
 import bcrypt from 'bcrypt';
+import validator from 'validator';
 
 var myTable;
 var session;
@@ -26,16 +27,27 @@ export class UsersService {
     async insertUser(email, password, name, phone, address, level){
         await this.connectDB();
         await this.getSchema();
+        if(!validator.isEmail(email) || validator.isEmpty(email)){
+            throw "Email không hợp lệ!";
+        }
+        if(validator.isEmpty(name,{ ignore_whitespace: true })){
+            throw "Name không hợp lệ!";
+        }
         myTable.insert(['email','password','name','phone','address','level'])
           .values([email,password,name,phone,address,level])
           .execute();
     }
 
-    async updateUser(id, email, password, name, phone, address, level){
+    async updateUser(id, newEmail, newPassword, newName, newPhone, newAddress, newLevel){
         await this.connectDB();
         await this.getSchema();
         myTable.update()
-          .set([email,password,name,phone,address,level])
+          .set('email',newEmail)
+          .set('password',newPassword)
+          .set('name',newName)
+          .set('phone',newPhone)
+          .set('address',newAddress)
+          .set('level',newLevel)
           .where('id = :param')
           .bind('param',id)
           .execute();
