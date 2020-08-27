@@ -1,4 +1,4 @@
-import { Controller, Dependencies, Get, Post, Put, Delete, Bind, Param, Query, Req, Res } from '@nestjs/common';
+import { Controller, Dependencies, Get, Post, Put, Delete, Bind, Param, Req, Res } from '@nestjs/common';
 import { TicketService } from './ticket.service';
 
 @Controller()
@@ -51,17 +51,18 @@ export class TicketController {
         
      }
 
-    @Post()
+    @Post("ticket")
     @Bind(Req(), Res())
         async insertticket(req,res) {
             try {
-                let name = req.body.name;
-                let flight_time = req.body.flight_time;
-                let id_airline = req.body.id_airline;
-                let id_seat = req.body.id_seat;
+                let airline_id = req.body.airline_id;
+                let start = req.body.start;
+                let end = req.body.end;
+                let date = req.body.date;
                 let number_seat = req.body.number_seat;
                 let price = req.body.price;
-                let result = await this.ticketService.insertticket(name,flight_time,id_airline, id_seat,number_seat,price );
+                let seat_id = req.body.seat_id;
+                let result = await this.ticketService.insertticket(airline_id, seat_id, start, end, date, number_seat, price);
                 // console.log(name);
                 return res.json({
                     mess:"susscess",
@@ -78,23 +79,53 @@ export class TicketController {
             }
      }
 
-    @Put(":id")
-    @Bind(Param(), Req())
-        updateticket(params,req) {
-        let name = req.body.name;
-        let flight_time = req.body.flight_time;
-        let id_airline = req.body.id_airline;
-        let id_seat = req.body.id_seat;
-        let number_seat = req.body.number_seat;
-        let price = req.body.price;
-        //console.log(name);
-        return this.ticketService.updateticket(params.id,name,flight_time,id_airline, id_seat,number_seat,price );
+    @Put("ticket/:id")
+    @Bind(Param(), Req(), Res())
+        async updateticket(params, req, res) {
+            try {
+                let airline_id = req.body.airline_id;
+                let start = req.body.start;
+                let end = req.body.end;
+                let date = req.body.date;
+                let number_seat = req.body.number_seat;
+                let price = req.body.price;
+                let seat_id = req.body.seat_id;
+                //console.log(name);
+                let result = await this.ticketService.updateticket(params.id,airline_id, seat_id, start, end, date, number_seat, price); 
+                return res.json({
+                    mess:"susscess",
+                    code: 200,
+                    data: req.body
+                });
+            } catch (error) {
+                console.log(error);
+                return res.json({
+                    status: "erro",
+                    code: "404",
+                    data: error,
+                    });
+            }
+        
     }
     
-    @Delete(":id")
-    @Bind(Param())
-        delete(params) {
-        return this.ticketService.deleteticket(params.id);
+    @Delete("ticket/:id")
+    @Bind(Param(), Res())
+    async delete(params, res) {
+        try {
+            await this.ticketService.deleteOderTicket(params.id);
+            let result = await this.ticketService.deleteticket(params.id);
+            return res.json({
+                mess:"susscess",
+                code: 200,
+            });
+        } catch (error) {
+            console.log(error);
+            return res.json({
+                status: "erro",
+                code: "404",
+                data: error,
+                });
+        }
     }
     
 }

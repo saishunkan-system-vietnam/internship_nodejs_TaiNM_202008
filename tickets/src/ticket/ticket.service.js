@@ -22,19 +22,13 @@ export class TicketService {
     }
 
     async selectticket() {
-        // await this.connectdatabase();
-        // let tickets = await this.getSchema();
-        // let select =  await tickets
-        //             .select()
-        //             .execute();
-        // console.log(select);
-        // return select.fetchAll();
-
-        //su dung truy van query thuong
         await this.connectdatabase();
-        let sql ='SELECT tickets.id,tickets.`name`,tickets.flight_time,airline.alName,typeofseat.sName,tickets.number_seat,tickets.price FROM tickets LEFT JOIN airline ON tickets.id_airline = airline.alID LEFT JOIN typeofseat ON tickets.id_seat = typeofseat.sID';
+        let sql ='SELECT tickets.id,airline.alName,seat.sName,airport.name,a.name,tickets.date,tickets.number_seat,tickets.price,tickets.reg_date FROM tickets LEFT JOIN airport ON tickets.`start` = airport.id LEFT JOIN airport as a ON tickets.`end` = a.id LEFT JOIN airline ON tickets.airline_id = airline.alID LEFT JOIN category ON airline.alID = category.alID LEFT JOIN seat ON category.sID = seat.sID WHERE tickets.seat_id = seat.sID';
         await db.sql('use mydb').execute();
         var result = await db.sql(sql).execute();
+        // if (result.fetchAll().length === 0) {
+        //     throw "RECORD NOT FOUND";
+        // }
         return result.fetchAll();
     }
 
@@ -43,9 +37,12 @@ export class TicketService {
             throw "id khong hop le";
         }
         await this.connectdatabase();
-        let sql ='SELECT tickets.id,tickets.`name`,tickets.flight_time,airline.alName,typeofseat.sName,tickets.number_seat,tickets.price FROM tickets LEFT JOIN airline ON tickets.id_airline = airline.alID LEFT JOIN typeofseat ON tickets.id_seat = typeofseat.sID WHERE tickets.id = ?';
+        let sql ='SELECT tickets.id,airline.alName,seat.sName,airport.name,a.name,tickets.date,tickets.number_seat,tickets.price,tickets.reg_date FROM tickets LEFT JOIN airport ON tickets.`start` = airport.id LEFT JOIN airport as a ON tickets.`end` = a.id LEFT JOIN airline ON tickets.airline_id = airline.alID LEFT JOIN category ON airline.alID = category.alID LEFT JOIN seat ON category.sID = seat.sID WHERE tickets.seat_id = seat.sID AND tickets.id = ?';
         await db.sql('use mydb').execute();
         var result = await db.sql(sql).bind(id).execute();
+        // if (result.fetchAll().length === 0) {
+        //     throw "RECORD NOT FOUND";
+        // }
         return result.fetchAll();
         
         // await this.connectdatabase();
@@ -58,37 +55,124 @@ export class TicketService {
         // return select.fetchAll();
     }
 
-    async insertticket(name,flight_time,id_airline, id_seat,number_seat,price) {
+    async insertticket(airline_id, seat_id, start, end, date, number_seat, price) {
         await this.connectdatabase();
         let tickets = await this.getSchema();
-        if (!name || name.trim() === "") {
-            throw "loi name";
+        if (!airline_id || airline_id.trim() === "") {
+            throw "airline_id NOT NULL";
         }
+        if (!seat_id || seat_id.trim() === "") {
+            throw "seat_id NOT NULL";
+        }
+        if (!start || start.trim() === "") {
+            throw "start NOT NULL";
+        }
+        if (!end || end.trim() === "") {
+            throw "end NOT NULL";
+        }
+        if (!date || date.trim() === "") {
+            throw "date NOT NULL";
+        }
+        if (!number_seat || number_seat.trim() === "") {
+            throw "number_seat NOT NULL";
+        }
+        if (!price || price.trim() === "") {
+            throw "PRICE NOT NULL";
+        }
+        if (isNaN(airline_id)) {
+            throw "id_airline NOT NUMBER";
+        }
+        if (isNaN(seat_id)) {
+            throw "id_seat NOT NUMBER";
+        }
+        if (isNaN(start)) {
+            throw "id_seat NOT NUMBER";
+        }
+        if (isNaN(end)) {
+            throw "id_seat NOT NUMBER";
+        }
+        if (isNaN(number_seat)) {
+            throw "number_seat NOT NUMBER";
+        }
+        if (isNaN(price)) {
+            throw "PRICE NOT NUMBER";
+        }
+      
         let insert = await tickets
-                    .insert('name','flight_time','id_airline', 'id_seat','number_seat','price')
-                    .values(name,flight_time,id_airline, id_seat,number_seat,price)
+                    .insert('airline_id', 'seat_id', 'start', 'end', 'date', 'number_seat', 'price')
+                    .values(airline_id, seat_id, start, end, date, number_seat, price)
                     .execute();
     }
 
-    async updateticket(id,name,flight_time,id_airline, id_seat,number_seat,price) {
+    async updateticket(id,airline_id, seat_id, start, end, date, number_seat, price) {
         await this.connectdatabase();
         let tickets = await this.getSchema();
+        if (!airline_id || airline_id.trim() === "") {
+            throw "airline_id NOT NULL";
+        }
+        if (!seat_id || seat_id.trim() === "") {
+            throw "seat_id NOT NULL";
+        }
+        if (!start || start.trim() === "") {
+            throw "start NOT NULL";
+        }
+        if (!end || end.trim() === "") {
+            throw "end NOT NULL";
+        }
+        if (!date || date.trim() === "") {
+            throw "date NOT NULL";
+        }
+        if (!number_seat || number_seat.trim() === "") {
+            throw "number_seat NOT NULL";
+        }
+        if (!price || price.trim() === "") {
+            throw "PRICE NOT NULL";
+        }
+        if (isNaN(airline_id)) {
+            throw "id_airline NOT NUMBER";
+        }
+        if (isNaN(seat_id)) {
+            throw "id_seat NOT NUMBER";
+        }
+        if (isNaN(start)) {
+            throw "id_seat NOT NUMBER";
+        }
+        if (isNaN(end)) {
+            throw "id_seat NOT NUMBER";
+        }
+        if (isNaN(number_seat)) {
+            throw "number_seat NOT NUMBER";
+        }
+        if (isNaN(price)) {
+            throw "PRICE NOT NUMBER";
+        }
+
         let updateticket = await tickets
                             .update()
-                            .set('name',name)
-                            .set('flight_time',flight_time)
-                            .set('id_airline',id_airline)
-                            .set('id_seat',id_seat)
-                            .set('number_seat',number_seat)
-                            .set('price',price)
                             .where('id = :param')
                             .bind('param',id)
+                            .set('airline_id',airline_id)
+                            .set('seat_id',seat_id)
+                            .set('start',start)
+                            .set('end',end)
+                            .set('date',date)
+                            .set('number_seat',number_seat)
+                            .set('price',price)
                             .execute();
-        //console.log(updateticket);
+    }
+
+    async deleteOderTicket(id) {
+        let db = await this.connectdatabase();
+        let order_ticket = await db.getSchema('mydb').getTable('order_ticket');
+        // let order_ticket = await this.getSchema();
+        let deleteOderTicket = await order_ticket.delete()
+                            .where('ticket_id = :param')
+                            .bind('param',id)
+                            .execute();
+        console.log(deleteOderTicket);
     }
 
     async deleteticket(id) {
-        //return "hello";
         await this.connectdatabase();
         let tickets = await this.getSchema();
         let deleteticket = await tickets.delete()
@@ -97,10 +181,6 @@ export class TicketService {
                             .execute();
         console.log(deleteticket);
     }
-    
-    // getSchema() {
-    //     this.myDb = this.session.getSchema('test');
-    // }
 
     // beginTransaction() {
     //     if (this.session) {
@@ -129,7 +209,5 @@ export class TicketService {
     //     }
         
     // }
-    // hello(){
-    //     return 'hjgasdjhgas';
-    // }
+
 }

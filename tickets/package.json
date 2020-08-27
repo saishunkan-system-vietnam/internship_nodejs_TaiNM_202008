@@ -23,6 +23,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.4",
     "typeorm": "^0.2.25",
+    "validator": "^13.1.1",
     "validator-js": "^0.2.1"
   },
   "devDependencies": {
