@@ -16,6 +16,12 @@ export class TicketService {
         return db;
     }
 
+    close() {
+        if (db) {
+            db.close();
+        }
+        
+    }
     async getSchema() {
         mydb = await db.getSchema('mydb').getTable('tickets');
         return mydb;
@@ -26,9 +32,7 @@ export class TicketService {
         let sql ='SELECT tickets.id,airline.alName,seat.sName,airport.name,a.name,tickets.date,tickets.number_seat,tickets.price,tickets.reg_date FROM tickets LEFT JOIN airport ON tickets.`start` = airport.id LEFT JOIN airport as a ON tickets.`end` = a.id LEFT JOIN airline ON tickets.airline_id = airline.alID LEFT JOIN category ON airline.alID = category.alID LEFT JOIN seat ON category.sID = seat.sID WHERE tickets.seat_id = seat.sID';
         await db.sql('use mydb').execute();
         var result = await db.sql(sql).execute();
-        // if (result.fetchAll().length === 0) {
-        //     throw "RECORD NOT FOUND";
-        // }
+        await this.close();
         return result.fetchAll();
     }
 
@@ -40,9 +44,7 @@ export class TicketService {
         let sql ='SELECT tickets.id,airline.alName,seat.sName,airport.name,a.name,tickets.date,tickets.number_seat,tickets.price,tickets.reg_date FROM tickets LEFT JOIN airport ON tickets.`start` = airport.id LEFT JOIN airport as a ON tickets.`end` = a.id LEFT JOIN airline ON tickets.airline_id = airline.alID LEFT JOIN category ON airline.alID = category.alID LEFT JOIN seat ON category.sID = seat.sID WHERE tickets.seat_id = seat.sID AND tickets.id = ?';
         await db.sql('use mydb').execute();
         var result = await db.sql(sql).bind(id).execute();
-        // if (result.fetchAll().length === 0) {
-        //     throw "RECORD NOT FOUND";
-        // }
+        await this.close();
         return result.fetchAll();
         
         // await this.connectdatabase();
@@ -102,6 +104,7 @@ export class TicketService {
                     .insert('airline_id', 'seat_id', 'start', 'end', 'date', 'number_seat', 'price')
                     .values(airline_id, seat_id, start, end, date, number_seat, price)
                     .execute();
+        await this.close();
     }
 
     async updateticket(id,airline_id, seat_id, start, end, date, number_seat, price) {
@@ -159,6 +162,7 @@ export class TicketService {
                             .set('number_seat',number_seat)
                             .set('price',price)
                             .execute();
+        await this.close();
     }
 
     async deleteOderTicket(id) {
@@ -169,7 +173,8 @@ export class TicketService {
                             .where('ticket_id = :param')
                             .bind('param',id)
                             .execute();
-        console.log(deleteOderTicket);
+        await this.close();
+        //console.log(deleteOderTicket);
     }
 
     async deleteticket(id) {
@@ -179,7 +184,8 @@ export class TicketService {
                             .where('id = :param')
                             .bind('param',id)
                             .execute();
-        console.log(deleteticket);
+        await this.close();
+        //console.log(deleteticket);
     }
 
     // beginTransaction() {

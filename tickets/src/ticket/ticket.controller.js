@@ -62,6 +62,7 @@ export class TicketController {
                 let number_seat = req.body.number_seat;
                 let price = req.body.price;
                 let seat_id = req.body.seat_id;
+                console.log(airline_id);
                 let result = await this.ticketService.insertticket(airline_id, seat_id, start, end, date, number_seat, price);
                 // console.log(name);
                 return res.json({
