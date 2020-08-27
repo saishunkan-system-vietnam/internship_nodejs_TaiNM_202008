@@ -22,7 +22,8 @@
     "mysqlx": "^1.1.7",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.4",
-    "typeorm": "^0.2.25"
+    "typeorm": "^0.2.25",
+    "validator-js": "^0.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",
