@@ -1,6 +1,6 @@
 import { Controller, Get, Query, Dependencies, Post, Bind, Param, Req, Put, Delete, Res } from '@nestjs/common';
 import { UsersService } from './users.service';
-
+import validator from 'validator';
 
 @Controller('users')
 @Dependencies(UsersService)
@@ -10,25 +10,41 @@ export class UsersController {
     }
 
     @Get()
-    @Bind(Query())
-    findAll(){
-        return this.usersService.findAll();
+    @Bind(Res())
+    async findAll(res){
+        try {
+            let resutl = await this.usersService.findAll();
+            return res.json({
+                mess: "success",
+                data: resutl
+            });
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     @Get(':id')
-    @Bind(Param())
-    findById(params){
+    @Bind(Param(), Res())
+    async findById(params,res){
         // console.log(params.id);
-        return this.usersService.findById(params.id);
+       try {
+        let resutl = await this.usersService.findById(params.id);
+        return res.json({
+            mess: "success",
+            data: resutl
+        });
+       } catch (error) {
+           console.log(error);
+       }
     }
 
     @Post()
     @Bind(Req(), Res())
     async insertUser(req,res){
         try {
-            // if(validator.isEmpty(req.body.password,{ ignore_whitespace: true })){
-            //     throw "Pass không hợp lệ!";
-            // }
+            if(validator.isEmpty(req.body.password,{ ignore_whitespace: true })){
+                throw "Pass không hợp lệ!";
+            }
             let email = req.body.email;
         //  req.body.password;
             let password = await this.usersService.bcryptPass(req.body.password);
