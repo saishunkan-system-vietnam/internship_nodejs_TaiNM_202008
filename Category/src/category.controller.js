@@ -15,16 +15,16 @@ export class CategoryController {
         // return this.categoryService.getTable('airlineName');
         // return this.categoryService.insertAirline('VNA', 'Vietnam Airlines', 'Vietnam');
         // return this.categoryService.findAllAirline();
-        return this.categoryService.findAllTypeOfSeat();
-        // return this.categoryService.findAirlineById('VNA');
-        // return this.categoryService.insertAirline('HNA', 'test1', 'Viet Nam');
-        // return this.categoryService.updateAirline('HNA', 'alID', 'NewName');
+        // return this.categoryService.findAllAirLine();
+        // return this.categoryService.findAirlineById(2);
+        return this.categoryService.insertSeat('test1');
+        // return this.categoryService.findSeatByAirlineById(1);
     }
 
     @Put(':id')
     @Bind(Param())
     updateAir(params){
-        return this.categoryService.updateAirline(params.id,'dsds', 'aaaaaa', 'Viet Nam');
+        return this.categoryService.updateAirline(params.id,'HNB', 'Test2');
     }
 
     // @Post('category')
@@ -34,8 +34,19 @@ export class CategoryController {
 
     @Post()
     @Bind(Req())
-    testrequest(req) {
-        console.log(req.body);
+    async testrequest(req) {
+        // console.log(req.body);
+        let alCode = req.body.alCode;
+        let alName = req.body.alName;
+        let seat = await this.categoryService.findAllSeat();
+
+        // console.log(seat);
+        let allAirline = await this.categoryService.findAllAirline();
+        // console.log (allAirline[allAirline.length-1][0]);
+        for (let i=0; i<seat.length; i++) {
+            this.categoryService.insertAirline(alCode, alName);
+            this.categoryService.insertCategory(allAirline[allAirline.length-1][0], seat[i][0]);
+        }
     }
 
     @Delete(':id')
