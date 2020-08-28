@@ -261,5 +261,7 @@ export class TicketService {
     //     }
         
     // }
+    // https://vhnam.github.io/tutorials/jwt-va-microservices/
+    // https://techmaster.vn/posts/34560/api-gateway-va-single-sign-on-microservice
     
 }
