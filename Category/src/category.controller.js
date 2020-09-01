@@ -1,16 +1,17 @@
   
 import { Controller, Get, Dependencies, Post, Body, Bind, Req, Param, Put, Delete } from '@nestjs/common';
 import { CategoryService } from './category/category.service';
+import { MessagePattern } from '@nestjs/microservices';
 
 
-@Controller()
+@Controller('category')
 @Dependencies(CategoryService)
 export class CategoryController {
     constructor(categoryService){
         this.categoryService = categoryService;
     }
 
-    @Get()
+    @MessagePattern()
     selectTable(){
         // return this.categoryService.getTable('airlineName');
         // return this.categoryService.insertAirline('VNA', 'Vietnam Airlines', 'Vietnam');
@@ -21,7 +22,7 @@ export class CategoryController {
         // return this.categoryService.findSeatByAirlineById(1);
     }
 
-    @Put(':id')
+    @MessagePattern(':id')
     @Bind(Param())
     updateAir(params){
         return this.categoryService.updateAirline(params.id,'HNB', 'Test2');
@@ -32,7 +33,7 @@ export class CategoryController {
     //     return this.categoryService.insertAirline('VNA', 'Vietnam Airlines', 'Vietnam');
     // }
 
-    @Post()
+    @MessagePattern()
     @Bind(Req())
     async testrequest(req) {
         // console.log(req.body);
@@ -49,7 +50,7 @@ export class CategoryController {
         }
     }
 
-    @Delete(':id')
+    @MessagePattern(':id')
     @Bind(Param())
     deleteAir(params){
         return this.categoryService.deleteAirline(params.id);

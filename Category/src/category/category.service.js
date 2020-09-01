@@ -30,6 +30,7 @@ export class CategoryService {
         myTable.insert(['alCode', 'alName'])
             .values(alCode, alName)
             .execute();
+        this.closeSession();
     }
 
     async updateAirline(id, alCode, alName) {
@@ -40,15 +41,26 @@ export class CategoryService {
             .where('alID = :param')
             .bind('param', id)
             .execute();
+        this.closeSession();
     }
 
     async deleteAirline(alID) {
-        await this.deleteCategoryByAl(alID);
-        myTable = await this.getTable('airline');
-        myTable.delete()
+        await this.connectDB();
+        session.startTransaction();
+        try {
+            await this.deleteCategoryByAl(alID);
+            myTable = await this.getTable('airline');
+            myTable.delete()
             .where('alID = :param')
             .bind('param', alID)
             .execute();
+            session.commit();
+        }
+        catch (err) {
+           console.log(err);
+           session.rollback();
+        }
+       this.closeSession();
     }
 
     async findAllAirline() {
@@ -58,6 +70,7 @@ export class CategoryService {
         // return result.fetchAll();
         myTable = await this.getTable('airline');
         var result = await myTable.select().execute();
+        this.closeSession();
         return result.fetchAll();
     }
 
@@ -67,6 +80,7 @@ export class CategoryService {
             .where('alID = :param')
             .bind('param', id)
             .execute();
+        this.closeSession();
         return result.fetchOne();
     }
 
@@ -75,6 +89,7 @@ export class CategoryService {
         myTable.insert(['sName'])
             .values(sName)
             .execute();
+        this.closeSession();
     }
 
     async updateSeat(sID, sName) {
@@ -84,20 +99,38 @@ export class CategoryService {
             .where('sID = :param')
             .bind('param', sID)
             .execute();
+        this.closeSession();
     }
 
     async deleteSeat(sID) {
-        await this.deleteCategoryBySeat(sID);
-        myTable = await this.getTable('seat');
-        myTable.delete()
+        // await this.deleteCategoryBySeat(sID);
+        // myTable = await this.getTable('seat');
+        // myTable.delete()
+        //     .where('sID = :param')
+        //     .bind('param', sID)
+        //     .execute();
+        await this.connectDB();
+        session.startTransaction();
+        try {
+            await this.deleteCategoryBySeat(sID);
+            myTable = await this.getTable('seat');
+            myTable.delete()
             .where('sID = :param')
             .bind('param', sID)
             .execute();
+            session.commit();
+        }
+        catch (err) {
+           console.log(err);
+           session.rollback();
+        }
+       this.closeSession();
     }
 
     async findAllSeat() {
         myTable = await this.getTable('seat');
         var result = await myTable.select().execute();
+        this.closeSession();
         return result.fetchAll();
     }
 
@@ -107,6 +140,7 @@ export class CategoryService {
             .where('alID = :param')
             .bind('param', id)
             .execute();
+        this.closeSession();
         return result.fetchOne();
     }
 
@@ -115,6 +149,7 @@ export class CategoryService {
         myTable.insert(['alID', 'sID'])
             .values(alID, sID)
             .execute();
+        this.closeSession();
     }
 
 
@@ -135,6 +170,7 @@ export class CategoryService {
             .where('alID = :param')
             .bind('param', alID)
             .execute();
+        this.closeSession();
     }
 
     async deleteCategoryBySeat(sID) {
@@ -143,12 +179,24 @@ export class CategoryService {
             .where('sID = :param')
             .bind('param', sID)
             .execute();
+        this.closeSession();
+    }
+
+    async deleteCategoryByAirlineAndSeat(alID, sID) {
+        myTable = await this.getTable('category');
+        myTable.delete()
+            .where('alID = :param1 and sID =:param2')
+            .bind('param1', alID)
+            .bind('param2', sID)
+            .execute();
+        this.closeSession();
     }
 
     async findAllSeatByAirline() {
         await this.connectDB();
         await session.sql('USE category;').execute();
         var result = await session.sql('select airline.alCode, seat.sName from airline, seat, category where airline.alID=category.alID and seat.sID=category.sID;').execute();
+        this.closeSession();
         return result.fetchAll();
     }
 
@@ -156,7 +204,7 @@ export class CategoryService {
         await this.connectDB();
         await session.sql('USE category;').execute();
         var result = await session.sql(`select airline.alCode, seat.sName from airline, seat, category where airline.alID=category.alID and seat.sID=category.sID and category.alID=${alID};`).execute();
+        this.closeSession();
         return result.fetchAll();
     }
-
 }
