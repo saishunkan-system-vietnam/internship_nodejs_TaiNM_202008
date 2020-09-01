@@ -2,12 +2,14 @@ import { Injectable } from '@nestjs/common';
 import mysqlx from '@mysql/xdevapi';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
+  
 
 var myTable;
 var session;
 @Injectable()
 
 export class UsersService {
+    
     async connectDB(){
         session = await mysqlx
           .getSession({

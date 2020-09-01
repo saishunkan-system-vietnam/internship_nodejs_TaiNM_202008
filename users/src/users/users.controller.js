@@ -1,112 +1,127 @@
-import { Controller, Get, Query, Dependencies, Post, Bind, Param, Req, Put, Delete, Res } from '@nestjs/common';
+import { Controller, Dependencies, Bind } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UsersService } from './users.service';
 import validator from 'validator';
+
 
 @Controller('users')
 @Dependencies(UsersService)
 export class UsersController {
+    
     constructor(usersService){
         this.usersService = usersService;
     }
 
-    @Get()
-    @Bind(Res())
-    async findAll(res){
+
+    @MessagePattern('get')
+    async findAll(){
         try {
-            let resutl = await this.usersService.findAll();
-            return res.json({
-                mess: "success",
-                data: resutl
-            });
+            let arr = await this.usersService.findAll();
+            var keys = ['id','email','password','name','phone','address','level','create'];
+
+            //vacate keys from main array
+            var newArr = arr.slice(0, arr.length);
+
+            var formatted = [],
+            data = newArr,
+            cols = keys,
+            l = cols.length;
+            for (var i=0; i<data.length; i++) {
+                    var d = data[i],
+                            o = {};
+                    for (var j=0; j<l; j++)
+                            o[cols[j]] = d[j];
+                    formatted.push(o);
+            }
+            return {
+                "mess": "success",
+                "data": formatted
+            };
         } catch (error) {
             console.log(error)
         }
     }
 
-    @Get(':id')
-    @Bind(Param(), Res())
-    async findById(params,res){
-        // console.log(params.id);
-       try {
-        let resutl = await this.usersService.findById(params.id);
-        return res.json({
-            mess: "success",
-            data: resutl
-        });
-       } catch (error) {
-           console.log(error);
-       }
-    }
+    // @Get(':id')
+    // @Bind(Param(), Res())
+    // async findById(params,res){
+    //     // console.log(params.id);
+    //    try {
+    //     let resutl = await this.usersService.findById(params.id);
+    //     return res.json({
+    //         mess: "success",
+    //         data: resutl
+    //     });
+    //    } catch (error) {
+    //        console.log(error);
+    //    }
+    // }
 
-    @Post()
-    @Bind(Req(), Res())
-    async insertUser(req,res){
+    @Bind(Payload())
+    @MessagePattern('insertUser')
+    async insertUser(data){
+        var user = data;
         try {
-            if(validator.isEmpty(req.body.password,{ ignore_whitespace: true })){
+            // console.log(user);
+            if(validator.isEmpty(user.password,{ ignore_whitespace: true })){
                 throw "Pass không hợp lệ!";
             }
-            let email = req.body.email;
-        //  req.body.password;
-            let password = await this.usersService.bcryptPass(req.body.password);
-            let name = req.body.name;
-            let phone = req.body.phone;
-            let address = req.body.address;
-            let level = req.body.level;
-            
-            // console.log(password);
+            let email = user.email;
+            let password = await this.usersService.bcryptPass(user.password);
+            let name = user.name;
+            let phone = user.phone;
+            let address = user.address;
+            let level = user.level;
             await this.usersService.insertUser(email, password, name, phone, address, level);
-            return res.json({
-                mess:"success",
-                data: req.body
-            });
+            return {
+                "mess": "success",
+                "data": user
+            }
         } catch (error) {
-            return res.json({
-                mess: error
-            });
+            return {
+                "mess": "error"
+            }
         }
-
-        // console.log(req.body.name);
+        
     }
 
-    @Put(':id')
-    @Bind(Param(), Req(), Res())
-    async updateUser(params, req, res) {
+    @Bind(Payload())
+    @MessagePattern('updateUser')
+    async updateUser(data) {
+        // console.log(data);
+        var user = data.user;
         try {
-            let email = req.body.email;
-        //  req.body.password;
-            let password = await this.usersService.bcryptPass(req.body.password);
-            let name = req.body.name;
-            let phone = req.body.phone;
-            let address = req.body.address;
-            let level = req.body.level;
-            
-            // console.log(password);
-            await this.usersService.updateUser(params.id, email, password, name, phone, address, level);
-            return res.json({
-                mess:"success",
-                data: req.body
-            });
+            let email = user.email;
+            let password = await this.usersService.bcryptPass(user.password);
+            let name = user.name;
+            let phone = user.phone;
+            let address = user.address;
+            let level = user.level;
+            await this.usersService.updateUser(data.id, email, password, name, phone, address, level);
+            return {
+                "mess": "success",
+                "data": data
+            }
         } catch (error) {
-            return res.json({
-                mess: error
-            });
+            return {
+                "mess": "error"
+            }
         }
-
     }
 
-    @Delete(':id')
-    @Bind(Param(), Res())
-    removeUsers(params,res) {
-       try {
-            this.usersService.deleteUser(params.id);
-            return res.json({
-                mess:"success",
-            });
-       } catch (error) {
-            return res.json({
-                mess: error
-            });
-       }
-    }
+    // @Delete(':id')
+    // @Bind(Param(), Res())
+    // removeUsers(params,res) {
+    //    try {
+    //         this.usersService.deleteUser(params.id);
+    //         return res.json({
+    //             mess:"success",
+    //         });
+    //    } catch (error) {
+    //         return res.json({
+    //             mess: error
+    //         });
+    //    }
+    // }
 
 }
