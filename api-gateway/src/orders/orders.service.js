@@ -2,20 +2,22 @@ import { Injectable } from '@nestjs/common';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 
 @Injectable()
-export class StatisticService {
+export class OrdersService {
     constructor() {
         this.client = ClientProxyFactory.create({
           transport: Transport.TCP,
           options: {
             host: '127.0.0.1',
-            port: 8877,
+            port: 8899,
           },
         });
     }
 
-    findStatus(){
-      const payload = {};
-      return this.client.send('get',payload);
+    async insertOrder(data){
+        return this.client.send('insertOrder',data);
     }
 
+    async removeOrder(data){
+        return this.client.send('removeOrder',data);
+    }
 }

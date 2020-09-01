@@ -26,4 +26,12 @@ export class UsersService {
         let data = {};
         return this.client.send('get',data);
     }
+
+    async findById(data){
+        return this.client.send('findById',data);
+    }
+
+    async deleteUser(data){
+        return this.client.send('deleteUser',data);
+    }
 }
