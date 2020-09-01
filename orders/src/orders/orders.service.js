@@ -37,29 +37,29 @@ export class OrdersService {
 
     async insertOrder(order_id, ticket_id, quantity, length){
         await this.connectDB();
-        session.startTransaction();
+        await session.sql('USE mydb;').execute();
         try {
-            await session.sql('USE mydb;').execute();
+            await session.sql('START TRANSACTION;').execute();
             await session.sql('insert into order_ticket(order_id, ticket_id, quantity) values(?,?,?)').bind(order_id,ticket_id,quantity).execute();
-            session.commit();
+            await session.sql('COMMIT;').execute();
         } catch (error) {
+            await session.sql('ROLLBACK;').execute();
             console.log(error);
-            session.rollback();
         }
     }
 
 
     async delete(order_id){
         await this.connectDB();
-        session.startTransaction();
+        await session.sql('USE mydb;').execute();
         try {
-            await session.sql('USE mydb;').execute();
+            await session.sql('START TRANSACTION;').execute();
             await session.sql('DELETE FROM order_ticket WHERE order_id = ?;').bind(order_id).execute();
             await session.sql('DELETE FROM orders WHERE id = ?;').bind(order_id).execute();
-            session.commit();
+            await session.sql('COMMIT;').execute();
         } catch (error) {
             console.log(error);
-            session.rollback();
+            await session.sql('ROLLBACK;').execute();
         }
     }
 

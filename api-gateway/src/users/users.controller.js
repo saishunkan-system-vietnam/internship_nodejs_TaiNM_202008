@@ -1,4 +1,4 @@
-import { Controller,Dependencies, Post, Req, Bind, Put, Param, Get } from '@nestjs/common';
+import { Controller,Dependencies, Post, Req, Bind, Put, Param, Get, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -12,6 +12,14 @@ export class UsersController {
     async findAll(){
         return this.usersService.findAll();
     }
+
+    @Get(':id')
+    @Bind(Param())
+    async findById(params){
+        // console.log(params.id)
+        return this.usersService.findById(params.id);
+    }
+
     @Post()
     @Bind(Req())
     async insertUser(req){
@@ -26,5 +34,11 @@ export class UsersController {
             "user": req.body
         }
         return this.usersService.updateUser(data);
+    }
+
+    @Delete(':id')
+    @Bind(Param())
+    async removeUsers(params) {
+        return this.usersService.deleteUser(params.id);
     }
 }

@@ -12,7 +12,6 @@ export class UsersController {
         this.usersService = usersService;
     }
 
-
     @MessagePattern('get')
     async findAll(){
         try {
@@ -42,20 +41,34 @@ export class UsersController {
         }
     }
 
-    // @Get(':id')
-    // @Bind(Param(), Res())
-    // async findById(params,res){
-    //     // console.log(params.id);
-    //    try {
-    //     let resutl = await this.usersService.findById(params.id);
-    //     return res.json({
-    //         mess: "success",
-    //         data: resutl
-    //     });
-    //    } catch (error) {
-    //        console.log(error);
-    //    }
-    // }
+    @Bind(Payload())
+    @MessagePattern('findById')
+    async findById(data){
+        // console.log(data);
+       try {
+        let arr = await this.usersService.findById(data);
+        var keys = ['id','email','password','name','phone','address','level','create'];
+        var newArr = arr.slice(0, arr.length);
+
+            var formatted = [],
+            data = newArr,
+            cols = keys,
+            l = cols.length;
+            for (var i=0; i<data.length; i++) {
+                    var d = data[i],
+                            o = {};
+                    for (var j=0; j<l; j++)
+                            o[cols[j]] = d[j];
+                    formatted.push(o);
+            }
+        return {
+            "mess": "success",
+            "data": formatted
+        };
+       } catch (error) {
+           console.log(error);
+       }
+    }
 
     @Bind(Payload())
     @MessagePattern('insertUser')
@@ -109,19 +122,20 @@ export class UsersController {
         }
     }
 
-    // @Delete(':id')
-    // @Bind(Param(), Res())
-    // removeUsers(params,res) {
-    //    try {
-    //         this.usersService.deleteUser(params.id);
-    //         return res.json({
-    //             mess:"success",
-    //         });
-    //    } catch (error) {
-    //         return res.json({
-    //             mess: error
-    //         });
-    //    }
-    // }
+    @Bind(Payload())
+    @MessagePattern('deleteUser')
+    removeUsers(data) {
+       try {
+            this.usersService.deleteUser(data);
+            return {
+                "mess": "success",
+                "data": data
+            }
+       } catch (error) {
+            return {
+                "mess": "error"
+            }
+       }
+    }
 
 }
