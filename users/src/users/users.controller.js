@@ -1,4 +1,4 @@
-import { Controller, Dependencies, Bind } from '@nestjs/common';
+import { Controller, Dependencies, Bind, Post, Req, Res, Delete } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UsersService } from './users.service';
 import validator from 'validator';
@@ -137,5 +137,51 @@ export class UsersController {
             }
        }
     }
+
+
+    @Bind(Payload())
+    @MessagePattern('register')
+    async register(data) {
+        try {
+            let email = data.email;
+            let password = await this.usersService.bcryptPass(data.password);
+            let name = data.name;
+            let phone = data.phone;
+            let address = data.address;
+            let level = data.level;
+            
+            // console.log(password);
+            await this.usersService.registerUser(email, password, name, phone, address, level);
+            return {
+                "mess": "success",
+                "data": data
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    @Bind(Payload())
+    @MessagePattern('login')
+    async login(data) {
+        console.log(data);
+        try {
+            let email = data.email;
+            // let password = await this.usersService.bcryptPass(req.body.password);
+            let password = data.password;
+            let session = data.session;
+            await this.usersService.loginUser(email, password, session);
+            // console.log(req.headers.cookie);
+            return {
+                mess:"success",
+            };
+        } catch (error) {
+            console.log(error);
+            return {
+                mess:"error",
+            }
+        }
+    }
+
 
 }

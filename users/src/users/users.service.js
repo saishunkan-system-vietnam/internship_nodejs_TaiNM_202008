@@ -96,5 +96,58 @@ export class UsersService {
     // async passCompare(password){
     //     return bcrypt.compare(password, hash);
     // }
+    async registerUser(email, password, name, phone, address, level) {
+        await this.connectDB();
+        await this.getSchema();
+        
+        let findEmail = await myTable.select()
+                                        .where('email = :param')
+                                        .bind('param',email)
+                                        .execute();
+        let user = findEmail.fetchAll();
+        //console.log(findEmail.fetchAll().length);
+        // console.log(user.length);
+          if(user.length !== 0){
+              throw "Email NOT FOUND"
+          }
+        await myTable.insert(['email','password','name','phone','address','level'])
+          .values([email,password,name,phone,address,level])
+          .execute();
+        
+    }
+
+
+    async loginUser(email, password, session) {
+        await this.connectDB();
+        await this.getSchema();
+        let findEmail = await myTable.select()
+        .where('email = :param')
+        .bind('param',email)
+        .execute();
+        let user = findEmail.fetchAll();
+        //console.log(findEmail.fetchAll().length);
+        if(user.length == 0){
+            throw "Email NOT FOUND"
+        }
+        let data = bcrypt.compareSync(password, user[0][2]);
+        if( data == false){
+            throw "Passwor NOT FOUND"
+        }
+        // console.log(session);
+        if(!session.user){
+            session.user = {
+            id: user[0][0],
+            email: user[0][1],
+            };
+        }else{
+            session.user = {
+                id: user[0][0],
+                email: user[0][1],
+            }
+        }
+        // console.log(session);
+        // console.log(user[0][0]);
+        return session;
+    }
 
 }

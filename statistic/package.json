@@ -20,6 +20,7 @@
     "bcrypt": "^5.0.0",
     "mqtt": "^4.2.1",
     "mysqlx": "^1.1.7",
+    "redis": "^3.0.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.5.4",
     "validator": "^13.1.1"
