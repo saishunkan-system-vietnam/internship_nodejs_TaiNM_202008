@@ -97,6 +97,7 @@ export class CategoryController {
     @Bind(Payload())
     @MessagePattern('updateAirline')
     async updateUser(data) {
+        console.log(data);
         // var airline = data;
         try {
             // let alCode = airline.alCode;
