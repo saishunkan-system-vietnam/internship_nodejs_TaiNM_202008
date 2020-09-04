@@ -34,4 +34,12 @@ export class UsersService {
     async deleteUser(data){
         return this.client.send('deleteUser',data);
     }
+
+    async login(data){
+        return this.client.send('login',data);
+    }
+
+    async register(data){
+        return this.client.send('register',data);
+    }
 }

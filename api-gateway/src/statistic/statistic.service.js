@@ -14,8 +14,8 @@ export class StatisticService {
     }
 
     findStatus(){
-      const payload = {};
-      return this.client.send('get',payload);
+        const payload = {};
+        return this.client.send('get',payload);
     }
 
 }

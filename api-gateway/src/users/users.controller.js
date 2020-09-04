@@ -9,36 +9,108 @@ export class UsersController {
     }
 
     @Get()
-    async findAll(){
-        return this.usersService.findAll();
+    @Bind(Req())
+    async findAll(req){
+        // console.log(req.sessionID);
+        // req.session.Users = this.usersService.findAll();
+       if (!req.session || !req.session.users) {
+           return {
+               "mess": "error"
+           }
+       }else{
+            return this.usersService.findAll();
+       }
     }
 
     @Get(':id')
     @Bind(Param())
     async findById(params){
+        if (!req.session || !req.session.users) {
+            return {
+                "mess": "error"
+            }
+        }else{
+            return this.usersService.findById(params.id);
+        }
         // console.log(params.id)
-        return this.usersService.findById(params.id);
+        
     }
 
     @Post()
     @Bind(Req())
     async insertUser(req){
-        return this.usersService.insertUser(req.body);
+        if (!req.session || !req.session.users) {
+            return {
+                "mess": "error"
+            }
+        }else{
+            return this.usersService.insertUser(req.body);
+        }
+        
     }
 
     @Put(':id')
     @Bind(Req(), Param())
     async updateUser(req, params){
-        var data = {
-            "id": params.id,
-            "user": req.body
+        if (!req.session || !req.session.users) {
+            return {
+                "mess": "error"
+            }
+        }else{
+            var data = {
+                "id": params.id,
+                "user": req.body
+            }
+            return this.usersService.updateUser(data);
         }
-        return this.usersService.updateUser(data);
+        
     }
 
     @Delete(':id')
     @Bind(Param())
     async removeUsers(params) {
-        return this.usersService.deleteUser(params.id);
+        if (!req.session || !req.session.users) {
+            return {
+                "mess": "error"
+            }
+        }else{
+            return this.usersService.deleteUser(params.id);
+        }
+        
     }
+    
+    @Post('login')
+    @Bind(Req())
+    async login(req){
+        req.session.users = {
+            "email": req.body.email,
+            "password": req.body.password,
+        };
+        console.log(req.session);
+        let data = {
+            "email": req.body.email,
+            "password": req.body.password,
+            "session": req.session
+        }
+        console.log(data);
+        return this.usersService.login(data);
+    }
+
+    @Post('logout')
+    @Bind(Req())
+    async logout(req){
+        return req.session.users = null;
+    }
+
+
+    @Post('register')
+    @Bind(Req())
+    async logout(req){
+        return this.usersService.register(req.body);
+    }
+
+    // @Get('test')
+    // async test(){
+    //     return this.usersService.test();
+    // }
 }
