@@ -19,8 +19,7 @@
     "mqtt": "^4.2.1",
     "mysqlx": "^1.1.7",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.5.4",
-    "validator": "^13.1.1"
+    "rxjs": "^6.5.4"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",
