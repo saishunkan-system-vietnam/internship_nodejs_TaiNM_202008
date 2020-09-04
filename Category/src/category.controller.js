@@ -70,17 +70,18 @@ export class CategoryController {
     @Bind(Payload())
     @MessagePattern('insertAirline')
     async insertAirline(data){
-        var airline = data;
+        console.log(data);
+        // var airline = data;
         try {
-            if(validator.isEmpty(airline.alCode,{ ignore_whitespace: true })){
-                throw "Airline code should not be empty!";
-            }
-            if(validator.isEmpty(airline.alName,{ ignore_whitespace: true })){
-                throw "Airline name should not be empty!";
-            }
-            let alCode = airline.alCode;
-            let alName = airline.alName;
-            await this.categoryService.insertUser(alCode, alName);
+            // if(validator.isEmpty(airline.alCode,{ ignore_whitespace: true })){
+            //     throw "Airline code should not be empty!";
+            // }
+            // if(validator.isEmpty(airline.alName,{ ignore_whitespace: true })){
+            //     throw "Airline name should not be empty!";
+            // }
+            let alCode = data.alCode;
+            let alName = data.alName;
+            await this.categoryService.insertAirline(alCode, alName);
             return {
                 "mess": "success",
                 "data": airline
@@ -96,11 +97,11 @@ export class CategoryController {
     @Bind(Payload())
     @MessagePattern('updateAirline')
     async updateUser(data) {
-        var airline = data;
+        // var airline = data;
         try {
-            let alCode = airline.alCode;
-            let alName = airline.alName;
-            await this.categoryService.updateAirline(data.id, alCode, alName);
+            // let alCode = airline.alCode;
+            // let alName = airline.alName;
+            await this.categoryService.updateAirline(data.alID, data.alCode, data.alName);
             return {
                 "mess": "success",
                 "data": data

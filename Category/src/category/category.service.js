@@ -72,7 +72,7 @@ export class CategoryService {
             .bind('param', id)
             .execute();
         this.closeSession();
-        return result.fetchOne();
+        return result.fetchAll();
     }
 
     async insertSeat(sName) {
@@ -117,7 +117,7 @@ export class CategoryService {
             .bind('param', id)
             .execute();
         this.closeSession();
-        return result.fetchOne();
+        return result.fetchAll();
     }
 
     async insertCategory(alID, sID) {
