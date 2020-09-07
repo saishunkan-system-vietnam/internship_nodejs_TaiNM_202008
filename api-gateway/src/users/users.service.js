@@ -1,45 +1,48 @@
-import { Injectable } from '@nestjs/common';
-import { ClientProxyFactory, Transport } from '@nestjs/microservices';
+import { Injectable, Dependencies } from '@nestjs/common';
 
 @Injectable()
+@Dependencies('Users')
 export class UsersService {
-    constructor() {
-        this.client = ClientProxyFactory.create({
-          transport: Transport.TCP,
-          options: {
-            host: '127.0.0.1',
-            port: 8888,
-          },
-        });
+    constructor(clientUsers) {
+        this.clientUsers = clientUsers;
     }
+
+    onModuleInit() {
+        console.log('onModuleInit');
+      }
+    
+      async onApplicationBootstrap() {
+        console.log('onApplicationBootstrap');
+        await this.clientUsers.connect();
+      }    
+
 
     async insertUser(data){
         // console.log(data);
-       return this.client.send('insertUser',data);
+       return this.clientUsers.send('insertUser',data);
     }
 
     async updateUser(data){
-        return this.client.send('updateUser',data);
+        return this.clientUsers.send('updateUser',data);
     }
 
-    async findAll(){
-        let data = {};
-        return this.client.send('get',data);
+    async findAll(data){
+        return this.clientUsers.send('get',data);
     }
 
     async findById(data){
-        return this.client.send('findById',data);
+        return this.clientUsers.send('findById',data);
     }
 
     async deleteUser(data){
-        return this.client.send('deleteUser',data);
+        return this.clientUsers.send('deleteUser',data);
     }
 
     async login(data){
-        return this.client.send('login',data);
+        return this.clientUsers.send('login',data);
     }
 
     async register(data){
-        return this.client.send('register',data);
+        return this.clientUsers.send('register',data);
     }
 }

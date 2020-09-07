@@ -11,6 +11,7 @@ export class UsersController {
     @Get()
     @Bind(Req())
     async findAll(req){
+        console.log(req.session);
         // console.log(req.sessionID);
         // req.session.Users = this.usersService.findAll();
        if (!req.session || !req.session.users) {
@@ -18,7 +19,8 @@ export class UsersController {
                "mess": "error"
            }
        }else{
-            return this.usersService.findAll();
+           
+            return this.usersService.findAll(req.session);
        }
     }
 

@@ -1,23 +1,28 @@
-import { Injectable } from '@nestjs/common';
-import { ClientProxyFactory, Transport } from '@nestjs/microservices';
+import { Injectable, Dependencies } from '@nestjs/common';
+// import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 
 @Injectable()
+@Dependencies('Orders')
 export class OrdersService {
-    constructor() {
-        this.client = ClientProxyFactory.create({
-          transport: Transport.TCP,
-          options: {
-            host: '127.0.0.1',
-            port: 8899,
-          },
-        });
+  constructor(clientOrders) {
+    this.clientOrders = clientOrders;
+  }
+
+  onModuleInit() {
+      console.log('onModuleInit');
     }
 
+  async onApplicationBootstrap() {
+    console.log('onApplicationBootstrap');
+    await this.clientOrders.connect();
+  }    
+
+
     async insertOrder(data){
-        return this.client.send('insertOrder',data);
+        return this.clientOrders.send('insertOrder',data);
     }
 
     async removeOrder(data){
-        return this.client.send('removeOrder',data);
+        return this.clientOrders.send('removeOrder',data);
     }
 }

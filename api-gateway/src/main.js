@@ -5,6 +5,8 @@ const session = require('express-session');
 const redis = require('redis');
 const redisStore = require('connect-redis')(session);	
 const redisClient = redis.createClient();
+var express = require('express')
+var cors = require('cors')
 
 
 redisClient.on('error', (err) => {
@@ -13,6 +15,7 @@ redisClient.on('error', (err) => {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  await app.use(cors());
   await app.use(session({
     store: new redisStore({ host: 'localhost', port: 6379, client: redisClient }),
     name: '_redisDemo', 

@@ -12,8 +12,10 @@ export class UsersController {
         this.usersService = usersService;
     }
 
+    @Bind(Payload())
     @MessagePattern('get')
-    async findAll(){
+    async findAll(data){
+        console.log(data);
         try {
             let arr = await this.usersService.findAll();
             var keys = ['id','email','password','name','phone','address','level','create'];
