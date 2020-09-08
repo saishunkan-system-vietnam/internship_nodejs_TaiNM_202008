@@ -130,7 +130,7 @@ export class TicketController {
     }
 
        //airport
-       @Get('airport')
+    @Get('airport')
        @Bind(Res())
        async selectairport(res) {
            //return"1";

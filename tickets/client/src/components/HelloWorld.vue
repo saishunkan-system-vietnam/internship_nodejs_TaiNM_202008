@@ -2,15 +2,23 @@
   <table border="1">
     <tr>
         <th>Họ và tên</th>
-        <th>Năm sinh</th>
-        <th>Giới tính</th>
-        <th>Quê quán</th>
+        <th>Hãng Bay</th>
+        <th>Loại Ghế</th>
+        <th>Điểm đi</th>
+        <th>Điểm đến</th>
+        <th>NGày giờ</th>
+        <th>Số lượng ghế</th>
+        <th>Giá ghế</th>
     </tr>
     <tr v-for="post in posts" :key="post.id">
         <td>{{ post[0] }}</td>
         <td>{{ post[1] }}</td>
         <td>{{ post[2] }}</td>
         <td>{{ post[3] }}</td>
+        <td>{{ post[4] }}</td>
+        <td>{{ post[5] }}</td>
+        <td>{{ post[6] }}</td>
+        <td>{{ post[7] }}</td>
     </tr>
 </table>
 </template>
