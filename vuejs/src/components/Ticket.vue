@@ -25,7 +25,7 @@
                         <td>{{ post[2] }}</td>
                         <td>{{ post[3] }}</td>
                         <td>{{ post[4] }}</td>
-                        <td>{{ post[5] }}</td>
+                        <td>{{ Date(post[5]) }}</td>
                         <td>{{ post[6] }}</td>
                         <td>{{ post[7] }}</td>
                         <td style="width: 18%;">
