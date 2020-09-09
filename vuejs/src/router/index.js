@@ -26,8 +26,9 @@ import Tim from '@/components/Tim'
 
 //
 import testHeader from '@/components/share/testHeader'
-import Ticket from '@/components/Ticket'
-import TicketCreate from '@/components/TicketCreate'
+import Ticket from '@/components/Ticket/Ticket'
+import TicketCreate from '@/components/Ticket/TicketCreate'
+import TicketUpdate from '@/components/Ticket/TicketUpdate'
 Vue.use(Router)
 
 export default new Router({
@@ -37,14 +38,14 @@ export default new Router({
       path: '/',
       name: 'home',
       components: {
-        default:Home,testHeader,Footer,Banner
+        default:Home,Banner
       }
     },
     {
       path: '/ticket',
       name: 'ticket',
       components: {
-        default:Ticket,testHeader,Footer,Banner,
+        default:Ticket,Footer,Banner,
       }
     },
     {
@@ -52,6 +53,13 @@ export default new Router({
       name: 'TicketCreate',
       components: {
         default:TicketCreate,testHeader,Footer,Banner,
+      }
+    },
+    {
+      path: '/ticketUpdate/:id',
+      name: 'TicketUpdate',
+      components: {
+        default:TicketUpdate,testHeader,Footer,Banner,
       }
     },
     {

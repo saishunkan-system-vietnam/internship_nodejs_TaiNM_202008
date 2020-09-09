@@ -29,7 +29,7 @@
                         <td>{{ post[6] }}</td>
                         <td>{{ post[7] }}</td>
                         <td style="width: 18%;">
-                            <a href="#modal" class="btn waves-effect waves-light yellow darken-2"><i class="fas fa-pen-square">edit</i>
+                            <a href="" class="btn waves-effect waves-light yellow darken-2" @click="updateTutorial(post[0])"><i class="fas fa-pen-square">edit</i>
                             </a>
                             <a href="" class="btn waves-effect waves-light red darken-2" @click="deleteTutorial(post[0])"><i class="fas fa-trash">delete</i>
                             </a>
@@ -73,6 +73,11 @@ export default {
                 .then(response => {
                    location.reload();
                 });
+        },
+         async updateTutorial(id) {
+          //  console.log(id);
+          //     console.log(`${url}/${id}`);
+           this.$router.push(`/ticketUpdate/${id}`);
         },
     }
 };

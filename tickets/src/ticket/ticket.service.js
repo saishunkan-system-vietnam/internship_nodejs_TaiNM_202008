@@ -2,20 +2,20 @@ import { Injectable } from '@nestjs/common';
 import mysqlx from '@mysql/xdevapi';
 import validator from 'validator';
 var db;
-var test;
+var mydb;
 
 @Injectable()
 export class TicketService {
   async connectdatabase() {
     db = await mysqlx.getSession({
-      // host: '192.168.10.137',
-      // port: 33060,
-      // user: 'chungpv',
-      // password: '1',
-      host: 'localhost',
+      host: '192.168.10.137',
       port: 33060,
-      user: 'root',
-      password: '123456',
+      user: 'chungpv',
+      password: '1',
+    //   host: 'localhost',
+    //   port: 33060,
+    //   user: 'root',
+    //   password: '123456',
     });
     return db;
   }
@@ -26,15 +26,15 @@ export class TicketService {
     }
   }
   async getSchema() {
-    test = await db.getSchema('test').getTable('tickets');
-    return test;
+    mydb = await db.getSchema('mydb').getTable('tickets');
+    return mydb;
   }
 
   async selectticket() {
     await this.connectdatabase();
     let sql =
       'SELECT tickets.id,airline.alName,seat.sName,airport.name,a.name,tickets.date,tickets.number_seat,tickets.price,tickets.reg_date FROM tickets LEFT JOIN airport ON tickets.`start` = airport.id LEFT JOIN airport as a ON tickets.`end` = a.id LEFT JOIN airline ON tickets.airline_id = airline.alID LEFT JOIN category ON airline.alID = category.alID LEFT JOIN seat ON category.sID = seat.sID WHERE tickets.seat_id = seat.sID';
-    await db.sql('use test').execute();
+    await db.sql('use mydb').execute();
     var result = await db.sql(sql).execute();
     await this.close();
     // console.log(result.fetchAll());
@@ -48,7 +48,7 @@ export class TicketService {
     await this.connectdatabase();
     let sql =
       'SELECT tickets.id,airline.alName,seat.sName,airport.name,a.name,tickets.date,tickets.number_seat,tickets.price,tickets.reg_date FROM tickets LEFT JOIN airport ON tickets.`start` = airport.id LEFT JOIN airport as a ON tickets.`end` = a.id LEFT JOIN airline ON tickets.airline_id = airline.alID LEFT JOIN category ON airline.alID = category.alID LEFT JOIN seat ON category.sID = seat.sID WHERE tickets.seat_id = seat.sID AND tickets.id = ?';
-    await db.sql('use test').execute();
+    await db.sql('use mydb').execute();
     var result = await db
       .sql(sql)
       .bind(id)
@@ -201,7 +201,7 @@ export class TicketService {
 
   async deleteOderTicket(id) {
     let db = await this.connectdatabase();
-    let order_ticket = await db.getSchema('test').getTable('order_ticket');
+    let order_ticket = await db.getSchema('mydb').getTable('order_ticket');
     // let order_ticket = await this.getSchema();
     let deleteOderTicket = await order_ticket
       .delete()
@@ -227,15 +227,23 @@ export class TicketService {
   // airport
   async selectairport() {
     await this.connectdatabase();
-    let airport = await db.getSchema('test').getTable('airport');
-    let selectairport = await airport.select().execute();
-    console.log(selectairport);
+    // let airport = await db.getSchema('mydb').getTable('airport');
+    // let selectairport = await airport.select().execute();
+    // console.log(selectairport);
+    await db.sql('use mydb;').execute();
+    let selectairport = await db.sql('SELECT * FROM airport;').execute();
     await this.close();
     return selectairport.fetchAll();
+    //
+    // await db.sql('use mydb').execute();
+    // var result = await db.sql(sql).execute();
+    // await this.close();
+    // // console.log(result.fetchAll());
+    // return result.fetchAll();
   }
   async insertairport(name) {
     await this.connectdatabase();
-    let airport = await db.getSchema('test').getTable('airport');
+    let airport = await db.getSchema('mydb').getTable('airport');
     if (!name || name.trim() === '') {
       throw 'name NOT NULL';
     }
@@ -247,7 +255,7 @@ export class TicketService {
   }
   async updateairport(id, name) {
     await this.connectdatabase();
-    let airport = await db.getSchema('test').getTable('airport');
+    let airport = await db.getSchema('mydb').getTable('airport');
     if (!name || name.trim() === '') {
       throw 'name NOT NULL';
     }
@@ -261,7 +269,7 @@ export class TicketService {
   }
   async deleteairport(id) {
     await this.connectdatabase();
-    let airport = await db.getSchema('test').getTable('airport');
+    let airport = await db.getSchema('mydb').getTable('airport');
     let deleteairport = await airport
       .delete()
       .where('id = :param')
