@@ -1,5 +1,9 @@
 import { Injectable, Dependencies } from '@nestjs/common';
+import mysqlx from '@mysql/xdevapi';
+import bcrypt from 'bcrypt';
 
+var myTable;
+var session;
 @Injectable()
 @Dependencies('Users')
 export class UsersService {
@@ -15,6 +19,26 @@ export class UsersService {
         console.log('onApplicationBootstrap');
         await this.clientUsers.connect();
       }    
+
+    async connectDB(){
+        session = await mysqlx
+          .getSession({
+            user: 'root',
+            password: '123456',
+            host: 'localhost',
+            port: 33060
+          })
+        return session;
+    }
+
+    closeDB(){
+        session.close();
+    }
+
+    async getSchema(){
+        myTable = await session.getSchema('mydb').getTable('users');
+        return myTable; 
+    }
 
 
     async insertUser(data){
@@ -38,11 +62,45 @@ export class UsersService {
         return this.clientUsers.send('deleteUser',data);
     }
 
-    async login(data){
-        return this.clientUsers.send('login',data);
-    }
+    // async login(data){
+    //     return this.clientUsers.send('login',data);
+    // }
 
     async register(data){
         return this.clientUsers.send('register',data);
+    }
+
+    async loginUser(email, password, session) {
+        await this.connectDB();
+        await this.getSchema();
+        let findEmail = await myTable.select()
+        .where('email = :param')
+        .bind('param',email)
+        .execute();
+        let user = findEmail.fetchAll();
+        //console.log(findEmail.fetchAll().length);
+        if(user.length == 0){
+            throw "Email NOT FOUND"
+        }
+        let data = bcrypt.compareSync(password, user[0][2]);
+        if( data == false){
+            throw "Passwor NOT FOUND"
+        }
+        // console.log(session);
+        if(!session.user){
+            session.user = {
+            id: user[0][0],
+            email: user[0][1],
+            };
+        }else{
+            session.user = {
+                id: user[0][0],
+                email: user[0][1],
+            }
+        }
+        // console.log(session);
+        // console.log(user[0][0]);
+        this.connectDB();
+        return session;
     }
 }

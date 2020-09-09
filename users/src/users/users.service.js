@@ -26,6 +26,10 @@ export class UsersService {
         return myTable; 
     }
 
+    closeDB(){
+        session.close();
+    }
+
     async insertUser(email, password, name, phone, address, level){
         await this.connectDB();
         await this.getSchema();
@@ -35,17 +39,17 @@ export class UsersService {
         if(validator.isEmpty(name,{ ignore_whitespace: true })){
             throw "Name không hợp lệ!";
         }
-        myTable.insert(['email','password','name','phone','address','level'])
+        await myTable.insert(['email','password','name','phone','address','level'])
           .values([email,password,name,phone,address,level])
           .execute();
+        this.closeDB();
     }
 
-    async updateUser(id, newEmail, newPassword, newName, newPhone, newAddress, newLevel){
+    async updateUser(id, newEmail, newName, newPhone, newAddress, newLevel){
         await this.connectDB();
         await this.getSchema();
-        myTable.update()
+        await myTable.update()
           .set('email',newEmail)
-          .set('password',newPassword)
           .set('name',newName)
           .set('phone',newPhone)
           .set('address',newAddress)
@@ -53,15 +57,17 @@ export class UsersService {
           .where('id = :param')
           .bind('param',id)
           .execute();
+        this.closeDB();
     }
 
     async deleteUser(id){
         await this.connectDB();
         await this.getSchema();
-        myTable.delete()
+        await myTable.delete()
         .where('id = :param')
         .bind('param',id)
         .execute();
+        this.closeDB();
     }
 
     async findAll(){
@@ -69,6 +75,7 @@ export class UsersService {
         await this.getSchema();
         let result = await myTable.select()
         .execute();  
+        this.closeDB();
         return result.fetchAll(); 
     }
 
@@ -79,6 +86,7 @@ export class UsersService {
         .where('id = :param')
         .bind('param',id)
         .execute();
+        this.closeDB();
         return result.fetchAll();
         // await this.connectDB();
         // await session.sql('use mydb').execute();
@@ -117,37 +125,37 @@ export class UsersService {
     }
 
 
-    async loginUser(email, password, session) {
-        await this.connectDB();
-        await this.getSchema();
-        let findEmail = await myTable.select()
-        .where('email = :param')
-        .bind('param',email)
-        .execute();
-        let user = findEmail.fetchAll();
-        //console.log(findEmail.fetchAll().length);
-        if(user.length == 0){
-            throw "Email NOT FOUND"
-        }
-        let data = bcrypt.compareSync(password, user[0][2]);
-        if( data == false){
-            throw "Passwor NOT FOUND"
-        }
-        // console.log(session);
-        if(!session.user){
-            session.user = {
-            id: user[0][0],
-            email: user[0][1],
-            };
-        }else{
-            session.user = {
-                id: user[0][0],
-                email: user[0][1],
-            }
-        }
-        // console.log(session);
-        // console.log(user[0][0]);
-        return session;
-    }
+    // async loginUser(email, password, session) {
+    //     await this.connectDB();
+    //     await this.getSchema();
+    //     let findEmail = await myTable.select()
+    //     .where('email = :param')
+    //     .bind('param',email)
+    //     .execute();
+    //     let user = findEmail.fetchAll();
+    //     //console.log(findEmail.fetchAll().length);
+    //     if(user.length == 0){
+    //         throw "Email NOT FOUND"
+    //     }
+    //     let data = bcrypt.compareSync(password, user[0][2]);
+    //     if( data == false){
+    //         throw "Passwor NOT FOUND"
+    //     }
+    //     // console.log(session);
+    //     if(!session.user){
+    //         session.user = {
+    //         id: user[0][0],
+    //         email: user[0][1],
+    //         };
+    //     }else{
+    //         session.user = {
+    //             id: user[0][0],
+    //             email: user[0][1],
+    //         }
+    //     }
+    //     // console.log(session);
+    //     // console.log(user[0][0]);
+    //     return session;
+    // }
 
 }

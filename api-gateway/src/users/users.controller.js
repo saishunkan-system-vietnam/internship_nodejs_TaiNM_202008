@@ -14,7 +14,7 @@ export class UsersController {
         console.log(req.session);
         // console.log(req.sessionID);
         // req.session.Users = this.usersService.findAll();
-       if (!req.session || !req.session.users) {
+       if (!req.session || !req.session.user) {
            return {
                "mess": "error"
            }
@@ -25,9 +25,9 @@ export class UsersController {
     }
 
     @Get(':id')
-    @Bind(Param())
-    async findById(params){
-        if (!req.session || !req.session.users) {
+    @Bind(Param(), Req())
+    async findById(params, req){
+        if (!req.session || !req.session.user) {
             return {
                 "mess": "error"
             }
@@ -41,7 +41,8 @@ export class UsersController {
     @Post()
     @Bind(Req())
     async insertUser(req){
-        if (!req.session || !req.session.users) {
+        console.log(req.body);
+        if (!req.session || !req.session.user) {
             return {
                 "mess": "error"
             }
@@ -52,26 +53,22 @@ export class UsersController {
     }
 
     @Put(':id')
-    @Bind(Req(), Param())
-    async updateUser(req, params){
-        if (!req.session || !req.session.users) {
+    @Bind(Req())
+    async updateUser(req){
+        if (!req.session || !req.session.user) {
             return {
                 "mess": "error"
             }
         }else{
-            var data = {
-                "id": params.id,
-                "user": req.body
-            }
-            return this.usersService.updateUser(data);
+            return this.usersService.updateUser(req.body.data);
         }
         
     }
 
     @Delete(':id')
-    @Bind(Param())
-    async removeUsers(params) {
-        if (!req.session || !req.session.users) {
+    @Bind(Param(), Req())
+    async removeUsers(params, req) {
+        if (!req.session || !req.session.user) {
             return {
                 "mess": "error"
             }
@@ -80,39 +77,40 @@ export class UsersController {
         }
         
     }
-    
-    @Post('login')
-    @Bind(Req())
-    async login(req){
-        req.session.users = {
-            "email": req.body.email,
-            "password": req.body.password,
-        };
-        console.log(req.session);
-        let data = {
-            "email": req.body.email,
-            "password": req.body.password,
-            "session": req.session
-        }
-        console.log(data);
-        return this.usersService.login(data);
-    }
 
     @Post('logout')
     @Bind(Req())
     async logout(req){
-        return req.session.users = null;
+        return req.session.user = null;
     }
 
-
-    @Post('register')
+    @Post('login')
     @Bind(Req())
-    async logout(req){
-        return this.usersService.register(req.body);
+    async login(req){
+        console.log(req.body);
+        try {
+            let email = req.body.email;
+            // let password = await this.usersService.bcryptPass(req.body.password);
+            let password = req.body.password;
+            let session = req.session;
+            await this.usersService.loginUser(email, password, session);
+            // console.log(req)
+            return {
+                "mess": "success"
+            }
+        } catch (error) {
+            req.session.user = null;
+            console.log(error);
+            return {
+                "mess": "error"
+            }
+        }  
     }
 
-    // @Get('test')
-    // async test(){
-    //     return this.usersService.test();
+    // @Post('register')
+    // @Bind(Req())
+    // async logout(req){
+    //     return this.usersService.register(req.body);
     // }
+
 }

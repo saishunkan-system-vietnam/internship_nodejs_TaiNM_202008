@@ -24,10 +24,6 @@ export class StatisticController {
                 "danger":array3.length
             };
             return array;
-            // return res.json({
-            //     mess:"success",
-            //     data: array
-            // });
         } catch (error) {
             return {
                 "mess": error
