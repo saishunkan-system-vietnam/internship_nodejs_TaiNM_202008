@@ -304,14 +304,11 @@ export class CategoryController {
     @Bind(Payload())
     @MessagePattern('insertCategory')
     async insertCategory(data){
-        var category = data;
         try {
-            let alID = category.sName;
-            let sID = category.sID;
-            await this.categoryService.insertSeat(alID, sID);
+            await this.categoryService.insertSeat(data.alID, data.sID);
             return {
                 "mess": "success",
-                "data": category
+                "data": data
             }
         } catch (error) {
             return {
