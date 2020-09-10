@@ -40,13 +40,14 @@
           <select
             class="form-control"
             id="exampleFormControlSelect1"
-            v-model="ticket.start">
+            v-model="ticket.start"
+          >
             <option
               v-for="airport of airports"
               v-bind:key="airport.id"
               v-bind:value="airport[0]"
               >{{ airport[1] }}
-            </option > 
+            </option>
           </select>
           <span>Selected: {{ ticket.start }}</span>
         </div>
@@ -56,13 +57,13 @@
             class="form-control"
             id="exampleFormControlSelect1"
             v-model="ticket.end"
-            >
+          >
             <option
               v-for="airport of airports"
               v-bind:key="airport.id"
               v-bind:value="airport[0]"
               >{{ airport[1] }}
-            </option> 
+            </option>
           </select>
           <span>Selected: {{ ticket.end }}</span>
         </div>
@@ -145,7 +146,7 @@ export default {
     //   .catch(e => {
     //     this.errors.push(e);
     //   });
-     axios
+    axios
       .all([
         // axios.get(`http://localhost:3000/ticket/` + id),
         axios.get(`http://localhost:3000/airport`),
@@ -165,7 +166,7 @@ export default {
           this.seats = responseThree.data.data;
           // this.seats = responseFor.data.data;
         })
-      )
+      );
   },
   methods: {
     saveForm() {
@@ -180,12 +181,10 @@ export default {
         price: this.ticket.price
       };
       console.log(data);
-      axios
-        .post("http://localhost:3000/ticket", data)
-        .then(res => {
-            console.log(res.data);
-            this.$router.push('/ticket');
-        });
+      axios.post("http://localhost:3000/ticket", data).then(res => {
+        console.log(res.data);
+        this.$router.push("/ticket");
+      });
     }
   }
 };
