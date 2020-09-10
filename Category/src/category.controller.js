@@ -2,6 +2,7 @@
 import { Controller, Get, Dependencies, Post, Body, Bind, Req, Param, Put, Delete } from '@nestjs/common';
 import { CategoryService } from './category/category.service';
 import { MessagePattern, Payload  } from '@nestjs/microservices';
+import validator from 'validator'
 
 
 @Controller('category')
@@ -12,8 +13,10 @@ export class CategoryController {
     }
 
     // For airline
-    @MessagePattern('getAirline')
-    async findAllAirline(){
+    @Bind(Payload())
+    @MessagePattern('findAllAirline')
+    async findAllAirline(data){
+        // console.log(data)
         try {
             let arr = await this.categoryService.findAllAirline();
             var keys = ['alID','alCode','alName'];
@@ -40,7 +43,7 @@ export class CategoryController {
     }
 
     @Bind(Payload())
-    @MessagePattern('getAirlineByID')
+    @MessagePattern('findAirlineById')
     async findAirlineById(data){
        try {
         let arr = await this.categoryService.findAirlineById(data);
@@ -70,7 +73,7 @@ export class CategoryController {
     @Bind(Payload())
     @MessagePattern('insertAirline')
     async insertAirline(data){
-        console.log(data);
+        console.log(data.data);
         // var airline = data;
         try {
             // if(validator.isEmpty(airline.alCode,{ ignore_whitespace: true })){
@@ -79,12 +82,12 @@ export class CategoryController {
             // if(validator.isEmpty(airline.alName,{ ignore_whitespace: true })){
             //     throw "Airline name should not be empty!";
             // }
-            let alCode = data.alCode;
-            let alName = data.alName;
-            await this.categoryService.insertAirline(alCode, alName);
+            // let alCode = data.alCode;
+            // let alName = data.alName;
+            await this.categoryService.insertAirline(data.data.alCode, data.data.alName);
             return {
                 "mess": "success",
-                "data": airline
+                "data": data
             }
         } catch (error) {
             return {
@@ -96,7 +99,7 @@ export class CategoryController {
 
     @Bind(Payload())
     @MessagePattern('updateAirline')
-    async updateUser(data) {
+    async updateAirline(data) {
         console.log(data);
         // var airline = data;
         try {
@@ -131,8 +134,9 @@ export class CategoryController {
     }
 
     // For seat
-    @MessagePattern('getSeat')
-    async findAllSeat(){
+    @Bind(Payload())
+    @MessagePattern('findAllSeat')
+    async findAllSeat(data){
         try {
             let arr = await this.categoryService.findAllSeat();
             var keys = ['sID','sName'];
@@ -159,7 +163,7 @@ export class CategoryController {
     }
 
     @Bind(Payload())
-    @MessagePattern('getSeatByID')
+    @MessagePattern('findSeatById')
     async findSeatById(data){
        try {
         let arr = await this.categoryService.findSeatById(data);
@@ -188,17 +192,16 @@ export class CategoryController {
 
     @Bind(Payload())
     @MessagePattern('insertSeat')
-    async insertAirline(data){
-        var seat = data;
+    async insertSeat(data){
+        console.log(data.data);
         try {
-            if(validator.isEmpty(seat.sName,{ ignore_whitespace: true })){
+            if(validator.isEmpty(data.data,{ ignore_whitespace: true })){
                 throw "Name of seat should not be empty!";
             }
-            let sName = seat.sName;
-            await this.categoryService.insertSeat(sName);
+            await this.categoryService.insertSeat(data.data);
             return {
                 "mess": "success",
-                "data": seat
+                "data": data
             }
         } catch (error) {
             return {
@@ -211,10 +214,10 @@ export class CategoryController {
     @Bind(Payload())
     @MessagePattern('updateSeat')
     async updateSeat(data) {
-        var seat = data;
+        console.log(data)
         try {
-            let sName = seat.sName;
-            await this.categoryService.updateSeat(data.id, sName);
+
+            await this.categoryService.updateSeat(data.id, data.sName);
             return {
                 "mess": "success",
                 "data": data

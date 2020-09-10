@@ -113,7 +113,7 @@ export class CategoryService {
     async findSeatById(id) {
         myTable = await this.getTable('seat');
         var result = await myTable.select()
-            .where('alID = :param')
+            .where('sID = :param')
             .bind('param', id)
             .execute();
         this.closeSession();
