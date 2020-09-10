@@ -8,14 +8,14 @@ var mydb;
 export class TicketService {
   async connectdatabase() {
     db = await mysqlx.getSession({
-      host: '192.168.10.137',
-      port: 33060,
-      user: 'chungpv',
-      password: '1',
-    //   host: 'localhost',
-    //   port: 33060,
-    //   user: 'root',
-    //   password: '123456',
+        host: '192.168.10.137',
+        port: 33060,
+        user: 'chungpv',
+        password: '1',
+      // host: 'localhost',
+      // port: 33060,
+      // user: 'root',
+      // password: '123456',
     });
     return db;
   }
@@ -89,7 +89,7 @@ export class TicketService {
     if (!end ) {
       throw 'end NOT NULL';
     }
-    if (!date || date.trim() === '') {
+    if (!date) {
       throw 'date NOT NULL';
     }
     if (!number_seat) {
@@ -144,25 +144,25 @@ export class TicketService {
   ) {
     await this.connectdatabase();
     let tickets = await this.getSchema();
-    if (!airline_id || airline_id.trim() === '') {
+    if (!airline_id) {
       throw 'airline_id NOT NULL';
     }
-    if (!seat_id || seat_id.trim() === '') {
+    if (!seat_id) {
       throw 'seat_id NOT NULL';
     }
-    if (!start || start.trim() === '') {
+    if (!start) {
       throw 'start NOT NULL';
     }
-    if (!end || end.trim() === '') {
+    if (!end) {
       throw 'end NOT NULL';
     }
-    if (!date || date.trim() === '') {
+    if (!date) {
       throw 'date NOT NULL';
     }
-    if (!number_seat || number_seat.trim() === '') {
+    if (!number_seat) {
       throw 'number_seat NOT NULL';
     }
-    if (!price || price.trim() === '') {
+    if (!price) {
       throw 'PRICE NOT NULL';
     }
     if (isNaN(airline_id)) {
@@ -196,7 +196,7 @@ export class TicketService {
       .set('number_seat', number_seat)
       .set('price', price)
       .execute();
-    await this.close();
+    // await this.close();
   }
 
   async deleteOderTicket(id) {

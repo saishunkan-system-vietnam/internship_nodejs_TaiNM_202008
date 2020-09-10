@@ -1,18 +1,14 @@
 <template>
+  <div>
+    <h1>Update ticket</h1>
     <div>
-        <h1>Update ticket</h1>
-        <div>
-            <form v-on:submit="saveForm()">
+      <form v-on:submit="saveForm()">
         <div class="form-group">
           <label for="exampleFormControlSelect1">Hãng Bay</label>
-          <select
-            class="form-control"
-            id="abcd"
-            v-model="posts[1]"
-          >
-            <option >1</option>
+          <select class="form-control" id="abcd" v-model="posts[1]">
+            <option>1</option>
             <option>Vietnam Airlines</option>
-            <option>3</option>
+            <option>Vietjet Airlines</option>
             <option>4</option>
             <option>5</option>
           </select>
@@ -36,14 +32,15 @@
           <select
             class="form-control"
             id="exampleFormControlSelect1"
-              v-model="posts[3]"
-            >
+            v-model="posts[3]"
+          >
+            <option disabled="disabled">{{posts[3]}}</option>
             <option
               v-for="airport of airports"
               v-bind:key="airport.id"
               v-bind:value="airport[0]"
               >{{ airport[1] }}
-            </option > 
+            </option>
           </select>
         </div>
         <div class="form-group">
@@ -51,15 +48,15 @@
           <select
             class="form-control"
             id="exampleFormControlSelect1"
-              v-model="posts[4]"
-            >
+            v-model="posts[4]"
+          >
+            <option disabled="disabled">{{posts[4]}}</option>
             <option
               v-for="airport of airports"
               v-bind:key="airport.id"
               v-bind:value="airport[0]"
               >{{ airport[1] }}
-            </option >
-            <option>HN</option>
+            </option>
           </select>
         </div>
         <div class="form-group">
@@ -70,6 +67,7 @@
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
             placeholder="Date"
+            v-model="posts[5]"
           />
         </div>
         <div class="form-group">
@@ -97,8 +95,8 @@
           Submit
         </button>
       </form>
-        </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -107,47 +105,52 @@ let url = `http://localhost:3000/ticket/`;
 const urlAirport = `http://localhost:3000/airport`;
 
 export default {
-  
   data() {
     return {
       posts: [],
-      airports: [],
+      airports: []
     };
   },
-    async created(){
-        const id = this.$route.params.id
-        console.log(id);
-        axios.all([axios.get(`http://localhost:3000/ticket/`+ id), axios.get(`http://localhost:3000/airport`)])
-        .then(axios.spread((responseOne,responseTwo) => {
-            console.log('responseOne');
-            console.log(responseOne.data.data[0]);
-            //  console.log(responseOne)
-            console.log(responseTwo.data.data);
-            this.posts = responseOne.data.data[0];
-            this.airports = responseTwo.data.data;
-        })).catch(errors => {
-            console.log('abc');
+  async created() {
+    const id = this.$route.params.id;
+    console.log(id);
+    axios
+      .all([
+        axios.get(`http://localhost:3000/ticket/` + id),
+        axios.get(`http://localhost:3000/airport`)
+      ])
+      .then(
+        axios.spread((responseOne, responseTwo) => {
+          console.log("responseOne");
+          console.log(responseOne.data.data[0]);
+          //  console.log(responseOne)
+          console.log(responseTwo.data.data);
+          this.posts = responseOne.data.data[0];
+          this.airports = responseTwo.data.data;
         })
-    },
+      )
+      .catch(errors => {
+        console.log("abc");
+      });
+  },
   methods: {
     saveForm() {
       event.preventDefault();
+      const id = this.$route.params.id;
       const data = {
-        airline_id: this.ticket.airline,
-        seat_id: this.ticket.seat,
-        start: this.ticket.start,
-        end: this.ticket.end,
-        date: this.ticket.date,
-        number_seat: this.ticket.number_seat,
-        price: this.ticket.price
+        airline_id: this.posts[1],
+        seat_id: this.posts[2],
+        start: this.posts[3],
+        end: this.posts[4],
+        date: this.posts[5],
+        number_seat: this.posts[6],
+        price: this.posts[7]
       };
       console.log(data);
-      axios
-        .push("http://localhost:3000/ticket", data)
-        .then(res => {
-            console.log(res.data);
-            this.$router.push('/ticket');
-        });
+      axios.put("http://localhost:3000/ticket/" + id, data).then(res => {
+        console.log(res.data);
+        this.$router.push("/ticket");
+      });
     }
   }
 };
