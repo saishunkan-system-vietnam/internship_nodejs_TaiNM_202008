@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="container">
     <h1>Create User</h1>
     <form @submit="addUser">
       <div class="form-row">
@@ -38,11 +39,13 @@
       </div>
       <button type="submit" @click="addUser" class="btn btn-primary">Add User</button>
     </form>
+    </div>
   </div>
 </template>
 
 <script>
 import callAPI from '../../conf/axios';
+import { required, minLength, between } from 'vuelidate/lib/validators'
   export default {
       data() {
           return {
@@ -75,7 +78,7 @@ import callAPI from '../../conf/axios';
                 });
                 e.preventDefault();
           }
-      },
+      }
   }
 
 </script>

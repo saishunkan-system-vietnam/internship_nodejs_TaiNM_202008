@@ -18,11 +18,20 @@ export class OrdersService {
   }    
 
 
-    async insertOrder(data){
-        return this.clientOrders.send('insertOrder',data);
-    }
+  async insertOrder(data){
+    return this.clientOrders.send('insertOrder',data);
+  }
 
-    async removeOrder(data){
-        return this.clientOrders.send('removeOrder',data);
-    }
+  async findAll(){
+    let data = {};
+    return this.clientOrders.send('get',data);
+  }
+
+  async removeOrder(data){
+    return this.clientOrders.send('removeOrder',data);
+  }
+
+  async updateStatus(data){
+    return this.clientOrders.send('updateStatus',data);
+  }
 }

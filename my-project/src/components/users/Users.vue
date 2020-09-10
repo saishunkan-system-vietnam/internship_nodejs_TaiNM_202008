@@ -41,6 +41,7 @@
 </template>
 <script>
 import callAPI from '../../conf/axios';
+  import VueCookies from 'vue-cookies';
   // const HTTP = axios.create({
   //   withCredentials: true
   // })
@@ -50,16 +51,21 @@ export default {
       users: [],
     };
   },
+
   mounted () {
-    callAPI
-      .get(`users`).then(response => {
-        // console.log(response.data);
-        this.users = response.data.data;
-        response.data.mess === "error"? this.$router.push('/login') : this.$router.push('/users');
-      })
-      .catch(e => {
-        this.errors.push(e);
+    if ($cookies.isKey('login')) {
+        callAPI
+        .get(`users`).then(response => {
+          // console.log(response.data);
+          this.users = response.data.data;
+          response.data.mess === "error"? this.$router.push('/login') : this.$router.push('/users');
+        })
+        .catch(e => {
+          this.errors.push(e);
       });
+        }else{
+          this.$router.push('/login');
+        } 
   },
   methods: {
       deleteUser: function(id) {

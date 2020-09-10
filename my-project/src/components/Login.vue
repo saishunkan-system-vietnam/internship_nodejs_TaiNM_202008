@@ -19,6 +19,7 @@
 
 <script>
 import callAPI from '../conf/axios';
+import VueCookies from 'vue-cookies'
     export default {
         data(){
             return{
@@ -26,12 +27,21 @@ import callAPI from '../conf/axios';
                 password:""
             }
         },
+        created () {
+            if ($cookie.isKey('login')) {
+                this.$router.push('/');
+            } else {
+                this.$router.push('/login');
+            } 
+        },
         methods: {
             cancel(){
                this.$router.push('/');
             },
             login: async function(e) {
                 var url = this;
+                var cookie = $cookies;
+                var email = this.email;
                 let logger = callAPI.post('users/login', {
                     headers: {
                         'Access-Control-Allow-Origin' : 'http://127.0.0.1:3000',
@@ -41,8 +51,14 @@ import callAPI from '../conf/axios';
                     "password": this.password,
                     // withCredentials: true
                 }).then(function (response) {
-                    console.log(response.data);
-                    response.data.mess === 'success' ? url.$router.push('/') : url.$router.push('/login') 
+                    // console.log(response.data);
+                    if (response.data.mess === 'success') {
+                        cookie.set('login',email);
+                         url.$router.push('/');
+                    } else {
+                        url.$router.push('/login');
+                    }
+                    // console.log(cookie.get('login')); 
                 });
                 e.preventDefault();
             }

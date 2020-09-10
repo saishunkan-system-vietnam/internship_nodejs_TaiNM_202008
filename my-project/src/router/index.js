@@ -4,6 +4,7 @@ import Users from '@/components/users/Users'
 import CreateUser from '@/components/users/CreateUser'
 import UpdateUser from '@/components/users/UpdateUser'
 import Statistic from '@/components/statistic/Statistic'
+import Orders from '@/components/orders/Orders'
 import Login from '@/components/Login'
 // import Header from '@/components/master/Header'
 
@@ -56,6 +57,16 @@ export default new Router({
       meta: {
         plainLayout: true,
       },
-    }
+    },
+    {
+      path: '/orders',
+      name: 'Orders',
+      components: {
+        default: Orders
+      },
+      meta: {
+        plainLayout: true,
+      },
+    },
   ]
 })

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="container">
     <h1>Update User</h1>
     <form @submit="updateUser">
       <div class="form-row">
@@ -34,6 +35,7 @@
       </div>
       <button type="submit" @click="updateUser" class="btn btn-primary">Update User</button>
     </form>
+    </div>
   </div>
 </template>
 

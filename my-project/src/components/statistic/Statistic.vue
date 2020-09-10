@@ -38,6 +38,7 @@
 
 <script>
 import callAPI from '../../conf/axios';
+  import VueCookies from 'vue-cookies';
   export default {
       data() {
           return {
@@ -45,10 +46,14 @@ import callAPI from '../../conf/axios';
           }
       },
       created () {
-          callAPI.get('statistic').then(response => {
+        if ($cookies.isKey('login')) {
+        callAPI.get('statistic').then(response => {
               // console.log(response);
               this.statistic = response.data[0];
           });
+        }else{
+          this.$router.push('/login');
+        }  
       },
   }
 

@@ -100,7 +100,7 @@ export class UsersService {
         }
         // console.log(session);
         // console.log(user[0][0]);
-        this.connectDB();
+        this.closeDB();
         return session;
     }
 }
