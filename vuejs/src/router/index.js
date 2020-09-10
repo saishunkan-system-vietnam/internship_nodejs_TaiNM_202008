@@ -29,6 +29,8 @@ import testHeader from '@/components/share/testHeader'
 import Ticket from '@/components/Ticket/Ticket'
 import TicketCreate from '@/components/Ticket/TicketCreate'
 import TicketUpdate from '@/components/Ticket/TicketUpdate'
+
+import ManagerTicket from '@/components/userClient/ManagerTicket'
 Vue.use(Router)
 
 export default new Router({
@@ -42,6 +44,13 @@ export default new Router({
       }
     },
     {
+      path: '/managerTicket',
+      name: 'managerTicket',
+      components: {
+        default:ManagerTicket,Footer,Banner,
+      }
+    },
+    {
       path: '/ticket',
       name: 'ticket',
       components: {
@@ -52,14 +61,14 @@ export default new Router({
       path: '/ticketCreate',
       name: 'TicketCreate',
       components: {
-        default:TicketCreate,testHeader,Footer,Banner,
+        default:TicketCreate,Footer,Banner,
       }
     },
     {
       path: '/ticketUpdate/:id',
       name: 'TicketUpdate',
       components: {
-        default:TicketUpdate,testHeader,Footer,Banner,
+        default:TicketUpdate,Footer,Banner,
       }
     },
     {

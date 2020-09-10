@@ -4,7 +4,7 @@
                         <a class="nav-link text-truncate" href="#"><i class="fa fa-home"></i> <span class="d-none d-sm-inline">Overview</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-truncate" href="#"><i class="fa fa-table"></i> <span class="d-none d-sm-inline"><router-link to="/users">User</router-link></span></a>
+                        <a class="nav-link text-truncate" href="#"><i class="fa fa-table"></i> <span class="d-none d-sm-inline"><router-link to="/managerTicket">managerTicket</router-link></span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-truncate" href="#"><i class="fa fa-table"></i> <span class="d-none d-sm-inline"><router-link to="/phone">Category</router-link></span></a>

@@ -1,6 +1,6 @@
 <template>
     <div>
-         <h1>Ticket</h1>
+         <h1>Ticket 123</h1>
          <div class="container">
             <button><router-link to="/ticketCreate">Create</router-link></button>
             <table class="table table-responsive bordered highlight centered hoverable z-depth-2">

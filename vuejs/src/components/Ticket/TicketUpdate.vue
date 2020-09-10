@@ -6,12 +6,15 @@
         <div class="form-group">
           <label for="exampleFormControlSelect1">Hãng Bay</label>
           <select class="form-control" id="abcd" v-model="posts[1]">
-            <option>1</option>
-            <option>Vietnam Airlines</option>
-            <option>Vietjet Airlines</option>
-            <option>4</option>
-            <option>5</option>
+            <option
+              v-for="airline of airlines"
+              v-bind:key="airline.id"
+              v-bind:value="airline.alID"
+              >{{ airline.alName }}
+            </option>
+             <option disabled="disabled">{{posts[1]}}</option>
           </select>
+          <span>Selected: {{ posts[1] }}</span>
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Loại Ghế</label>
@@ -20,12 +23,15 @@
             id="exampleFormControlSelect1"
             v-model="posts[2]"
           >
-            <option>1</option>
-            <option>Business Class</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+            <option
+              v-for="seat of seats"
+              v-bind:key="seat.id"
+              v-bind:value="seat.sID"
+              >{{ seat.sName }}
+            </option>
+            <option disabled="disabled">{{posts[2]}}</option>
           </select>
+          <span>Selected: {{ posts[2] }}</span>
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Điểm đi</label>
@@ -34,14 +40,15 @@
             id="exampleFormControlSelect1"
             v-model="posts[3]"
           >
-            <option disabled="disabled">{{posts[3]}}</option>
             <option
               v-for="airport of airports"
               v-bind:key="airport.id"
               v-bind:value="airport[0]"
               >{{ airport[1] }}
             </option>
+             <option disabled="disabled">{{posts[3]}}</option>
           </select>
+          <span>Selected: {{ posts[3] }}</span>
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Điểm đến</label>
@@ -50,14 +57,15 @@
             id="exampleFormControlSelect1"
             v-model="posts[4]"
           >
-            <option disabled="disabled">{{posts[4]}}</option>
             <option
               v-for="airport of airports"
               v-bind:key="airport.id"
               v-bind:value="airport[0]"
               >{{ airport[1] }}
             </option>
+             <option disabled="disabled">{{posts[4]}}</option>
           </select>
+          <span>Selected: {{ posts[4] }}</span>
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">NGày giờ</label>
@@ -108,31 +116,37 @@ export default {
   data() {
     return {
       posts: [],
-      airports: []
+      airports: [],
+      airlines: [],
+      seats: []
     };
   },
-  async created() {
+ 
+   async created() {
     const id = this.$route.params.id;
     console.log(id);
     axios
       .all([
         axios.get(`http://localhost:3000/ticket/` + id),
-        axios.get(`http://localhost:3000/airport`)
+        axios.get(`http://localhost:3000/airport`),
+        axios.get(`http://localhost:5000/category/findAllAirline`),
+        axios.get(`http://localhost:5000/category/findAllSeat`)
       ])
       .then(
-        axios.spread((responseOne, responseTwo) => {
+        axios.spread((responseOne, responseTwo, responseThree, responseFor) => {
           console.log("responseOne");
           console.log(responseOne.data.data[0]);
-          //  console.log(responseOne)
           console.log(responseTwo.data.data);
+          console.log(responseThree.data.data[0]);
+          console.log(responseFor.data.data);
           this.posts = responseOne.data.data[0];
           this.airports = responseTwo.data.data;
+          this.airlines = responseThree.data.data;
+          this.seats = responseFor.data.data;
         })
       )
-      .catch(errors => {
-        console.log("abc");
-      });
   },
+
   methods: {
     saveForm() {
       event.preventDefault();
