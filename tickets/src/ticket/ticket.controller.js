@@ -68,7 +68,7 @@ export class TicketController {
       //   let id = query.id;
       //   let name = query.name;
       let airline = query.airline;
-      console.log('airline' + airline);
+      console.log('airline2  ' + airline);
       if (airline === undefined) {
         airline = String(airline);
         airline = '';
@@ -102,7 +102,7 @@ export class TicketController {
         price = '';
       }
       console.log('aaaaaaaa');
-      console.log(airline);
+      console.log("b " + airline);
       console.log(seat);
       console.log(start);
       console.log(end);
@@ -115,6 +115,8 @@ export class TicketController {
         date,
         price,
       );
+      console.log("findManyticket");
+      console.log(findManyticket);
       return res.json({
         status: 'success',
         code: '200',

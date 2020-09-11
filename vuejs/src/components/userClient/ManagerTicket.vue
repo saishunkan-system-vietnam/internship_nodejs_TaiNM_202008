@@ -4,22 +4,38 @@
       Mananager Ticket(Đặt Vé)
     </h1>
     <div>
-      <form v-on:submit="saveForm()" class="formticket">
+      <form class="formticket">
         <div class="form-group">
           <label for="exampleFormControlSelect1">Hãng Bay</label>
-          <input
-            type="text"
+          <select
             class="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-            placeholder="Hãng Bay"
+            id="exampleFormControlSelect1"
             v-model="ticket.airline"
-          />
+          >
+            <option
+              v-for="airline of airlines"
+              v-bind:key="airline.id"
+              v-bind:value="airline.alName"
+              >{{ airline.alName }}
+            </option>
+          </select>
           <span>Selected: {{ ticket.airline }}</span>
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Loại Ghế</label>
-          <option value="">Vietnam Airlines</option>
+          <select
+            class="form-control"
+            id="exampleFormControlSelect1"
+            v-model="ticket.seat"
+          >
+            <option
+              v-for="seat of seats"
+              v-bind:key="seat.id"
+              v-bind:value="seat.sName"
+              >{{ seat.sName }}
+            </option>
+          </select>
+          <span>Selected: {{ ticket.seat }}</span>
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Điểm đi</label>
@@ -31,7 +47,7 @@
             <option
               v-for="airport of airports"
               v-bind:key="airport.id"
-              v-bind:value="airport[0]"
+              v-bind:value="airport[1]"
               >{{ airport[1] }}
             </option>
           </select>
@@ -47,7 +63,7 @@
             <option
               v-for="airport of airports"
               v-bind:key="airport.id"
-              v-bind:value="airport[0]"
+              v-bind:value="airport[1]"
               >{{ airport[1] }}
             </option>
           </select>
@@ -55,9 +71,14 @@
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">NGày giờ</label>
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Số lượng ghế</label>
+          <input
+            type="date"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            placeholder="Date"
+            v-model="ticket.date"
+          />
         </div>
         <label for="exampleInputEmail1">Giá ghế</label>
         <input
@@ -68,7 +89,7 @@
           placeholder="Price"
           v-model="ticket.price"
         />
-        <button type="submit" class="btn btn-primary">
+        <button  class="btn btn-primary" v-on:click.prevent="saveForm">
           Submit
         </button>
       </form>
@@ -105,13 +126,13 @@
                 href=""
                 class="btn waves-effect waves-light yellow darken-2"
                 @click="updateTutorial(post[0])"
-                ><i class="fas fa-pen-square">edit</i>
+                ><i class="fas fa-pen-square">Đặt vé</i>
               </a>
               <a
                 href=""
                 class="btn waves-effect waves-light red darken-2"
                 @click="deleteTutorial(post[0])"
-                ><i class="fas fa-trash">delete</i>
+                ><i class="fas fa-trash">Hủy vé</i>
               </a>
             </td>
           </tr>
@@ -121,7 +142,8 @@
   </div>
 </template>
 <script>
-import Axios from "axios";
+
+import axios from "axios";
 export default {
   data() {
     return {
@@ -151,7 +173,7 @@ export default {
     //     this.errors.push(e);
     //   });
 
-    // Axios.get(`http://localhost:3000/ticket`)
+    // axios.get(`http://localhost:3000/ticket`)
     //   .then(response => {
     //     console.log(response.data.data);
     //     this.posts = response.data.data;
@@ -160,19 +182,43 @@ export default {
     //     this.errors.push(e);
     //   });
 
-    Axios.get(`http://localhost:3000/airport`)
-      .then(response => {
-        console.log(response.data.data);
-        this.airports = responseOne.data.data;
-      })
-      .catch(e => {
-        this.errors.push(e);
-      });
+    // axios.get(`http://localhost:3000/airport`)
+    //   .then(response => {
+    //     console.log(response.data.data);
+    //     this.airports = response.data.data;
+    //   })
+    //   .catch(e => {
+    //     this.errors.push(e);
+    //   });
+    
+    axios
+      .all([
+        axios.get(`http://localhost:3000/ticket`),
+        axios.get(`http://localhost:3000/airport`),
+        axios.get(`http://localhost:5000/category/findAllAirline`),
+        axios.get(`http://localhost:5000/category/findAllSeat`)
+      ])
+      .then(
+        axios.spread((responseOne, responseTwo, responseThree, responseFor) => {
+          console.log("responseOne");
+          console.log(responseOne.data.data);
+          console.log("responseOne");
+          console.log(responseTwo.data.data);
+          console.log(responseThree.data.data[0]);
+          console.log(responseFor.data.data);
+          // console.log(responseFor.data.data);
+          this.posts = responseOne.data.data;
+          this.airports = responseTwo.data.data;
+          this.airlines = responseThree.data.data;
+          this.seats = responseFor.data.data;
+          // this.seats = responseFor.data.data;
+        })
+      );
   },
 
   methods: {
-    saveForm() {
-      event.preventDefault();
+     saveForm() {
+      // event.preventDefault();
       const data = {
         airline: this.ticket.airline,
         seat: this.ticket.seat,
@@ -183,18 +229,15 @@ export default {
         price: this.ticket.price
       };
       console.log(data);
-      axios.get("http://localhost:3000/ticket").then(res => {
-        console.log("aa" + res.data);
+      axios.get("http://localhost:3000/ticket",{
+        params: data
+        }).then(response => {
+        console.log("aa" + response.data);
         this.posts = response.data.data;
-        location.reload();
+        // Vue.set(this.posts, response.data.data);
+        // location.reload();
       });
     }
   }
 };
 </script>
-<style scoped>
-.formticket {
-  border: 2px solid;
-  /* background: blue; */
-}
-</style>

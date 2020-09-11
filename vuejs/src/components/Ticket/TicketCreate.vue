@@ -70,7 +70,7 @@
         <div class="form-group">
           <label for="exampleInputEmail1">NGày giờ</label>
           <input
-            type="datetime-local"
+            type="datetime"
             class="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"

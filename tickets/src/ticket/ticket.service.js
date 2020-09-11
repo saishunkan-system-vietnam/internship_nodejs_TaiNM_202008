@@ -42,6 +42,7 @@ export class TicketService {
   }
 
   async findManyticket(airline, seat, start, end, date, price) {
+    console.log('airline1  ' + airline);
     await this.connectdatabase();
     let sql =
       'SELECT tickets.id,airline.alName as airline,seat.sName as seat,airport.name as start,a.name as end,tickets.date,tickets.number_seat,tickets.price,tickets.reg_date FROM tickets LEFT JOIN airport ON tickets.`start` = airport.id LEFT JOIN airport as a ON tickets.`end` = a.id LEFT JOIN airline ON tickets.airline_id = airline.alID LEFT JOIN category ON airline.alID = category.alID LEFT JOIN seat ON category.sID = seat.sID WHERE tickets.seat_id = seat.sID AND airline.alName like ? AND seat.sName like ? AND airport.name like ? AND a.name like ? AND tickets.date like ? AND tickets.price like ?';
@@ -58,7 +59,7 @@ export class TicketService {
       )
       .execute();
     await this.close();
-    // console.log(result.fetchAll());
+    // console.log("aa" + result.fetchAll());
     return result.fetchAll();
   }
 
