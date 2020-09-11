@@ -2,7 +2,12 @@
   <div>
     <div class="container">
     <h1>Create User</h1>
-    <form @submit="addUser">
+        <div v-if="errors.length">
+           <div class="alert alert-danger" role="alert">
+             {{ errors[0] }}
+          </div>
+        </div>
+    <form @submit="addUser">    
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="inputEmail4">Email</label>
@@ -44,8 +49,8 @@
 </template>
 
 <script>
-import callAPI from '../../conf/axios';
-import { required, minLength, between } from 'vuelidate/lib/validators'
+  import callAPI from '../../conf/axios';
+  import VueCookies from 'vue-cookies';
   export default {
       data() {
           return {
@@ -54,13 +59,18 @@ import { required, minLength, between } from 'vuelidate/lib/validators'
               name: "",
               phone:"",
               address: "",
-              level: "",
+              level: "Choose...",
+              errors: []
           }
       },
 
       methods: {
           addUser: async function(e) {
+            if (!this.name || !this.email || !this.password || !this.phone || !this.address || !this.level) {
+              this.errors.push("Dữ liệu nhập vào không hợp lệ !");
+            }
               var url = this;
+              var errors = this.errors;
                 let user = callAPI.post('users', {
                     headers: {
                         'Access-Control-Allow-Origin' : 'http://127.0.0.1:3000',
@@ -73,8 +83,11 @@ import { required, minLength, between } from 'vuelidate/lib/validators'
                     "address": this.address,
                     "level": this.level
                 }).then(function (response) {
-                    console.log(response.data);
-                    response.data.mess === 'success' ? url.$router.push('/users') : url.$router.push('/login') 
+                    // console.log(response.data);
+                    // response.data.mess === 'success' ? url.$router.push('/admin/users') : url.$router.push('/login') 
+                    if (response.data.mess === 'success') {
+                        url.$router.push('/admin/users')
+                    }
                 });
                 e.preventDefault();
           }

@@ -23,9 +23,9 @@ export class OrdersController {
     @Get()
     @Bind(Req())
     async findAll(req){
-        if (!req.session || !req.session.user) {
+        if (!req.session || !req.session.user || req.session.user.level == 2) {
             return {
-                "mess": "error"
+                "mess": "levelFail"
             }
         }else{
             return this.ordersService.findAll();

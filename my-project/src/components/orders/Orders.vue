@@ -2,9 +2,6 @@
   <div>
     <h1>Orders</h1>
     <div class="container">
-      <button>
-        <router-link to="/users/create">Create</router-link>
-      </button>
       <table class="table table-responsive bordered highlight centered hoverable z-depth-2">
         <thead>
           <tr class="table-primary abc">
@@ -78,7 +75,12 @@
     async mounted() {
       if ($cookies.isKey('login')) {
         await callAPI.get('orders').then(response => {
-          this.orders = response.data.data;
+          // console.log(response.data)
+          if (response.data.mess == 'levelFail') {
+               this.$router.push('/login');
+          } else {
+            this.orders = response.data.data;
+          }
         });
       }else{
          this.$router.push('/login');

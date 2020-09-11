@@ -38,7 +38,7 @@
 
 <script>
 import callAPI from '../../conf/axios';
-  import VueCookies from 'vue-cookies';
+import VueCookies from 'vue-cookies';
   export default {
       data() {
           return {

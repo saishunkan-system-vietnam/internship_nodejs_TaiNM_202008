@@ -6,6 +6,8 @@ import UpdateUser from '@/components/users/UpdateUser'
 import Statistic from '@/components/statistic/Statistic'
 import Orders from '@/components/orders/Orders'
 import Login from '@/components/Login'
+import Index from '@/components/index/Index'
+import Error from '@/components/page/Error'
 // import Header from '@/components/master/Header'
 
 Vue.use(Router)
@@ -15,6 +17,13 @@ export default new Router({
   routes: [ 
     {
       path: '/',
+      name: 'index',
+      components: {
+        default: Index
+      }
+    },
+    {
+      path: '/admin',
       name: 'home',
       components: {
         default: Statistic
@@ -29,8 +38,8 @@ export default new Router({
       component: Login
     },
     {
-      path: '/users',
-      name: 'users',
+      path: '/admin/users',
+      name: 'Users',
       components: {
         default: Users
       },
@@ -39,7 +48,7 @@ export default new Router({
       },
     },
     {
-      path: '/users/create',
+      path: '/admin/users/create',
       name: 'CreateUser',
       components: {
         default: CreateUser
@@ -49,7 +58,7 @@ export default new Router({
       },
     },
     {
-      path: '/users/update/:id',
+      path: '/admin/users/update/:id',
       name: 'UpdateUser',
       components: {
         default: UpdateUser
@@ -59,13 +68,20 @@ export default new Router({
       },
     },
     {
-      path: '/orders',
+      path: '/admin/orders',
       name: 'Orders',
       components: {
         default: Orders
       },
       meta: {
         plainLayout: true,
+      },
+    },
+    {
+      path: '*',
+      name: '/404',
+      components: {
+        default: Error
       },
     },
   ]

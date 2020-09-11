@@ -68,7 +68,7 @@ import callAPI from '../../conf/axios';
                     
                 }).then(function (response) {
                     // console.log(response.data.mess);
-                    response.data.mess == 'success' ? url.$router.push('/users') : url.$router.push('/login') 
+                    response.data.mess == 'success' ? url.$router.push('/admin/users') : url.$router.push('/login') 
                     // url.$router.push('/') 
                 });
                 e.preventDefault();

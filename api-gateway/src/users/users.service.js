@@ -89,13 +89,15 @@ export class UsersService {
         // console.log(session);
         if(!session.user){
             session.user = {
-            id: user[0][0],
-            email: user[0][1],
+                id: user[0][0],
+                email: user[0][1],
+                level: user[0][6]
             };
         }else{
             session.user = {
                 id: user[0][0],
                 email: user[0][1],
+                level: user[0][6]
             }
         }
         // console.log(session);

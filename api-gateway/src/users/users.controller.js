@@ -11,25 +11,28 @@ export class UsersController {
     @Get()
     @Bind(Req())
     async findAll(req){
-        console.log(req.session);
+        // console.log(req.session);
         // console.log(req.sessionID);
         // req.session.Users = this.usersService.findAll();
-       if (!req.session || !req.session.user) {
+       if (!req.session.user) {
            return {
                "mess": "error"
            }
+       }else if(req.session.user.level == 2){
+            return {
+                "mess": "levelFail"
+            }
        }else{
-           
-            return this.usersService.findAll(req.session);
+        return this.usersService.findAll(req.session);
        }
     }
 
     @Get(':id')
     @Bind(Param(), Req())
     async findById(params, req){
-        if (!req.session || !req.session.user) {
+        if (req.session.user.level == 2) {
             return {
-                "mess": "error"
+                "mess": "levelFail"
             }
         }else{
             return this.usersService.findById(params.id);
@@ -42,9 +45,9 @@ export class UsersController {
     @Bind(Req())
     async insertUser(req){
         console.log(req.body);
-        if (!req.session || !req.session.user) {
+        if (req.session.user.level == 2) {
             return {
-                "mess": "error"
+                "mess": "levelFail"
             }
         }else{
             return this.usersService.insertUser(req.body);
@@ -55,9 +58,9 @@ export class UsersController {
     @Put(':id')
     @Bind(Req())
     async updateUser(req){
-        if (!req.session || !req.session.user) {
+        if (req.session.user.level == 2) {
             return {
-                "mess": "error"
+                "mess": "levelFail"
             }
         }else{
             return this.usersService.updateUser(req.body.data);
@@ -68,9 +71,9 @@ export class UsersController {
     @Delete(':id')
     @Bind(Param(), Req())
     async removeUsers(params, req) {
-        if (!req.session || !req.session.user) {
+        if (req.session.user.level == 2) {
             return {
-                "mess": "error"
+                "mess": "levelFail"
             }
         }else{
             return this.usersService.deleteUser(params.id);
@@ -93,10 +96,11 @@ export class UsersController {
             // let password = await this.usersService.bcryptPass(req.body.password);
             let password = req.body.password;
             let session = req.session;
-            await this.usersService.loginUser(email, password, session);
+            let result = await this.usersService.loginUser(email, password, session);
             // console.log(req)
             return {
-                "mess": "success"
+                "mess": "success",
+                "data": result
             }
         } catch (error) {
             req.session.user = null;

@@ -2,7 +2,7 @@
     <div>
          <h1>Users</h1>
          <div class="container">
-            <button><router-link to="/users/create">Create</router-link></button>
+            <button><router-link to="/admin/users/create">Create</router-link></button>
             <table class="table table-responsive bordered highlight centered hoverable z-depth-2">
                 <thead>
                     <tr class="table-primary abc">
@@ -58,7 +58,7 @@ export default {
         .get(`users`).then(response => {
           // console.log(response.data);
           this.users = response.data.data;
-          response.data.mess === "error"? this.$router.push('/login') : this.$router.push('/users');
+          response.data.mess === "error"? this.$router.push('/login') : this.$router.push('/admin/users');
         })
         .catch(e => {
           this.errors.push(e);
@@ -73,7 +73,7 @@ export default {
             .then(response => {console.log('success')});
       },
       editUser: function(id) {
-        this.$router.push(`users/update/${id}`);
+        this.$router.push(`/admin/users/update/${id}`);
       }
   },
 };

@@ -28,11 +28,12 @@ import VueCookies from 'vue-cookies'
             }
         },
         created () {
-            if ($cookie.isKey('login')) {
+            var cookie = $cookies;
+            if (cookie.isKey('login')) {
                 this.$router.push('/');
             } else {
                 this.$router.push('/login');
-            } 
+            }
         },
         methods: {
             cancel(){
@@ -51,11 +52,14 @@ import VueCookies from 'vue-cookies'
                     "password": this.password,
                     // withCredentials: true
                 }).then(function (response) {
-                    // console.log(response.data);
-                    if (response.data.mess === 'success') {
+                    console.log(response.data.data.user.level);
+                    if (response.data.mess == 'success' && response.data.data.user.level == 1) {
                         cookie.set('login',email);
-                         url.$router.push('/');
-                    } else {
+                        url.$router.push('/admin');
+                    }else if (response.data.mess == 'success' && response.data.data.user.level == 2) {
+                        cookie.set('login',email);
+                        url.$router.push('/');
+                    }else {
                         url.$router.push('/login');
                     }
                     // console.log(cookie.get('login')); 

@@ -6,28 +6,33 @@
   <ul class="sidebar-navigation">
     <li class="header">Menu</li>
     <li>
-      <a href="/">
+      <a href="/admin">
         <i class="fa fa-home" aria-hidden="true"></i> Homepage
       </a>
     </li>
     <li>
-      <a href="/category">
+      <a href="/admin/category">
         <i class="fa fa-tachometer" aria-hidden="true"></i> Category
       </a>
     </li>
     <li>
-      <a href="/users">
+      <a href="/admin/users">
         <i class="fa fa-tachometer" aria-hidden="true"></i> Users
       </a>
     </li>
     <li>
-      <a href="/ticket">
+      <a href="/admin/ticket">
         <i class="fa fa-tachometer" aria-hidden="true"></i> Ticket
       </a>
     </li>
     <li>
-      <a href="/orders">
+      <a href="/admin/orders">
         <i class="fa fa-tachometer" aria-hidden="true"></i> Orders
+      </a>
+    </li>
+    <li>
+      <a href="#" @click="logout()">
+        <i class="fa fa-tachometer" aria-hidden="true"></i> Logout
       </a>
     </li>
   </ul>
@@ -35,7 +40,17 @@
 </template>
 
 <script>
-
+import callAPI from '../../conf/axios';
+ import VueCookies from 'vue-cookies';
+   export default {
+     methods: {
+       async logout() {
+          await callAPI.post('users/logout');
+          await $cookies.remove('login');
+          await this.$router.push('/login');
+       }
+     },
+   }
 </script>
 
 
