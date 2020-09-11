@@ -1,13 +1,16 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <a href="#" class="navbar-brand">bezKoder</a>
+      <a href="#" class="navbar-brand">Homepage</a>
       <div class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a href="/tutorials" class="nav-link">Tutorials</a>
+          <a href="/airline" class="nav-link">Airline</a>
         </li>
         <li class="nav-item">
-          <a href="/add" class="nav-link">Add</a>
+          <a href="/seat" class="nav-link">Seat</a>
+        </li>
+        <li class="nav-item">
+          <a href="/category" class="nav-link">Category</a>
         </li>
       </div>
     </nav>

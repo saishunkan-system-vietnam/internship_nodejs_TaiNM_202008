@@ -9,6 +9,7 @@
         </div>
       </div>
       <button type="submit" class="btn btn-primary" @click="insertSeat(sName)">Create Seat</button>
+      <br><br>
     </form>
     </div>
     <table class="table">

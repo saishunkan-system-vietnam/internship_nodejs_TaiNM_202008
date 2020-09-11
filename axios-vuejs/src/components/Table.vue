@@ -13,24 +13,19 @@
               v-model="input.alCode"
             />
           </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
+           <div class="form-group col-md-6">
             <label for="alName">Airline Name</label>
             <input
               type="text"
               class="form-control"
               id="alName"
-              placeholder="Airmine Name"
+              placeholder="Airline Name"
               v-model="input.alName"
             />
           </div>
         </div>
-        <div>
-          Selected:
-          <strong>{{ selected }}</strong>
-        </div>
         <button type="submit" class="btn btn-primary" @click="insertAirline(input)">Create Airline</button>
+        <br><br>
       </form>
     </div>
     <table class="table">
