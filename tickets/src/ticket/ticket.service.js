@@ -33,9 +33,30 @@ export class TicketService {
   async selectticket() {
     await this.connectdatabase();
     let sql =
-      "SELECT tickets.id,airline.alName,seat.sName,airport.name,a.name,tickets.date,tickets.number_seat,tickets.price,tickets.reg_date FROM tickets LEFT JOIN airport ON tickets.`start` = airport.id LEFT JOIN airport as a ON tickets.`end` = a.id LEFT JOIN airline ON tickets.airline_id = airline.alID LEFT JOIN category ON airline.alID = category.alID LEFT JOIN seat ON category.sID = seat.sID WHERE tickets.seat_id = seat.sID";
+      'SELECT tickets.id,airline.alName,seat.sName,airport.name,a.name,tickets.date,tickets.number_seat,tickets.price,tickets.reg_date FROM tickets LEFT JOIN airport ON tickets.`start` = airport.id LEFT JOIN airport as a ON tickets.`end` = a.id LEFT JOIN airline ON tickets.airline_id = airline.alID LEFT JOIN category ON airline.alID = category.alID LEFT JOIN seat ON category.sID = seat.sID WHERE tickets.seat_id = seat.sID';
     await db.sql('use mydb').execute();
     var result = await db.sql(sql).execute();
+    await this.close();
+    // console.log(result.fetchAll());
+    return result.fetchAll();
+  }
+
+  async findManyticket(airline, seat, start, end, date, price) {
+    await this.connectdatabase();
+    let sql =
+      'SELECT tickets.id,airline.alName as airline,seat.sName as seat,airport.name as start,a.name as end,tickets.date,tickets.number_seat,tickets.price,tickets.reg_date FROM tickets LEFT JOIN airport ON tickets.`start` = airport.id LEFT JOIN airport as a ON tickets.`end` = a.id LEFT JOIN airline ON tickets.airline_id = airline.alID LEFT JOIN category ON airline.alID = category.alID LEFT JOIN seat ON category.sID = seat.sID WHERE tickets.seat_id = seat.sID AND airline.alName like ? AND seat.sName like ? AND airport.name like ? AND a.name like ? AND tickets.date like ? AND tickets.price like ?';
+    await db.sql('use mydb').execute();
+    var result = await db
+      .sql(sql)
+      .bind(
+        '%' + airline + '%',
+        '%' + seat + '%',
+        '%' + start + '%',
+        '%' + end + '%',
+        '%' + date + '%',
+        '%' + price + '%',
+      )
+      .execute();
     await this.close();
     // console.log(result.fetchAll());
     return result.fetchAll();
@@ -86,7 +107,7 @@ export class TicketService {
     if (!start) {
       throw 'start NOT NULL';
     }
-    if (!end ) {
+    if (!end) {
       throw 'end NOT NULL';
     }
     if (!date) {
