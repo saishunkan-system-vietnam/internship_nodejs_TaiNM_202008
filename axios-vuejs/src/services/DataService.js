@@ -18,7 +18,7 @@ class DataService {
     }
 
     insertAirline(data) {
-        return http.post('insertAirline', {data})
+        return http.post('/insertAirline', {data})
     }
 
     getSeat() {
@@ -34,41 +34,26 @@ class DataService {
     }
 
     updateSeat(id) {
-        return http.put(`updateSeat/${id}`, {data})
+        return http.put(`/updateSeat/${id}`, {data})
     }
 
     
     insertSeat(data) {
-        return http.post('insertSeat', {data})
+        return http.post('/insertSeat', {data})
     }
 
     insertCategory(data) {
-        return this.post('insertCategory', {data})
+        return http.post('/insertCategory', {data})
     }
 
-    //   get(id) {
-    //     return http.get(`/tutorials/${id}`);
-    //   }
+    getCategory() {
+        return http.get('/findAllSeatByAirline')
+    }
 
-    //   create(data) {
-    //     return http.post("/tutorials", data);
-    //   }
+    deleteCategory(alID, sID) {
+        return http.delete(`/deleteCategory/${alID}/${sID}`)
+    }
 
-    //   update(id, data) {
-    //     return http.put(`/tutorials/${id}`, data);
-    //   }
-
-    //   delete(id) {
-    //     return http.delete(`/tutorials/${id}`);
-    //   }
-
-    //   deleteAll() {
-    //     return http.delete(`/tutorials`);
-    //   }
-
-    //   findByTitle(title) {
-    //     return http.get(`/tutorials?title=${title}`);
-    //   }
 }
 
 export default new DataService();

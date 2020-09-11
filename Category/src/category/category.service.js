@@ -171,15 +171,15 @@ export class CategoryService {
     async findAllSeatByAirline() {
         await this.connectDB();
         await session.sql('USE category;').execute();
-        var result = await session.sql('select airline.alCode, seat.sName from airline, seat, category where airline.alID=category.alID and seat.sID=category.sID;').execute();
+        var result = await session.sql('select airline.alID, airline.alCode, airline.alName, seat.sID, seat.sName from airline, seat, category where airline.alID=category.alID and seat.sID=category.sID;').execute();
         this.closeSession();
         return result.fetchAll();
     }
 
-    async findSeatByAirline(alID) {
+    async findSeatByAirline(alCode) {
         await this.connectDB();
         await session.sql('USE category;').execute();
-        var result = await session.sql(`select airline.alCode, seat.sName from airline, seat, category where airline.alID=category.alID and seat.sID=category.sID and category.alID=${alID};`).execute();
+        var result = await session.sql(`select airline.alName, seat.sName from airline, seat, category where airline.alID=category.alID and seat.sID=category.sID and category.alCode like '${alID}%';`).execute();
         this.closeSession();
         return result.fetchAll();
     }

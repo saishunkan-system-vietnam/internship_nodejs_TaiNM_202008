@@ -82,8 +82,6 @@ export class CategoryController {
             // if(validator.isEmpty(airline.alName,{ ignore_whitespace: true })){
             //     throw "Airline name should not be empty!";
             // }
-            // let alCode = data.alCode;
-            // let alName = data.alName;
             await this.categoryService.insertAirline(data.data.alCode, data.data.alName);
             return {
                 "mess": "success",
@@ -246,11 +244,11 @@ export class CategoryController {
     }
    
     // for category
-    @MessagePattern('getAllSeatByAirline')
+    @MessagePattern('findAllSeatByAirline')
     async findAllSeatByAirline(){
         try {
-            let arr = await this.categoryService.findAllSeat();
-            var keys = ['alID','sID'];
+            let arr = await this.categoryService.findAllSeatByAirline();
+            var keys = ['alID','alCode','alName','sID','sName'];
             var newArr = arr.slice(0, arr.length);
 
             var formatted = [],
@@ -304,8 +302,11 @@ export class CategoryController {
     @Bind(Payload())
     @MessagePattern('insertCategory')
     async insertCategory(data){
+        console.log(data)
         try {
-            await this.categoryService.insertSeat(data.alID, data.sID);
+            for (let i=0; i<data.data.sID.length; i++) {
+                await this.categoryService.insertCategory(data.data.alID, data.data.sID[i]);
+            }
             return {
                 "mess": "success",
                 "data": data
@@ -353,14 +354,12 @@ export class CategoryController {
     @Bind(Payload())
     @MessagePattern('deleteCategoryByAlnSeat')
     deleteCategoryByAirlineAndSeat(data) {
-        var category = data;
+        console.log(data)
        try {
-            let alID = category.alID;
-            let sID = category.sID;
-            this.categoryService.deleteCategoryByAirlineAndSeat(alID, sID);
+            this.categoryService.deleteCategoryByAirlineAndSeat(data.alID, data.sID);
             return {
                 "mess": "success",
-                "data": category
+                "data": data
             }
        } catch (error) {
             return {

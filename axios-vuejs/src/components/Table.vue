@@ -130,16 +130,6 @@ export default {
         .catch((e) => console.log(e));
       this.$router.push('/insertCategory')
     },
-    insertCategory(data) {
-      for (let i = 0; i < this.seats.length; i++) {
-        DataService.insertCategory(data)
-          .then((response) => console.log("success"))
-          .catch((e) => console.log(e));
-      }
-      // DataService.insertCategory(data)
-      //   .then((response) => console.log("success"))
-      //   .catch((e) => console.log(e));
-    },
   },
 };
 </script>

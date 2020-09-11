@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-card bg-variant="dark" text-variant="white" title="Add tpye of seat for current Airline">
-      <b-card-text>Pls select the avaiable type of seat for {{this.airlines[this.airlines.length-1].alName}} </b-card-text>
+      <!-- <b-card-text>Pls select the avaiable type of seat for {{airlines[airlines.length-1].alName}} </b-card-text> -->
       <b-form-group>
         <b-form-checkbox-group
           id="checkbox-group-2"
@@ -13,7 +13,7 @@
           <b-form-checkbox v-bind:value="seat.sID">{{seat.sName}}</b-form-checkbox>
         </b-form-checkbox-group>
       </b-form-group>
-      <b-button variant="primary" @click="insertCategory()">Finish</b-button>
+      <b-button variant="primary" @click="insertCategory({alID: airlines[airlines.length-1].alID, sID: selected})">Finish</b-button>
     </b-card>
   </div>
 </template>
@@ -49,12 +49,11 @@ export default {
       });
   },
   methods: {
-    insertCategory() {
-      for (let i = 0; i < this.selected.length; i++) {
-        DataService.insertCategory(this.airlines[this.airlines.length-1].alID, this.selected[i])
+    insertCategory(data) {
+        DataService.insertCategory(data)
           .then((response) => console.log("success"))
           .catch((e) => console.log(e));
-      }
+
       this.$router.push('/airline')
       // DataService.insertCategory(data)
       //   .then((response) => console.log("success"))

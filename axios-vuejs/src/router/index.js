@@ -7,6 +7,7 @@ import UpdateAirline from '@/components/UpdateAirline'
 import UpdateSeat from '@/components/UpdateSeat'
 import Seat from '@/components/Seat'
 import AddTypeOfSeat from '@/components/AddTypeOfSeat'
+import Category from '@/components/Category'
 
 Vue.use(Router)
 
@@ -38,6 +39,10 @@ export default new Router({
       name: 'insertCategory',
       component: AddTypeOfSeat
     },
-
+    {
+      path: '/category',
+      name: 'getCategory',
+      component: Category
+    },
   ]
 })
