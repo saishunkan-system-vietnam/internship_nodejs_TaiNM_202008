@@ -1,4 +1,4 @@
-import { Controller, Dependencies, Post, Req, Bind, Param, Delete } from '@nestjs/common';
+import { Controller, Dependencies, Get, Post, Req, Bind, Param, Delete, Put } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 
 @Controller('orders')
@@ -18,6 +18,30 @@ export class OrdersController {
     @Bind(Param())
     async removeOrder(params) {
         return this.ordersService.removeOrder(params.id);
+    }
+
+    @Get()
+    @Bind(Req())
+    async findAll(req){
+        if (!req.session || !req.session.user || req.session.user.level == 2) {
+            return {
+                "mess": "levelFail"
+            }
+        }else{
+            return this.ordersService.findAll();
+        }
+    }
+
+    @Put(':id')
+    @Bind(Req())
+    async updateStatus(req){
+        if (!req.session || !req.session.user) {
+            return {
+                "mess": "error"
+            }
+        }else{
+            return this.ordersService.updateStatus(req.body);
+        }
     }
 
 }

@@ -1,21 +1,34 @@
-import { Injectable } from '@nestjs/common';
-import { ClientProxyFactory, Transport } from '@nestjs/microservices';
+import { Injectable,Dependencies } from '@nestjs/common';
+import { zip } from '../../node_modules/rxjs/index';
+
+// import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 
 @Injectable()
+@Dependencies(['Statistic','Users'])
 export class StatisticService {
-    constructor() {
-        this.client = ClientProxyFactory.create({
-          transport: Transport.TCP,
-          options: {
-            host: '127.0.0.1',
-            port: 8877,
-          },
-        });
+    constructor(clientStatistic,clientUsers) {
+        this.clientStatistic = clientStatistic;
+        this.clientUsers = clientUsers;
     }
+
+    onModuleInit() {
+        console.log('onModuleInit');
+      }
+    
+      async onApplicationBootstrap() {
+        console.log('onApplicationBootstrap');
+        await this.clientStatistic.connect();
+        await this.clientUsers.connect();
+      }    
 
     findStatus(){
         const payload = {};
-        return this.client.send('get',payload);
+        // test
+        return zip(
+            this.clientStatistic.send('get',payload),
+            this.clientUsers.send('get',payload)
+        );
+
     }
 
 }

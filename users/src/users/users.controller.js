@@ -1,5 +1,5 @@
 import { Controller, Dependencies, Bind, Post, Req, Res, Delete } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { MessagePattern, Payload, Ctx } from '@nestjs/microservices';
 import { UsersService } from './users.service';
 import validator from 'validator';
 
@@ -12,8 +12,10 @@ export class UsersController {
         this.usersService = usersService;
     }
 
+    @Bind(Payload())
     @MessagePattern('get')
-    async findAll(){
+    async findAll(data){
+        // console.log(data);
         try {
             let arr = await this.usersService.findAll();
             var keys = ['id','email','password','name','phone','address','level','create'];
@@ -102,15 +104,15 @@ export class UsersController {
     @MessagePattern('updateUser')
     async updateUser(data) {
         // console.log(data);
-        var user = data.user;
+        var user = data;
         try {
             let email = user.email;
-            let password = await this.usersService.bcryptPass(user.password);
+            // let password = await this.usersService.bcryptPass(user.password);
             let name = user.name;
             let phone = user.phone;
             let address = user.address;
             let level = user.level;
-            await this.usersService.updateUser(data.id, email, password, name, phone, address, level);
+            await this.usersService.updateUser(data.id, email, name, phone, address, level);
             return {
                 "mess": "success",
                 "data": data
@@ -161,27 +163,26 @@ export class UsersController {
         }
     }
 
-    @Bind(Payload())
-    @MessagePattern('login')
-    async login(data) {
-        console.log(data);
-        try {
-            let email = data.email;
-            // let password = await this.usersService.bcryptPass(req.body.password);
-            let password = data.password;
-            let session = data.session;
-            await this.usersService.loginUser(email, password, session);
-            // console.log(req.headers.cookie);
-            return {
-                mess:"success",
-            };
-        } catch (error) {
-            console.log(error);
-            return {
-                mess:"error",
-            }
-        }
-    }
+    // @Bind(Payload(), Ctx())
+    // @MessagePattern('login')
+    // async login(data, content) {
+    //     console.log(data);
+    //     console.log(content);
+    //     try {
+    //         let email = data.users.email;
+    //         // let password = await this.usersService.bcryptPass(req.body.password);
+    //         let password = data.users.password;
+    //         let session = data.session;
+    //         await this.usersService.loginUser(email, password, session);
+    //         // console.log(req.headers.cookie);
+    //         return {
+    //             "mess": true
+    //         };
+    //     } catch (error) {
+    //         console.log(error);
+    //         return false;
+    //     }
+    // }
 
 
 }

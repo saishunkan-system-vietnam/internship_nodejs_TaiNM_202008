@@ -29,6 +29,7 @@ export class StatisticService {
         await this.connectDB();
         await session.sql('USE mydb;').execute();
         let result = await session.sql('SELECT * FROM orders WHERE status = ?').bind(status).execute();
+        await this.closeDB();
         return result.fetchAll();
         // await this.closeDB();
     }

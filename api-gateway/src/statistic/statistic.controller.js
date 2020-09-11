@@ -1,4 +1,4 @@
-import { Controller,Dependencies,Get } from '@nestjs/common';
+import { Controller,Dependencies,Get, Bind, Req } from '@nestjs/common';
 import { StatisticService } from './statistic.service';
 
 @Controller('statistic')
@@ -9,7 +9,15 @@ export class StatisticController {
     }
 
     @Get()
-    getData(){
-        return this.statisticService.findStatus();
+    @Bind(Req())
+    getData(req){
+        // console.log(req.session.user);
+        if (req.session.user.level == 2) {
+            return {
+                "mess": "levelFail"
+            }
+        }else{
+            return this.statisticService.findStatus();
+        }
     }
 }

@@ -11,23 +11,28 @@ export class UsersController {
     @Get()
     @Bind(Req())
     async findAll(req){
+        // console.log(req.session);
         // console.log(req.sessionID);
         // req.session.Users = this.usersService.findAll();
-       if (!req.session || !req.session.users) {
+       if (!req.session.user) {
            return {
                "mess": "error"
            }
+       }else if(req.session.user.level == 2){
+            return {
+                "mess": "levelFail"
+            }
        }else{
-            return this.usersService.findAll();
+        return this.usersService.findAll(req.session);
        }
     }
 
     @Get(':id')
-    @Bind(Param())
-    async findById(params){
-        if (!req.session || !req.session.users) {
+    @Bind(Param(), Req())
+    async findById(params, req){
+        if (req.session.user.level == 2) {
             return {
-                "mess": "error"
+                "mess": "levelFail"
             }
         }else{
             return this.usersService.findById(params.id);
@@ -39,9 +44,10 @@ export class UsersController {
     @Post()
     @Bind(Req())
     async insertUser(req){
-        if (!req.session || !req.session.users) {
+        console.log(req.body);
+        if (req.session.user.level == 2) {
             return {
-                "mess": "error"
+                "mess": "levelFail"
             }
         }else{
             return this.usersService.insertUser(req.body);
@@ -50,67 +56,65 @@ export class UsersController {
     }
 
     @Put(':id')
-    @Bind(Req(), Param())
-    async updateUser(req, params){
-        if (!req.session || !req.session.users) {
+    @Bind(Req())
+    async updateUser(req){
+        if (req.session.user.level == 2) {
             return {
-                "mess": "error"
+                "mess": "levelFail"
             }
         }else{
-            var data = {
-                "id": params.id,
-                "user": req.body
-            }
-            return this.usersService.updateUser(data);
+            return this.usersService.updateUser(req.body.data);
         }
         
     }
 
     @Delete(':id')
-    @Bind(Param())
-    async removeUsers(params) {
-        if (!req.session || !req.session.users) {
+    @Bind(Param(), Req())
+    async removeUsers(params, req) {
+        if (req.session.user.level == 2) {
             return {
-                "mess": "error"
+                "mess": "levelFail"
             }
         }else{
             return this.usersService.deleteUser(params.id);
         }
         
     }
-    
-    @Post('login')
-    @Bind(Req())
-    async login(req){
-        req.session.users = {
-            "email": req.body.email,
-            "password": req.body.password,
-        };
-        console.log(req.session);
-        let data = {
-            "email": req.body.email,
-            "password": req.body.password,
-            "session": req.session
-        }
-        console.log(data);
-        return this.usersService.login(data);
-    }
 
     @Post('logout')
     @Bind(Req())
     async logout(req){
-        return req.session.users = null;
+        return req.session.user = null;
     }
 
-
-    @Post('register')
+    @Post('login')
     @Bind(Req())
-    async logout(req){
-        return this.usersService.register(req.body);
+    async login(req){
+        console.log(req.body);
+        try {
+            let email = req.body.email;
+            // let password = await this.usersService.bcryptPass(req.body.password);
+            let password = req.body.password;
+            let session = req.session;
+            let result = await this.usersService.loginUser(email, password, session);
+            // console.log(req)
+            return {
+                "mess": "success",
+                "data": result
+            }
+        } catch (error) {
+            req.session.user = null;
+            console.log(error);
+            return {
+                "mess": "error"
+            }
+        }  
     }
 
-    // @Get('test')
-    // async test(){
-    //     return this.usersService.test();
+    // @Post('register')
+    // @Bind(Req())
+    // async logout(req){
+    //     return this.usersService.register(req.body);
     // }
+
 }
