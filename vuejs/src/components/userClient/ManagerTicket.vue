@@ -173,7 +173,8 @@ export default {
       });
       Axios.get(`http://localhost:3000/ticket`).then(response => {
         console.log(response.data.data);
-        this.airlines = response.data.data;
+        console.log(response.data.data);
+        this.posts = response.data.data;
       })
       .catch(e => {
         this.errors.push(e);

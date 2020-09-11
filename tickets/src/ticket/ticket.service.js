@@ -165,24 +165,24 @@ export class TicketService {
     if (!price) {
       throw 'PRICE NOT NULL';
     }
-    if (isNaN(airline_id)) {
-      throw 'id_airline NOT NUMBER';
-    }
-    if (isNaN(seat_id)) {
-      throw 'id_seat NOT NUMBER';
-    }
-    if (isNaN(start)) {
-      throw 'id_seat NOT NUMBER';
-    }
-    if (isNaN(end)) {
-      throw 'id_seat NOT NUMBER';
-    }
-    if (isNaN(number_seat)) {
-      throw 'number_seat NOT NUMBER';
-    }
-    if (isNaN(price)) {
-      throw 'PRICE NOT NUMBER';
-    }
+    // if (isNaN(airline_id)) {
+    //   throw 'id_airline NOT NUMBER';
+    // }
+    // if (isNaN(seat_id)) {
+    //   throw 'id_seat NOT NUMBER';
+    // }
+    // if (isNaN(start)) {
+    //   throw 'id_seat NOT NUMBER';
+    // }
+    // if (isNaN(end)) {
+    //   throw 'id_seat NOT NUMBER';
+    // }
+    // if (isNaN(number_seat)) {
+    //   throw 'number_seat NOT NUMBER';
+    // }
+    // if (isNaN(price)) {
+    //   throw 'PRICE NOT NUMBER';
+    // }
 
     let updateticket = await tickets
       .update()
