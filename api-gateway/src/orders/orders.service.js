@@ -13,7 +13,7 @@ export class OrdersService {
     }
 
   async onApplicationBootstrap() {
-    console.log('onApplicationBootstrap');
+    console.log('onOrdersBootstrap');
     await this.clientOrders.connect();
   }    
 

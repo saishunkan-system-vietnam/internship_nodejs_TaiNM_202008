@@ -9,10 +9,11 @@ export class TicketService {
 
     async connectdatabase() {
         db = await mysqlx.getSession({
-            host: '192.168.10.137',
-            port: 33060,        
-            user: 'chungpv', 
-            password: '1', });
+            user: 'root',
+            password: '123456',
+            host: 'localhost',
+            port: 33060
+        });
         return db;
     }
 

@@ -16,7 +16,7 @@ export class StatisticService {
       }
     
       async onApplicationBootstrap() {
-        console.log('onApplicationBootstrap');
+        console.log('onStatisticBootstrap');
         await this.clientStatistic.connect();
         await this.clientUsers.connect();
       }    

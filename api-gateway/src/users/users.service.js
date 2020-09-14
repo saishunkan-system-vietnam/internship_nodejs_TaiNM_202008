@@ -16,7 +16,7 @@ export class UsersService {
       }
     
       async onApplicationBootstrap() {
-        console.log('onApplicationBootstrap');
+        console.log('onUsersBootstrap');
         await this.clientUsers.connect();
       }    
 
