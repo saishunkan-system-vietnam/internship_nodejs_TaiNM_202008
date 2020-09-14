@@ -33,7 +33,7 @@ async function bootstrap() {
   //   saveUninitialized: false
   // }));
   await app.listen(() => {
-    logger.log('Microservice is listening...');
+    logger.log('UserService is listening...');
   });
 }
 bootstrap();

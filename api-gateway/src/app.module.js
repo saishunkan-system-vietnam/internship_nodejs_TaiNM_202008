@@ -8,7 +8,9 @@ import { UsersController } from './users/users.controller';
 import { StatisticController } from './statistic/statistic.controller';
 import { TicketController } from './ticket/ticket.controller';
 import { TicketService } from './ticket/ticket.service';
-import { from } from '../node_modules/rxjs/index';
+// import { from } from '../node_modules/rxjs/index';
+import { CategoryService } from './category/category.service';
+import { CategoryController } from './category/category.controller';
 
 
 @Module({
@@ -45,10 +47,18 @@ import { from } from '../node_modules/rxjs/index';
           host: "127.0.0.1",
           port: 8866
         }
+      },
+      {
+        name: "Category",
+        transport: Transport.TCP,
+        options: {
+          host: "127.0.0.1",
+          port: 1998
+        }
       }
     ])
   ],
-  controllers: [OrdersController, UsersController, StatisticController, TicketController],
-  providers: [OrdersService, UsersService, StatisticService, TicketService],
+  controllers: [OrdersController, UsersController, StatisticController, TicketController, CategoryController],
+  providers: [OrdersService, UsersService, StatisticService, TicketService, CategoryService],
 })
 export class AppModule {}
