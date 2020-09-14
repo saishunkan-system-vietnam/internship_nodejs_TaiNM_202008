@@ -12,7 +12,7 @@
               v-bind:value="airline.alID"
               >{{ airline.alName }}
             </option>
-             <option disabled="disabled">{{posts[1]}}</option>
+            <option disabled="disabled">{{ posts[1] }}</option>
           </select>
           <span>Selected: {{ posts[8] }}</span>
         </div>
@@ -29,7 +29,7 @@
               v-bind:value="seat.sID"
               >{{ seat.sName }}
             </option>
-            <option disabled="disabled">{{posts[2]}}</option>
+            <option disabled="disabled">{{ posts[2] }}</option>
           </select>
           <span>Selected: {{ posts[9] }}</span>
         </div>
@@ -46,7 +46,7 @@
               v-bind:value="airport[0]"
               >{{ airport[1] }}
             </option>
-             <option disabled="disabled">{{posts[3]}}</option>
+            <option disabled="disabled">{{ posts[3] }}</option>
           </select>
           <span>Selected: {{ posts[10] }}</span>
         </div>
@@ -63,7 +63,7 @@
               v-bind:value="airport[0]"
               >{{ airport[1] }}
             </option>
-             <option disabled="disabled">{{posts[4]}}</option>
+            <option disabled="disabled">{{ posts[4] }}</option>
           </select>
           <span>Selected: {{ posts[11] }}</span>
         </div>
@@ -108,8 +108,8 @@
 </template>
 
 <script>
-import axios from 'axios';
-import callAPI from '../../conf/axios';
+import axios from "axios";
+import callAPI from "../../conf/axios";
 
 export default {
   data() {
@@ -120,30 +120,31 @@ export default {
       seats: []
     };
   },
- 
-   async created() {
+
+  async created() {
     const id = this.$route.params.id;
     console.log(id);
+    // console.log(`http://localhost:3000/ticket/` + id);
     axios
       .all([
-        callAPI.get(`ticket/${id}`),
+        callAPI.get(`ticket/` + id),
         callAPI.get(`airport`),
         callAPI.get(`category/findAllAirline`),
         callAPI.get(`category/findAllSeat`)
       ])
       .then(
         axios.spread((responseOne, responseTwo, responseThree, responseFor) => {
-          // console.log("responseOne");
-          // console.log(responseOne.data.data[0]);
-          // console.log(responseTwo.data.data);
+          console.log("responseOne");
+          console.log(responseOne.data[0]);
+          console.log(responseTwo.data.data);
           // console.log(responseThree.data.data[0]);
           // console.log(responseFor.data.data);
-          this.posts = responseOne.data.data[0];
+          this.posts = responseOne.data[0];
           this.airports = responseTwo.data.data;
           this.airlines = responseThree.data.data;
           this.seats = responseFor.data.data;
         })
-      )
+      );
   },
 
   methods: {
