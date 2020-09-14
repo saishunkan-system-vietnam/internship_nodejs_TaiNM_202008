@@ -12,17 +12,6 @@
           <input type="text" class="form-control" id="alName" placeholder="Airline Name" v-model="airline.alName">
         </div>
       </div>
-        <!-- <div>
-                <b-form-group label="Using options array:">
-      <b-form-checkbox-group
-        id="checkbox-group-1"
-        v-model="selected"
-        :options="options"
-        name="flavour-1"
-      ></b-form-checkbox-group>
-    </b-form-group>
-        </div>
-        <div>Selected: <strong>{{ selected }}</strong></div> -->
       <button type="submit" @click="updateAirline" class="btn btn-primary">Update Airline</button>
     </form>
   </div>
@@ -49,17 +38,6 @@ export default {
         });
   },
   methods: {
-    getAirlinebyID(id){
-         DataService.getAirlineByID(id)
-        .then((response) => {
-          this.airlines = response.data.data;
-        //   console.log(response.data.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-
     updateAirline(e) {
         DataService.updateAirline(this.$route.params.id, this.airline)
         .then(() =>this.$router.push('/airline'))

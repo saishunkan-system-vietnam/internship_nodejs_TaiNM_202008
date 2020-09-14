@@ -1,43 +1,59 @@
 <template>
-<div>
+  <div>
     <div>
-        <form>
-      <div class="form-row">
-        <div class="form-group col-md-12">
-          <label for="sName">Airline Code</label>
-          <input type="text" class="form-control" id="sName" placeholder="Type of Seat" v-model="sName">
+      <form>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label for="sName">Airline Code</label>
+            <input
+              type="text"
+              class="form-control"
+              id="sName"
+              placeholder="Type of Seat"
+              v-model="sName"
+            />
+          </div>
         </div>
-      </div>
-      <button type="submit" class="btn btn-primary" @click="insertSeat(sName)">Create Seat</button>
-      <br><br>
-    </form>
+        <button type="submit" class="btn btn-primary" @click="insertSeat(sName)">Create Seat</button>
+        <br />
+        <br />
+      </form>
     </div>
-<form class="form-inline">
-    <input type="text" class="form-control " placeholder="Search by Type of Seat" v-model="search">
-  </form> <br>
+    <form class="form-inline">
+      <input type="text" class="form-control" placeholder="Search by Type of Seat" v-model="search" />
+    </form>
+    <br />
 
     <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Type of Seat</th>
-      <th scope="col">Edit</th>
-        <th scope="col">Delete</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="seat in filteredItems" :key="seat.sID">
-      <th scope="row">{{seat.sID}}</th>
-      <td>{{seat.sName}}</td>
-        <td><a href="" class="btn waves-effect waves-light red darken-2" @click="updateSeat(seat.sID)"><font-awesome-icon icon="user-secret" /></a></td>
-         <td><a href="" class="btn waves-effect waves-light red darken-2" @click="deleteSeat(seat.sID)"><font-awesome-icon icon="user-secret" /></a></td>
-    </tr>
-  </tbody>
-</table>
-<div class="card-footer pb-0 pt-3">
-            <jw-pagination :items="seats" :pageSize="5" @changePage="onChangePage"></jw-pagination>
-        </div>
-</div>
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Type of Seat</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="seat in filteredItems" :key="seat.sID">
+          <th scope="row">{{seat.sID}}</th>
+          <td>{{seat.sName}}</td>
+          <td>
+            <a href class="btn waves-effect waves-light red darken-2" @click="updateSeat(seat.sID)">
+              <font-awesome-icon icon="user-secret" />
+            </a>
+          </td>
+          <td>
+            <a href class="btn waves-effect waves-light red darken-2" @click="deleteSeat(seat.sID)">
+              <font-awesome-icon icon="user-secret" />
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="card-footer pb-0 pt-3">
+      <jw-pagination :items="seats" :pageSize="5" @changePage="onChangePage"></jw-pagination>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -46,26 +62,26 @@ import DataService from "../services/DataService";
 export default {
   data() {
     return {
-        sName: "",
-        seats: [],
-         pageOfItems: [],
-         search: ''
+      sName: "",
+      seats: [],
+      pageOfItems: [],
+      search: "",
     };
   },
 
   created() {
     DataService.getSeat()
-     .then((response) => {
-          this.seats = response.data.data;
-          // console.log(response.data.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      .then((response) => {
+        this.seats = response.data.data;
+        // console.log(response.data.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   },
   methods: {
-    getSeatbyID(id){
-         DataService.getSeatbyID(id)
+    getSeatbyID(id) {
+      DataService.getSeatbyID(id)
         .then((response) => {
           this.seats = response.data.data;
           // console.log(response.data.data);
@@ -76,30 +92,32 @@ export default {
     },
 
     deleteSeat(id) {
-        DataService.deleteSeat(id)
-            .then(response => console.log('success'))
-            .catch(e => console.log(e))
-      },
-      updateSeat(id) {
-           this.$router.push(`/updateSeat/${id}`)
-      },
+      DataService.deleteSeat(id)
+        .then((response) => console.log("success"))
+        .catch((e) => console.log(e));
+    },
+    updateSeat(id) {
+      this.$router.push(`/updateSeat/${id}`);
+    },
     insertSeat(data) {
-            DataService.insertSeat(data)
-            .then(response => console.log('success'))
-            .catch(e => console.log(e))
-      },
-      onChangePage(pageOfItems) {
-            // update page of items
-            this.pageOfItems = pageOfItems;
-            // console.log(pageOfItems)
-        }
+      DataService.insertSeat(data)
+        .then((response) => console.log("success"))
+        .catch((e) => console.log(e));
+    },
+    onChangePage(pageOfItems) {
+      // update page of items
+      this.pageOfItems = pageOfItems;
+      // console.log(pageOfItems)
+    },
   },
   computed: {
-    filteredItems () {
-      return this.pageOfItems.filter(pageOfItem => {
-         return pageOfItem.sName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-      })
-    }
-  }
+    filteredItems() {
+      return this.pageOfItems.filter((pageOfItem) => {
+        return (
+          pageOfItem.sName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        );
+      });
+    },
+  },
 };
 </script>

@@ -33,11 +33,10 @@ class DataService {
         return http.delete(`/deleteSeat/${id}`)
     }
 
-    updateSeat(id) {
+    updateSeat(id, data) {
         return http.put(`/updateSeat/${id}`, {data})
     }
 
-    
     insertSeat(data) {
         return http.post('/insertSeat', {data})
     }
