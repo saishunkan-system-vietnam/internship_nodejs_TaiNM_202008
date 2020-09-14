@@ -19,6 +19,7 @@ export class TicketService {
 
     async selectticket(data){
         // let data = {};
+        console.log(data);
         return this.clientTicket.send('selectticket',data);
     }
 

@@ -22,32 +22,8 @@ export class TicketController {
             let end = ticket.end;
             let date = ticket.date;
             let price = ticket.price;
-            // if (airline === undefined) {
-            //     airline = String(airline);
-            //     airline = '';
-            //   }
-            // if (seat === undefined) {
-            //     seat = String(seat);
-            //     seat = '';
-            //   }
-             
-            //   if (start === undefined) {
-            //     start = String(start);
-            //     start = '';
-            //   }
-            //   if (end === undefined) {
-            //     end = String(end);
-            //     end = '';
-            //   }
-            //   if (date === undefined) {
-            //     date = String(date);
-            //     date = '';
-            //   }
-            //   if (price === undefined) {
-            //     price = String(price);
-            //     price = '';
-            //   }
             let selectticket = await this.ticketService.selectticket(airline, seat, start, end, date, price);
+            console.log(selectticket);
             return {
                 "mess": "success",
                 "data": selectticket
