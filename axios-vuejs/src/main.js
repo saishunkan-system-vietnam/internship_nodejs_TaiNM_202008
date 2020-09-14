@@ -10,6 +10,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+import JwPagination from 'jw-vue-pagination';
+Vue.component('jw-pagination', JwPagination);
 
 library.add(faUserSecret)
 Vue.component('font-awesome-icon', FontAwesomeIcon)

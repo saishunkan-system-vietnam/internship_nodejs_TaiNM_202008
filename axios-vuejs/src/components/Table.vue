@@ -69,6 +69,10 @@
         </tr>
       </tbody>
     </table>
+
+     <div class="card-footer pb-0 pt-3">
+            <jw-pagination :items="airlines" :pageSize="5" @changePage="onChangePage"></jw-pagination>
+        </div>
   </div>
 </template>
 
@@ -81,6 +85,7 @@ export default {
       input: { alCode: "", alName: "" },
       selected: [],
       airlines: [],
+      pageOfItems: [],
       seats: [],
       search: ''
     };
@@ -99,7 +104,6 @@ export default {
       .then((response) => {
         this.seats = response.data.data;
         // console.log(seats[0].sName);
-        console.log(response.data.data[0].sName);
       })
       .catch((e) => {
         console.log(e);
@@ -131,11 +135,16 @@ export default {
         .catch((e) => console.log(e));
       this.$router.push('/insertCategory')
     },
+onChangePage(pageOfItems) {
+            // update page of items
+            this.pageOfItems = pageOfItems;
+            console.log(pageOfItems)
+        }
   },
   computed: {
     filteredItems () {
-      return this.airlines.filter(airline => {
-         return airline.alName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+      return this.pageOfItems.filter(pageOfItem => {
+         return pageOfItem.alName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
       })
     }
   }
