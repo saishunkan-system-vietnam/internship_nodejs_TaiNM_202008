@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>
-      Mananager Ticket(Đặt Vé)
+      Client Ticket(Đặt Vé)
     </h1>
     <div>
       <form class="formticket">
@@ -21,7 +21,7 @@
           </select>
           <span>Selected: {{ ticket.airline }}</span>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="exampleFormControlSelect1">Loại Ghế</label>
           <select
             class="form-control"
@@ -36,7 +36,7 @@
             </option>
           </select>
           <span>Selected: {{ ticket.seat }}</span>
-        </div>
+        </div> -->
         <div class="form-group">
           <label for="exampleFormControlSelect1">Điểm đi</label>
           <select
@@ -80,7 +80,7 @@
             v-model="ticket.date"
           />
         </div>
-        <label for="exampleInputEmail1">Giá ghế</label>
+        <!-- <label for="exampleInputEmail1">Giá ghế</label>
         <input
           type="number"
           class="form-control"
@@ -88,7 +88,7 @@
           aria-describedby="emailHelp"
           placeholder="Price"
           v-model="ticket.price"
-        />
+        /> -->
         <button  class="btn btn-primary" v-on:click.prevent="saveForm">
           Submit
         </button>

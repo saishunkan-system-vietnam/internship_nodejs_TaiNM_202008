@@ -1,6 +1,11 @@
 <template>
   <div>
     <h1>Create Ticket 123</h1>
+    <div v-if="errors.length">
+           <div class="alert alert-danger" role="alert">
+             {{ errors[0] }}
+          </div>
+        </div>
     <div>
       <form v-on:submit="saveForm()">
         <div class="form-group">
@@ -17,7 +22,7 @@
               >{{ airline.alName }}
             </option>
           </select>
-          <span>Selected: {{ ticket.airline }}</span>
+          <!-- <span>Selected: {{ ticket.airline }}</span> -->
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Loại Ghế</label>
@@ -33,7 +38,7 @@
               >{{ seat.sName }}
             </option>
           </select>
-          <span>Selected: {{ ticket.seat }}</span>
+          <!-- <span>Selected: {{ ticket.seat }}</span> -->
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Điểm đi</label>
@@ -49,7 +54,7 @@
               >{{ airport[1] }}
             </option>
           </select>
-          <span>Selected: {{ ticket.start }}</span>
+          <!-- <span>Selected: {{ ticket.start }}</span> -->
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Điểm đến</label>
@@ -65,12 +70,12 @@
               >{{ airport[1] }}
             </option>
           </select>
-          <span>Selected: {{ ticket.end }}</span>
+          <!-- <span>Selected: {{ ticket.end }}</span> -->
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">NGày giờ</label>
           <input
-            type="datetime"
+            type="datetime-local"
             class="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
@@ -98,12 +103,6 @@
             placeholder="Price"
             v-model="ticket.price"
           />
-        </div>
-        <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-          <label class="form-check-label" for="exampleCheck1"
-            >Check me out</label
-          >
         </div>
         <button type="submit" class="btn btn-primary">
           Submit
@@ -170,7 +169,10 @@ export default {
   },
   methods: {
     saveForm() {
-      event.preventDefault();
+       event.preventDefault();
+      if (!this.ticket.airline || !this.ticket.seat || !this.ticket.start || !this.ticket.end || !this.ticket.number_seat || !this.ticket.date || !this.ticket.price) {
+              this.errors.push("Dữ liệu nhập vào không hợp lệ !");
+            }
       const data = {
         airline_id: this.ticket.airline,
         seat_id: this.ticket.seat,

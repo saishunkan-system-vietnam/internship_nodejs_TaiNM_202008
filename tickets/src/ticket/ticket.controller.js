@@ -12,7 +12,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { TicketService } from './ticket.service';
-import { queue } from '../../node_modules/rxjs/index';
+// import { queue } from '../../node_modules/rxjs/index';
 
 @Controller()
 @Dependencies(TicketService)
@@ -21,45 +21,46 @@ export class TicketController {
     this.ticketService = ticketService;
   }
 
-  //   @Get('ticket')
-  //   @Bind(Res())
-  //   async selectticket(res) {
-  //     try {
-  //       let selectticket = await this.ticketService.selectticket();
-  //       return res.json({
-  //         status: 'success',
-  //         code: '200',
-  //         data: selectticket,
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //       return res.json({
-  //         status: 'erro',
-  //         code: '404',
-  //         data: error,
-  //       });
-  //     }
-  //   }
-
-  @Get('ticket/:id')
-  @Bind(Param(), Res())
-  async findticket(params, res) {
-    try {
-      let findticket = await this.ticketService.findticket(params.id);
-      return res.json({
-        status: 'success',
-        code: '200',
-        data: findticket,
-      });
-    } catch (error) {
-      console.log(error);
-      return res.json({
-        status: 'erro',
-        code: '404',
-        data: error,
-      });
+    @Get('tickets/:id')
+    @Bind(Param(), Res())
+    async selectticket(params, res) {
+      try {
+        let selectticket = await this.ticketService.findticket(params.id);
+        return res.json({
+          status: 'success',
+          code: '200',
+          data: selectticket,
+        });
+      } catch (error) {
+        console.log(error);
+        return res.json({
+          status: 'erro',
+          code: '404',
+          data: error,
+        });
+      }
     }
-  }
+
+  // @Get('ticket/:id')
+  // @Bind(Param(), Res())
+  // async findticket(params, res) {
+  //   try {
+  //     console.log("aaa");
+  //     let findticket = await this.ticketService.findticket(params.id);
+  //     return res.json({
+  //       status: 'success',
+  //       code: '200',
+  //       data: findticket,
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //     return res.json({
+  //       status: 'erro',
+  //       code: '404',
+  //       data: error,
+  //     });
+  //   }
+  // }
 
   @Get('ticket')
   @Bind(Query(), Param(), Res())

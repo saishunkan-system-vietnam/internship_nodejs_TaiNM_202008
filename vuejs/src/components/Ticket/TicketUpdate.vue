@@ -127,7 +127,7 @@ export default {
     console.log(id);
     axios
       .all([
-        axios.get(`http://localhost:3000/ticket/` + id),
+        axios.get(`http://localhost:3000/tickets/` + id),
         axios.get(`http://localhost:3000/airport`),
         axios.get(`http://localhost:5000/category/findAllAirline`),
         axios.get(`http://localhost:5000/category/findAllSeat`)

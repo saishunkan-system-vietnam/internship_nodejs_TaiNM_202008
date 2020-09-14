@@ -40,7 +40,7 @@ export default new Router({
       path: '/',
       name: 'home',
       components: {
-        default:Home,Banner
+        default:Ticket,Footer,Banner,
       }
     },
     {
