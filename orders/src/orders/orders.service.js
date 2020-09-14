@@ -18,7 +18,7 @@ export class OrdersService {
     }
 
     async closeDB(){
-        session.close();
+        return session.close();
     }
 
     async getSchema(){
@@ -27,7 +27,7 @@ export class OrdersService {
         return myTable; 
     }
 
-    async insert(userId, total){
+    async insert(userId){
         await this.connectDB();
         await session.sql('USE mydb;').execute();
         await session.sql('INSERT INTO orders(user_id,total,status) VALUES(?,?,1)').bind(userId,total).execute();
@@ -36,7 +36,7 @@ export class OrdersService {
         return order_id;
     }
 
-    async insertOrder(order_id, ticket_id, quantity, length){
+    async insertOrder(order_id, ticket_id, quantity){
         await this.connectDB();
         await session.sql('USE mydb;').execute();
         try {

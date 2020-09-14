@@ -15,8 +15,8 @@ export class CategoryService {
         return session;
     }
 
-    async closeSession() {
-        session.close();
+    closeSession() {
+        return session.close();
     }
 
     async getTable(tableName) {
@@ -170,7 +170,7 @@ export class CategoryService {
 
     async findAllSeatByAirline() {
         await this.connectDB();
-        await session.sql('USE category;').execute();
+        await session.sql('USE mydb;').execute();
         var result = await session.sql('select airline.alID, airline.alCode, airline.alName, seat.sID, seat.sName from airline, seat, category where airline.alID=category.alID and seat.sID=category.sID;').execute();
         this.closeSession();
         return result.fetchAll();
@@ -178,7 +178,7 @@ export class CategoryService {
 
     async findSeatByAirline(alCode) {
         await this.connectDB();
-        await session.sql('USE category;').execute();
+        await session.sql('USE mydb;').execute();
         var result = await session.sql(`select airline.alName, seat.sName from airline, seat, category where airline.alID=category.alID and seat.sID=category.sID and category.alCode like '${alID}%';`).execute();
         this.closeSession();
         return result.fetchAll();

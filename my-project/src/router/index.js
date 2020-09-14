@@ -11,6 +11,13 @@ import Error from '@/components/page/Error'
 import Ticket from '@/components/Ticket/Ticket'
 import TicketCreate from '@/components/Ticket/TicketCreate'
 import TicketUpdate from '@/components/Ticket/TicketUpdate'
+import Table from '@/components/category/Table'
+import UpdateAirline from '@/components/category/UpdateAirline'
+import UpdateSeat from '@/components/category/UpdateSeat'
+import Seat from '@/components/category/Seat'
+import AddTypeOfSeat from '@/components/category/AddTypeOfSeat'
+import Category from '@/components/category/Category'
+import OrderClient from '@/components/OrderClient/OrderClient'
 // import Header from '@/components/master/Header'
 
 Vue.use(Router)
@@ -24,6 +31,16 @@ export default new Router({
       components: {
         default: Index
       }
+    },
+    {
+      path: '/order',
+      name: 'OrderClient',
+      components: {
+        default: OrderClient
+      },
+      meta: {
+        client: true,
+      },
     },
     {
       path: '/admin',
@@ -106,6 +123,54 @@ export default new Router({
       components: {
         default:TicketUpdate
       },
+      meta: {
+        plainLayout: true,
+      },
+    },
+    {
+      path: '/admin/airline',
+      name: 'airline',
+      component: Table,
+      meta: {
+        plainLayout: true,
+      },
+    },
+    {
+      path: '/admin/updateAirline/:id',
+      name: 'updateAirline',
+      component: UpdateAirline,
+      meta: {
+        plainLayout: true,
+      },
+    },
+    {
+      path: '/admin/seat',
+      name: 'seat',
+      component: Seat,
+      meta: {
+        plainLayout: true,
+      },
+    },
+    {
+      path: '/admin/updateSeat/:id',
+      name: 'updateSeat',
+      component: UpdateSeat,
+      meta: {
+        plainLayout: true,
+      },
+    },
+    {
+      path: '/admin/insertCategory',
+      name: 'insertCategory',
+      component: AddTypeOfSeat,
+      meta: {
+        plainLayout: true,
+      },
+    },
+    {
+      path: '/admin/category',
+      name: 'getCategory',
+      component: Category,
       meta: {
         plainLayout: true,
       },

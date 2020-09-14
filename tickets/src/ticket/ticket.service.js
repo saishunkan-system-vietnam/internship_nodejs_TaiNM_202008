@@ -9,14 +9,10 @@ export class TicketService {
 
     async connectdatabase() {
         db = await mysqlx.getSession({
-            // user: 'root',
-            // password: '123456',
-            // host: 'localhost',
-            // port: 33060
-            host: '192.168.10.137',
-            port: 33060,
-            user: 'chungpv',
-            password: '1',
+            user: 'root',
+            password: '123456',
+            host: 'localhost',
+            port: 33060
         });
         return db;
     }
@@ -49,12 +45,9 @@ export class TicketService {
     }
 
     async findticket(id) {
-        if(!validator.isInt(id)){
-            throw "id khong hop le";
-        }
         await this.connectdatabase();
-        let sql ='SELECT tickets.id,airline.alName,seat.sName,airport.name,a.name,tickets.date,tickets.number_seat,tickets.price,tickets.reg_date FROM tickets LEFT JOIN airport ON tickets.`start` = airport.id LEFT JOIN airport as a ON tickets.`end` = a.id LEFT JOIN airline ON tickets.airline_id = airline.alID LEFT JOIN category ON airline.alID = category.alID LEFT JOIN seat ON category.sID = seat.sID WHERE tickets.seat_id = seat.sID AND tickets.id = ?';
-        await db.sql('use mydb').execute();
+        let sql ='SELECT tickets.id,airline.alName,seat.sName,airport.name,a.name,tickets.date,tickets.number_seat,tickets.price,tickets.reg_date FROM tickets LEFT JOIN airport ON tickets.`start` = airport.id LEFT JOIN airport as a ON tickets.`end` = a.id LEFT JOIN airline ON tickets.airline_id = airline.alID LEFT JOIN category ON airline.alID = category.alID LEFT JOIN seat ON category.sID = seat.sID WHERE tickets.seat_id = seat.sID AND tickets.id = ?;';
+        await db.sql('use mydb;').execute();
         var result = await db.sql(sql).bind(id).execute();
         // if (result.fetchAll().length === 0) {
         //     throw "RECORD NOT FOUND";

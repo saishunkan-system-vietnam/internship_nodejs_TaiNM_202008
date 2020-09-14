@@ -45,23 +45,21 @@ export class OrdersController {
     @Bind(Payload())
     @MessagePattern('insertOrder')
     async insertOrder(data){
-        // console.log(data)
+        console.log(data.data.price)
         try {
-            let userId = data.userId;
-            let total = data.total;
-            let result = await this.ordersService.insert(userId,total);
-            let order_id = result.fetchOne();
+            let userId = data.user_id;
+            let total = data.data.price;
+            let result = await this.ordersService.insert(userId);
+            // let order_id = result.fetchOne();
             // console.log(order_id[0]);
-            for (let index = 0; index < data.ticket_id.length; index++) {
-                await this.ordersService.insertOrder(order_id[0],data.ticket_id[index], data.quantity[index],data.ticket_id.length);
-            }
-            await this.ordersService.closeDB();
+            // for (let index = 0; index < data.ticket_id.length; index++) {
+            // await this.ordersService.insertOrder(order_id[0],data.data.id_ticket, 1);
+            // }
             return {
                 "mess":"success",
                 "data": data
             }
         } catch (error) {
-            await this.ordersService.closeDB();
             return {
                 "mess":"error"
             }

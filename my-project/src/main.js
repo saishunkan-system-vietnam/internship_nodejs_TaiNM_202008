@@ -5,7 +5,21 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Vuelidate from 'vuelidate'
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import JwPagination from 'jw-vue-pagination';
 
+Vue.component('jw-pagination', JwPagination);
+
+library.add(faUserSecret)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
+Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
 // Vue.use(VeeValidate)
 Vue.use(Vuelidate)
 

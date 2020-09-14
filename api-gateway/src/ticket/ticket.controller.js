@@ -51,7 +51,7 @@ export class TicketController {
             date : date,
             price : price,
         }
-        console.log(data);
+        // console.log(data);
         return this.ticketService.selectticket(data);
     }
 

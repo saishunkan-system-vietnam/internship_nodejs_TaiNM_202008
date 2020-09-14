@@ -6,38 +6,13 @@
   <ul class="sidebar-navigation">
     <li class="header">Menu</li>
     <li>
-      <a href="/admin">
-        <i class="fa fa-home" aria-hidden="true"></i> Homepage
+      <a href="/order">
+        <i class="fa fa-home" aria-hidden="true"></i> Đặt vé
       </a>
     </li>
     <li>
-      <a href="/admin/airline">
-        <i class="fa fa-tachometer" aria-hidden="true"></i> Airline
-      </a>
-    </li>
-     <li>
-      <a href="/admin/seat">
-        <i class="fa fa-tachometer" aria-hidden="true"></i> Seat
-      </a>
-    </li>
-    <li>
-      <a href="/admin/category">
-        <i class="fa fa-tachometer" aria-hidden="true"></i> Category
-      </a>
-    </li>
-    <li>
-      <a href="/admin/users">
-        <i class="fa fa-tachometer" aria-hidden="true"></i> Users
-      </a>
-    </li>
-    <li>
-      <a href="/admin/ticket">
-        <i class="fa fa-tachometer" aria-hidden="true"></i> Ticket
-      </a>
-    </li>
-    <li>
-      <a href="/admin/orders">
-        <i class="fa fa-tachometer" aria-hidden="true"></i> Orders
+      <a href="/order/management">
+        <i class="fa fa-home" aria-hidden="true"></i> Vé đã đặt
       </a>
     </li>
     <li>

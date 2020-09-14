@@ -21,7 +21,7 @@ async function bootstrap() {
     name: '_redisDemo', 
     secret: "asdasdasdasd",
     resave: false,
-    cookie: { secure: false, maxAge: 600000 }, // Set to secure:false and expire in 1 minute for demo purposes
+    cookie: { secure: false, maxAge: 6000000 }, // Set to secure:false and expire in 1 minute for demo purposes
     saveUninitialized: true
   }));
   await app.listen(3000);

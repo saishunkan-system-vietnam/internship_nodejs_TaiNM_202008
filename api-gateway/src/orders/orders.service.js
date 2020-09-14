@@ -1,10 +1,11 @@
 import { Injectable, Dependencies } from '@nestjs/common';
+import { zip } from '../../node_modules/rxjs/index';
 // import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 
 @Injectable()
-@Dependencies('Orders')
+@Dependencies(['Orders'])
 export class OrdersService {
-  constructor(clientOrders) {
+  constructor(clientOrders, clientTicket) {
     this.clientOrders = clientOrders;
   }
 

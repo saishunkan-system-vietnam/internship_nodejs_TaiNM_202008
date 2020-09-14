@@ -13,7 +13,7 @@ export class TicketController {
 
     @MessagePattern('selectticket')
     async selectticket(data) {
-        console.log(data);
+        // console.log(data);
         let ticket = data;
         try {
             let airline = ticket.airline;
@@ -23,7 +23,7 @@ export class TicketController {
             let date = ticket.date;
             let price = ticket.price;
             let selectticket = await this.ticketService.selectticket(airline, seat, start, end, date, price);
-            console.log(selectticket);
+            // console.log(selectticket);
             return {
                 "mess": "success",
                 "data": selectticket
@@ -35,17 +35,10 @@ export class TicketController {
 
     @Bind(Payload())
     @MessagePattern('findById')
-    async findticket(data) {
+    findticket(data) {
         console.log(data);
-        try {
-            let findticket = await this.ticketService.findticket(data);
-            return {
-                "mess": "success",
-                "data": findticket
-                };
-        } catch (error) {
-            console.log(error);
-        }
+        return this.ticketService.findticket(data);
+
         
     }
 

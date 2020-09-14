@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <h1>Ticket</h1>
-    <button>
-      <router-link to="/admin/ticketCreate">Create</router-link>
+    <button class="btn btn-primary">
+      <router-link to="/admin/ticketCreate" style="color: white">Create</router-link>
     </button>
-    <table class="table table-responsive bordered highlight centered hoverable z-depth-2">
-      <thead>
-        <tr class="table-primary abc">
+    <table  class="table">
+      <thead style="text-align: center">
+        <tr>
           <th>id</th>
           <th>Hãng Bay</th>
           <th>Loại Ghế</th>

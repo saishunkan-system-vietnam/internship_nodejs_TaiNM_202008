@@ -2,9 +2,9 @@
   <div>
     <h1>Orders</h1>
     <div class="container">
-      <table class="table table-responsive bordered highlight centered hoverable z-depth-2">
-        <thead>
-          <tr class="table-primary abc">
+      <table class="table">
+        <thead style="text-align: center">
+          <tr>
             <th>id</th>
             <th>Khách hàng</th>
             <th>Điểm đi</th>

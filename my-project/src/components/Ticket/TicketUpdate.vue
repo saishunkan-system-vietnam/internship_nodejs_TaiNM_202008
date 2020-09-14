@@ -5,7 +5,7 @@
       <form v-on:submit="saveForm()">
         <div class="form-group">
           <label for="exampleFormControlSelect1">Hãng Bay</label>
-          <select class="form-control" id="abcd" v-model="posts[1]">
+          <select class="form-control" id="abcd" v-model="posts[8]">
             <option
               v-for="airline of airlines"
               v-bind:key="airline.id"
@@ -14,14 +14,14 @@
             </option>
              <option disabled="disabled">{{posts[1]}}</option>
           </select>
-          <span>Selected: {{ posts[1] }}</span>
+          <span>Selected: {{ posts[8] }}</span>
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Loại Ghế</label>
           <select
             class="form-control"
             id="exampleFormControlSelect1"
-            v-model="posts[2]"
+            v-model="posts[9]"
           >
             <option
               v-for="seat of seats"
@@ -31,14 +31,14 @@
             </option>
             <option disabled="disabled">{{posts[2]}}</option>
           </select>
-          <span>Selected: {{ posts[2] }}</span>
+          <span>Selected: {{ posts[9] }}</span>
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Điểm đi</label>
           <select
             class="form-control"
             id="exampleFormControlSelect1"
-            v-model="posts[3]"
+            v-model="posts[10]"
           >
             <option
               v-for="airport of airports"
@@ -48,14 +48,14 @@
             </option>
              <option disabled="disabled">{{posts[3]}}</option>
           </select>
-          <span>Selected: {{ posts[3] }}</span>
+          <span>Selected: {{ posts[10] }}</span>
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Điểm đến</label>
           <select
             class="form-control"
             id="exampleFormControlSelect1"
-            v-model="posts[4]"
+            v-model="posts[11]"
           >
             <option
               v-for="airport of airports"
@@ -65,7 +65,7 @@
             </option>
              <option disabled="disabled">{{posts[4]}}</option>
           </select>
-          <span>Selected: {{ posts[4] }}</span>
+          <span>Selected: {{ posts[11] }}</span>
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">NGày giờ</label>
@@ -133,11 +133,11 @@ export default {
       ])
       .then(
         axios.spread((responseOne, responseTwo, responseThree, responseFor) => {
-          console.log("responseOne");
-          console.log(responseOne.data.data[0]);
-          console.log(responseTwo.data.data);
-          console.log(responseThree.data.data[0]);
-          console.log(responseFor.data.data);
+          // console.log("responseOne");
+          // console.log(responseOne.data.data[0]);
+          // console.log(responseTwo.data.data);
+          // console.log(responseThree.data.data[0]);
+          // console.log(responseFor.data.data);
           this.posts = responseOne.data.data[0];
           this.airports = responseTwo.data.data;
           this.airlines = responseThree.data.data;
@@ -151,10 +151,10 @@ export default {
       event.preventDefault();
       const id = this.$route.params.id;
       const data = {
-        airline_id: this.posts[1],
-        seat_id: this.posts[2],
-        start: this.posts[3],
-        end: this.posts[4],
+        airline_id: this.posts[8],
+        seat_id: this.posts[9],
+        start: this.posts[10],
+        end: this.posts[11],
         date: this.posts[5],
         number_seat: this.posts[6],
         price: this.posts[7]

@@ -11,7 +11,11 @@ export class OrdersController {
     @Post()
     @Bind(Req())
     async insertOrder(req){
-        return this.ordersService.insertOrder(req.body);
+        let data = {
+            'user_id': req.session.user.id,
+            'data': req.body
+        };
+        return this.ordersService.insertOrder(data);
     }
 
     @Delete(':id')

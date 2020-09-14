@@ -165,7 +165,7 @@ export class CategoryController {
     async findSeatById(data){
        try {
         let arr = await this.categoryService.findSeatById(data);
-        var keys = ['alID','sName'];
+        var keys = ['sID','sName'];
         var newArr = arr.slice(0, arr.length);
 
             var formatted = [],
@@ -215,7 +215,7 @@ export class CategoryController {
         console.log(data)
         try {
 
-            await this.categoryService.updateSeat(data.id, data.sName);
+            await this.categoryService.updateSeat(data.sID, data.sName);
             return {
                 "mess": "success",
                 "data": data

@@ -2,18 +2,18 @@
     <div>
          <h1>Users</h1>
          <div class="container">
-            <button><router-link to="/admin/users/create">Create</router-link></button>
-            <table class="table table-responsive bordered highlight centered hoverable z-depth-2">
-                <thead>
-                    <tr class="table-primary abc">
-                        <th>id</th>
-                        <th>Email</th>
-                        <th>Name</th>
-                        <th>Phone</th>
-                        <th>Address</th>
-                        <th>Level</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+            <button  class="btn btn-primary" ><router-link to="/admin/users/create" style="color: white">Create</router-link></button>
+            <table class="table">
+                <thead style="text-align: center">
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Level</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
                     </tr>
                 </thead>
                 <tbody>

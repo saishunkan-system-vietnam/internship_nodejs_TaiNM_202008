@@ -9,10 +9,13 @@
              <div class="alert alert-danger" v-if="!$v.email.minLength">
                 <strong>Email</strong> phải lớn hơn 10 ký tự !!!
             </div>
+             <div class="alert alert-danger" v-if="!$v.email.email">
+                <strong>Email</strong> không đúng định dạng !!!
+            </div>
         </div>
         <div class="form-group" :class="{ 'form-group--error': $v.password.$error }">
             <label>Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password" v-model.trim="password">
+            <input type="password" class="form-control" id="password" placeholder="Password" v-model="password">
              <div class="alert alert-danger" v-if="!$v.password.minLength">
                 <strong>Password</strong> phải lớn hơn 6 ký tự !!!
             </div>
@@ -26,7 +29,7 @@
 <script>
 import callAPI from '../conf/axios';
 import VueCookies from 'vue-cookies'
-import { required, minLength } from 'vuelidate/lib/validators'
+import { required, minLength, email } from 'vuelidate/lib/validators';
     export default {
         data(){
             return{
@@ -36,15 +39,14 @@ import { required, minLength } from 'vuelidate/lib/validators'
         },
         created () {
             var cookie = $cookies;
-            if (cookie.isKey('login')) {
-                this.$router.push('/');
-            } else {
+            if (!cookie.isKey('login')) {
                 this.$router.push('/login');
             }
         },
         validations: {
             email:{
                 required,
+                email,
                 minLength: minLength(10)
             },
             password:{
@@ -61,10 +63,10 @@ import { required, minLength } from 'vuelidate/lib/validators'
                 var cookie = $cookies;
                 var email = this.email;
                 let logger = callAPI.post('users/login', {
-                    headers: {
-                        'Access-Control-Allow-Origin' : 'http://127.0.0.1:3000',
-                        'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                    },
+                    // headers: {
+                    //     'Access-Control-Allow-Origin' : 'http://127.0.0.1:3000',
+                    //     'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                    // },
                     "email": this.email,
                     "password": this.password,
                     // withCredentials: true
@@ -75,7 +77,7 @@ import { required, minLength } from 'vuelidate/lib/validators'
                         url.$router.push('/admin');
                     }else if (response.data.mess == 'success' && response.data.data.user.level == 2) {
                         cookie.set('login',email);
-                        url.$router.push('/');
+                        url.$router.push('/order');
                     }else {
                         url.$router.push('/login');
                     }

@@ -17,7 +17,6 @@
               >{{ airline.alName }}
             </option>
           </select>
-          <span>Selected: {{ ticket.airline }}</span>
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Loại Ghế</label>
@@ -33,7 +32,6 @@
               >{{ seat.sName }}
             </option>
           </select>
-          <span>Selected: {{ ticket.seat }}</span>
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Điểm đi</label>
@@ -48,7 +46,6 @@
               >{{ airport[1] }}
             </option > 
           </select>
-          <span>Selected: {{ ticket.start }}</span>
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Điểm đến</label>
@@ -64,7 +61,6 @@
               >{{ airport[1] }}
             </option> 
           </select>
-          <span>Selected: {{ ticket.end }}</span>
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">NGày giờ</label>
@@ -98,13 +94,7 @@
             v-model="ticket.price"
           />
         </div>
-        <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-          <label class="form-check-label" for="exampleCheck1"
-            >Check me out</label
-          >
-        </div>
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary" style="float: right;">
           Submit
         </button>
       </form>
@@ -179,9 +169,8 @@ export default {
         price: this.ticket.price
       };
       console.log(data);
-      axios
-        .post("http://localhost:3000/ticket", 
-        data)
+      callAPI
+        .post("ticket",data)
         .then(res => {
             console.log(res.data);
             this.$router.push('/admin/ticket');
