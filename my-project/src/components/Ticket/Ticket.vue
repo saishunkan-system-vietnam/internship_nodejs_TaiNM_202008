@@ -70,7 +70,7 @@
       async deleteTutorial(id) {
         console.log(id);
         //    console.log(`${url}/${id}`);
-        await axios.delete(`${url}/${id}`)
+        await callAPI.delete(`ticket/${id}`)
           .then(response => {
             location.reload();
           });

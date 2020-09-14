@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h1>Update ticket</h1>
     <div>
       <form v-on:submit="saveForm()">
@@ -108,7 +108,7 @@
 </template>
 
 <script>
-
+import axios from 'axios';
 import callAPI from '../../conf/axios';
 
 export default {
@@ -126,9 +126,9 @@ export default {
     console.log(id);
     axios
       .all([
-        callAPI.get(`ticket/` + id),
+        callAPI.get(`ticket/${id}`),
         callAPI.get(`airport`),
-        callAPI.get(`findAllAirline`),
+        callAPI.get(`category/findAllAirline`),
         callAPI.get(`category/findAllSeat`)
       ])
       .then(

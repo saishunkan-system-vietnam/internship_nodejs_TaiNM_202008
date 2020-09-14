@@ -179,8 +179,9 @@ export default {
         price: this.ticket.price
       };
       console.log(data);
-      callAPI
-        .post("ticket", data)
+      axios
+        .post("http://localhost:3000/ticket", 
+        data)
         .then(res => {
             console.log(res.data);
             this.$router.push('/admin/ticket');

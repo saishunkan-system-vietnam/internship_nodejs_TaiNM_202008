@@ -74,25 +74,25 @@ export class TicketService {
     async insertticket(airline_id, seat_id, start, end, date, number_seat, price) {
         await this.connectdatabase();
         let tickets = await this.getSchema();
-        if (!airline_id || airline_id.trim() === "") {
+        if (!airline_id) {
             throw "airline_id NOT NULL";
         }
-        if (!seat_id || seat_id.trim() === "") {
+        if (!seat_id) {
             throw "seat_id NOT NULL";
         }
-        if (!start || start.trim() === "") {
+        if (!start) {
             throw "start NOT NULL";
         }
-        if (!end || end.trim() === "") {
+        if (!end) {
             throw "end NOT NULL";
         }
-        if (!date || date.trim() === "") {
+        if (!date) {
             throw "date NOT NULL";
         }
-        if (!number_seat || number_seat.trim() === "") {
+        if (!number_seat) {
             throw "number_seat NOT NULL";
         }
-        if (!price || price.trim() === "") {
+        if (!price) {
             throw "PRICE NOT NULL";
         }
         if (isNaN(airline_id)) {
@@ -123,25 +123,25 @@ export class TicketService {
     async updateticket(id,airline_id, seat_id, start, end, date, number_seat, price) {
         await this.connectdatabase();
         let tickets = await this.getSchema();
-        if (!airline_id || airline_id.trim() === "") {
+        if (!airline_id) {
             throw "airline_id NOT NULL";
         }
-        if (!seat_id || seat_id.trim() === "") {
+        if (!seat_id) {
             throw "seat_id NOT NULL";
         }
-        if (!start || start.trim() === "") {
+        if (!start) {
             throw "start NOT NULL";
         }
-        if (!end || end.trim() === "") {
+        if (!end) {
             throw "end NOT NULL";
         }
-        if (!date || date.trim() === "") {
+        if (!date) {
             throw "date NOT NULL";
         }
-        if (!number_seat || number_seat.trim() === "") {
+        if (!number_seat) {
             throw "number_seat NOT NULL";
         }
-        if (!price || price.trim() === "") {
+        if (!price) {
             throw "PRICE NOT NULL";
         }
         if (isNaN(airline_id)) {
