@@ -59,7 +59,6 @@ export class TicketService {
       )
       .execute();
     await this.close();
-    // console.log("aa" + result.fetchAll());
     return result.fetchAll();
   }
 

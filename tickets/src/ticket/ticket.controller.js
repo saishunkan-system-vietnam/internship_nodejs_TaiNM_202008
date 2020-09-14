@@ -66,16 +66,12 @@ export class TicketController {
   @Bind(Query(), Param(), Res())
   async findticket(query, params, res) {
     try {
-      //   let id = query.id;
-      //   let name = query.name;
       let airline = query.airline;
       console.log('airline2  ' + airline);
       if (airline === undefined) {
         airline = String(airline);
         airline = '';
       }
-      //   airline cho nhap vao form
-
       let seat = query.seat;
       let start = query.start;
       let end = query.end;
