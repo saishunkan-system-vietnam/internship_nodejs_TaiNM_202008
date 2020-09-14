@@ -28,6 +28,11 @@
         <br><br>
       </form>
     </div>
+
+<form class="form-inline">
+    <input type="text" class="form-control " placeholder="Search by Airline Name" v-model="search">
+  </form> <br>
+
     <table class="table">
       <thead>
         <tr>
@@ -39,7 +44,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="airline in airlines" :key="airline.alID">
+        <tr v-for="airline in filteredItems" :key="airline.alID">
           <th scope="row">{{airline.alID}}</th>
           <td>{{airline.alCode}}</td>
           <td>{{airline.alName}}</td>
@@ -77,6 +82,7 @@ export default {
       selected: [],
       airlines: [],
       seats: [],
+      search: ''
     };
   },
 
@@ -126,5 +132,12 @@ export default {
       this.$router.push('/insertCategory')
     },
   },
+  computed: {
+    filteredItems () {
+      return this.airlines.filter(airline => {
+         return airline.alName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+      })
+    }
+  }
 };
 </script>
