@@ -138,7 +138,7 @@ export default {
 onChangePage(pageOfItems) {
             // update page of items
             this.pageOfItems = pageOfItems;
-            console.log(pageOfItems)
+            // console.log(pageOfItems)
         }
   },
   computed: {

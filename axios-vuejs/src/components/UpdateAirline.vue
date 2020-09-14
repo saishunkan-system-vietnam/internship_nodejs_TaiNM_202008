@@ -7,9 +7,7 @@
           <label for="alCode">Airline Code</label>
           <input type="text" class="form-control" id="alCode" placeholder="Airline Code" v-model="airline.alCode">
         </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-6">
+         <div class="form-group col-md-6">
           <label for="alName">Airline Name</label>
           <input type="text" class="form-control" id="alName" placeholder="Airline Name" v-model="airline.alName">
         </div>

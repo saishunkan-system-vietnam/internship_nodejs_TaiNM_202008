@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card bg-variant="dark" text-variant="white" title="Add tpye of seat for current Airline">
+    <b-card bg-variant="dark" text-variant="white" title="Add type of seat for current Airline">
       <!-- <b-card-text>Pls select the avaiable type of seat for {{airlines[airlines.length-1].alName}} </b-card-text> -->
       <b-form-group>
         <b-form-checkbox-group

@@ -1,5 +1,9 @@
 <template>
   <div>
+    <form class="form-inline">
+    <input type="text" class="form-control " placeholder="Search by Airline Name" v-model="search">
+  </form> <br>
+
     <table class="table">
       <thead>
         <tr>
@@ -10,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="category in categories" :key="category.test">
+        <tr v-for="category in filteredItems" :key="category.test">
           <th scope="row">{{category.alCode}}</th>
           <td>{{category.alName}}</td>
           <td>{{category.sName}}</td>
@@ -26,6 +30,9 @@
         </tr>
       </tbody>
     </table>
+      <div class="card-footer pb-0 pt-3">
+            <jw-pagination :items="categories" :pageSize="5" @changePage="onChangePage"></jw-pagination>
+        </div>
   </div>
 </template>
 
@@ -37,6 +44,8 @@ export default {
     return {
     //   input: { alCode: "", alName: "" },
       categories: [],
+       pageOfItems: [],
+      search: ''
     };
   },
 
@@ -44,7 +53,7 @@ export default {
     DataService.getCategory()
       .then((response) => {
         this.categories = response.data.data
-        console.log(response.data.data)
+        // console.log(response.data.data)
       })
       .catch((e) => {
         console.log(e);
@@ -56,6 +65,18 @@ export default {
         .then((response) => console.log("success"))
         .catch((e) => console.log(e));
     },
+    onChangePage(pageOfItems) {
+            // update page of items
+            this.pageOfItems = pageOfItems;
+            // console.log(pageOfItems)
+        }
   },
+  computed: {
+    filteredItems () {
+      return this.pageOfItems.filter(pageOfItem => {
+         return pageOfItem.alName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+      })
+    }
+  }
 };
 </script>

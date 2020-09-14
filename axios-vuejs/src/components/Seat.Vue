@@ -12,6 +12,10 @@
       <br><br>
     </form>
     </div>
+<form class="form-inline">
+    <input type="text" class="form-control " placeholder="Search by Type of Seat" v-model="search">
+  </form> <br>
+
     <table class="table">
   <thead>
     <tr>
@@ -22,7 +26,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr v-for="seat in seats" :key="seat.sID">
+    <tr v-for="seat in filteredItems" :key="seat.sID">
       <th scope="row">{{seat.sID}}</th>
       <td>{{seat.sName}}</td>
         <td><a href="" class="btn waves-effect waves-light red darken-2" @click="updateSeat(seat.sID)"><font-awesome-icon icon="user-secret" /></a></td>
@@ -30,6 +34,9 @@
     </tr>
   </tbody>
 </table>
+<div class="card-footer pb-0 pt-3">
+            <jw-pagination :items="seats" :pageSize="5" @changePage="onChangePage"></jw-pagination>
+        </div>
 </div>
 </template>
 
@@ -41,6 +48,8 @@ export default {
     return {
         sName: "",
         seats: [],
+         pageOfItems: [],
+         search: ''
     };
   },
 
@@ -48,7 +57,7 @@ export default {
     DataService.getSeat()
      .then((response) => {
           this.seats = response.data.data;
-          console.log(response.data.data);
+          // console.log(response.data.data);
         })
         .catch((e) => {
           console.log(e);
@@ -59,7 +68,7 @@ export default {
          DataService.getSeatbyID(id)
         .then((response) => {
           this.seats = response.data.data;
-          console.log(response.data.data);
+          // console.log(response.data.data);
         })
         .catch((e) => {
           console.log(e);
@@ -79,6 +88,18 @@ export default {
             .then(response => console.log('success'))
             .catch(e => console.log(e))
       },
+      onChangePage(pageOfItems) {
+            // update page of items
+            this.pageOfItems = pageOfItems;
+            // console.log(pageOfItems)
+        }
   },
+  computed: {
+    filteredItems () {
+      return this.pageOfItems.filter(pageOfItem => {
+         return pageOfItem.sName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+      })
+    }
+  }
 };
 </script>
