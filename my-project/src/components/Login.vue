@@ -3,13 +3,19 @@
     <h2>Đăng nhập</h2>
     <hr>
     <form  @submit="login" >
-        <div class="form-group">
+        <div class="form-group" :class="{ 'form-group--error': $v.email.$error }">
             <label>Email</label>
-            <input type="email" class="form-control" id="email" placeholder="Email" v-model="email">
+            <input type="email" class="form-control" id="email" placeholder="Email" v-model.trim="email">
+             <div class="alert alert-danger" v-if="!$v.email.minLength">
+                <strong>Email</strong> phải lớn hơn 10 ký tự !!!
+            </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" :class="{ 'form-group--error': $v.password.$error }">
             <label>Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password" v-model="password">
+            <input type="password" class="form-control" id="password" placeholder="Password" v-model.trim="password">
+             <div class="alert alert-danger" v-if="!$v.password.minLength">
+                <strong>Password</strong> phải lớn hơn 6 ký tự !!!
+            </div>
         </div>
         <button type="submit" @click="login" class="btn btn-primary login">Login</button>
         <button type="button" @click="cancel" class="btn btn-primary login">Cancel</button>
@@ -20,6 +26,7 @@
 <script>
 import callAPI from '../conf/axios';
 import VueCookies from 'vue-cookies'
+import { required, minLength } from 'vuelidate/lib/validators'
     export default {
         data(){
             return{
@@ -33,6 +40,16 @@ import VueCookies from 'vue-cookies'
                 this.$router.push('/');
             } else {
                 this.$router.push('/login');
+            }
+        },
+        validations: {
+            email:{
+                required,
+                minLength: minLength(10)
+            },
+            password:{
+                required,
+                minLength: minLength(6)
             }
         },
         methods: {

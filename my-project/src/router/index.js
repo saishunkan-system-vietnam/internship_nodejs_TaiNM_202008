@@ -8,6 +8,9 @@ import Orders from '@/components/orders/Orders'
 import Login from '@/components/Login'
 import Index from '@/components/index/Index'
 import Error from '@/components/page/Error'
+import Ticket from '@/components/Ticket/Ticket'
+import TicketCreate from '@/components/Ticket/TicketCreate'
+import TicketUpdate from '@/components/Ticket/TicketUpdate'
 // import Header from '@/components/master/Header'
 
 Vue.use(Router)
@@ -72,6 +75,36 @@ export default new Router({
       name: 'Orders',
       components: {
         default: Orders
+      },
+      meta: {
+        plainLayout: true,
+      },
+    },
+    {
+      path: '/admin/ticket',
+      name: 'ticket',
+      components: {
+        default:Ticket
+      },
+      meta: {
+        plainLayout: true,
+      },
+    },
+    {
+      path: '/admin/ticketCreate',
+      name: 'TicketCreate',
+      components: {
+        default:TicketCreate
+      },
+      meta: {
+        plainLayout: true,
+      },
+    },
+    {
+      path: '/admin/ticketUpdate/:id',
+      name: 'TicketUpdate',
+      components: {
+        default:TicketUpdate
       },
       meta: {
         plainLayout: true,
