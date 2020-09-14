@@ -11,14 +11,47 @@ export class TicketController {
         this.ticketService = ticketService;
       }
 
-    @MessagePattern('get')
-    async selectticket() {
+    @MessagePattern('selectticket')
+    async selectticket(data) {
+        console.log(data);
+        let ticket = data;
         try {
-        let selectticket = await this.ticketService.selectticket();
-        return {
-            "mess": "success",
-            "data": selectticket
-            };
+            let airline = ticket.airline;
+            let seat = ticket.seat;
+            let start = ticket.start;
+            let end = ticket.end;
+            let date = ticket.date;
+            let price = ticket.price;
+            // if (airline === undefined) {
+            //     airline = String(airline);
+            //     airline = '';
+            //   }
+            // if (seat === undefined) {
+            //     seat = String(seat);
+            //     seat = '';
+            //   }
+             
+            //   if (start === undefined) {
+            //     start = String(start);
+            //     start = '';
+            //   }
+            //   if (end === undefined) {
+            //     end = String(end);
+            //     end = '';
+            //   }
+            //   if (date === undefined) {
+            //     date = String(date);
+            //     date = '';
+            //   }
+            //   if (price === undefined) {
+            //     price = String(price);
+            //     price = '';
+            //   }
+            let selectticket = await this.ticketService.selectticket(airline, seat, start, end, date, price);
+            return {
+                "mess": "success",
+                "data": selectticket
+                };
         } catch (error) {
             console.log(error);
         }
@@ -27,6 +60,7 @@ export class TicketController {
     @Bind(Payload())
     @MessagePattern('findById')
     async findticket(data) {
+        console.log(data);
         try {
             let findticket = await this.ticketService.findticket(data);
             return {

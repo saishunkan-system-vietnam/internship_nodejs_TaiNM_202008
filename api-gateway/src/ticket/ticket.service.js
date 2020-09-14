@@ -17,9 +17,9 @@ export class TicketService {
       }    
 
 
-    async findAll(){
-        let data = {};
-        return this.clientTicket.send('get',data);
+    async selectticket(data){
+        // let data = {};
+        return this.clientTicket.send('selectticket',data);
     }
 
     async findById(data){

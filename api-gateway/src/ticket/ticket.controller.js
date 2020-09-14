@@ -1,4 +1,4 @@
-import { Controller,Dependencies, Post, Req, Bind, Put, Param, Get, Delete } from '@nestjs/common';
+import { Controller,Dependencies, Post, Req, Query, Bind, Put, Param, Get, Delete } from '@nestjs/common';
 import { TicketService } from './ticket.service';
 
 
@@ -10,8 +10,49 @@ export class TicketController {
     }
 
     @Get('ticket')
-    async findAll(){
-        return this.ticketService.findAll();
+    @Bind(Query())
+    async selectticket(query){
+        let airline = query.airline;
+            let seat = query.seat;
+            let start = query.start;
+            let end = query.end;
+            let date = query.date;
+            let price = query.price;
+            if (airline === undefined) {
+                airline = String(airline);
+                airline = '';
+              }
+            if (seat === undefined) {
+                seat = String(seat);
+                seat = '';
+              }
+             
+              if (start === undefined) {
+                start = String(start);
+                start = '';
+              }
+              if (end === undefined) {
+                end = String(end);
+                end = '';
+              }
+              if (date === undefined) {
+                date = String(date);
+                date = '';
+              }
+              if (price === undefined) {
+                price = String(price);
+                price = '';
+              }
+        var data = {
+            airline : airline,
+            seat : seat,
+            start : start,
+            end : end,
+            date : date,
+            price : price,
+        }
+        console.log(data);
+        return this.ticketService.selectticket(data);
     }
 
     @Get('ticket/:id')
