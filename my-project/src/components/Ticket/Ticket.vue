@@ -26,7 +26,7 @@
           <td>{{ post[2] }}</td>
           <td>{{ post[3] }}</td>
           <td>{{ post[4] }}</td>
-          <td>{{ Date(post[5]) }}</td>
+          <td>{{ Intl.DateTimeFormat('vi-VN',{  year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: false, timeZone: 'UTC'}).format(post[5]) }}</td>
           <td>{{ post[6] }}</td>
           <td>{{ post[7] }}</td>
           <td style="width: 18%;">

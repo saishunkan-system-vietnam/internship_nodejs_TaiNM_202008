@@ -38,7 +38,7 @@ export class OrdersController {
 
     @Get('findById')
     @Bind(Req())
-    async findAll(req){
+    async findById(req){
         // console.log(req.session.user.id);
         return this.ordersService.findById(req.session.user.id);
     }
