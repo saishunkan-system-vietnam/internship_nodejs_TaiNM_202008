@@ -36,6 +36,13 @@ export class OrdersController {
         }
     }
 
+    @Get('findById')
+    @Bind(Req())
+    async findAll(req){
+        // console.log(req.session.user.id);
+        return this.ordersService.findById(req.session.user.id);
+    }
+
     @Put(':id')
     @Bind(Req())
     async updateStatus(req){

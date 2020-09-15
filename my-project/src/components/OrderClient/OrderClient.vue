@@ -104,7 +104,7 @@
               <a
                 href=""
                 class="btn waves-effect waves-light yellow darken-2"
-                @click.prevent="orderClient(post[0],post[1],post[2],post[3],post[4],post[5],post[7])"
+                @click="orderClient(post[0],post[1],post[2],post[3],post[4],post[5],post[7])"
                 ><i class="fas fa-pen-square">Đặt vé</i>
               </a>
             </td>
@@ -178,7 +178,8 @@ export default {
         'start': start,
         'end': end,
         'date': date,
-        'price':price
+        'price':price,
+        'quantity': 1
       });
     }
   }

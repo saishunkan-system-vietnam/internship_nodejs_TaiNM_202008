@@ -27,6 +27,10 @@ export class OrdersService {
     let data = {};
     return this.clientOrders.send('get',data);
   }
+  
+  async findById(data){
+    return this.clientOrders.send('findOrderByUsers',data);
+  }
 
   async removeOrder(data){
     return this.clientOrders.send('removeOrder',data);

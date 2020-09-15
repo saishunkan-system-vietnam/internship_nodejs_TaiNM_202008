@@ -72,7 +72,7 @@ export class OrdersService {
         // session.startTransaction();
         try {
             await session.sql('USE mydb;').execute();
-            let result = await session.sql('SELECT orders.id, user_id, total, status, orders.reg_date, price, quantity, start, end, name FROM orders JOIN order_ticket ON orders.id = order_ticket.order_id JOIN tickets ON order_ticket.ticket_id = tickets.id JOIN users ON orders.user_id = users.id;').execute();
+            let result = await session.sql('SELECT * FROM orders JOIN users ON orders.user_id = users.id').execute();
             // session.commit();
             this.closeDB();
             return result.fetchAll(); 
@@ -85,15 +85,13 @@ export class OrdersService {
 
     async findOrderByUsers(user_id){
         await this.connectDB();
-        session.startTransaction();
         try {
             await session.sql('USE mydb;').execute();
-            await session.sql('SELECT * FROM orders JOIN order_ticket ON orders.id = order_ticket.order_id JOIN tickets ON order_ticket.ticket_id = tickets.id WHERE orders.user_id = ?;').bind(user_id).execute();
-            session.commit();
+            let result = await session.sql('SELECT * FROM orders WHERE user_id = ?;').bind(user_id).execute();
             this.closeDB();
+            return result.fetchAll();
         } catch (error) {
             console.log(error);
-            session.rollback();
             this.closeDB();
         }
     }
@@ -101,7 +99,7 @@ export class OrdersService {
     async findById(id){
         await this.getSchema();
         let result = await myTable.select()
-        .where('id = :param')
+        .where('user_id = :param')
         .bind('param',id)
         .execute();
         this.closeDB();
@@ -120,6 +118,27 @@ export class OrdersService {
           .where('id = :param')
           .bind('param',id)
           .execute();
+        this.closeDB();
+    }
+
+
+    async insertOrders(user_id,ticket_id,airline, seat, start, end, price, quantity, date){
+        await this.connectDB();
+        await this.getSchema();
+        await myTable.insert(['user_id','ticket_id','airline','seat','start','end','price','quantity','date'])
+        .values([user_id,ticket_id,airline,seat,start,end,price,quantity,date])
+        .execute();
+        this.closeDB();
+    }
+
+    async updateQuantity(ticket_id){
+        await this.connectDB();
+        await session.sql('USE mydb;').execute();
+        let number = await session.sql('SELECT number_seat FROM tickets WHERE id = ?').bind(ticket_id).execute();
+        let update = number.fetchAll();
+        // console.log(update[0][0]);
+        let quantity = update[0][0]-1;
+        await session.sql('UPDATE tickets SET number_seat = ? WHERE id = ?').bind(quantity,ticket_id).execute();
         this.closeDB();
     }
 

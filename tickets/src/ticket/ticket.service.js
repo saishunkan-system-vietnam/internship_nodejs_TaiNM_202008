@@ -18,16 +18,17 @@ export class TicketService {
     }
 
     async getSchema() {
+        await this.connectdatabase();
         mydb = await db.getSchema('mydb').getTable('tickets');
         return mydb;
     }
 
     async selectticket(airline, seat, start, end, date, price) {
-        console.log(airline);
+        // console.log(airline);
         await this.connectdatabase();
         let sql =
       'SELECT tickets.id,airline.alName as airline,seat.sName as seat,airport.name as start,a.name as end,tickets.date,tickets.number_seat,tickets.price,tickets.reg_date FROM tickets LEFT JOIN airport ON tickets.`start` = airport.id LEFT JOIN airport as a ON tickets.`end` = a.id LEFT JOIN airline ON tickets.airline_id = airline.alID LEFT JOIN category ON airline.alID = category.alID LEFT JOIN seat ON category.sID = seat.sID WHERE tickets.seat_id = seat.sID AND airline.alName like ? AND seat.sName like ? AND airport.name like ? AND a.name like ? AND tickets.date like ? AND tickets.price like ?';
-        await db.sql('use mydb').execute();
+        await db.sql('use mydb;').execute();
         var result = await db
         .sql(sql)
         .bind(
@@ -49,19 +50,8 @@ export class TicketService {
         let sql ='SELECT tickets.id,airline.alName,seat.sName,airport.name,a.name,tickets.date,tickets.number_seat,tickets.price,tickets.airline_id,tickets.seat_id,tickets.`start`,tickets.`end`,tickets.reg_date FROM tickets LEFT JOIN airport ON tickets.`start` = airport.id LEFT JOIN airport as a ON tickets.`end` = a.id LEFT JOIN airline ON tickets.airline_id = airline.alID LEFT JOIN category ON airline.alID = category.alID LEFT JOIN seat ON category.sID = seat.sID WHERE tickets.seat_id = seat.sID AND tickets.id = ?;';
         await db.sql('use mydb;').execute();
         var result = await db.sql(sql).bind(id).execute();
-        // if (result.fetchAll().length === 0) {
-        //     throw "RECORD NOT FOUND";
-        // }
         return result.fetchAll();
         
-        // await this.connectdatabase();
-        // let tickets = await this.getSchema();
-        // let select =   await tickets.select()
-        //             .where('id = :param')
-        //             .bind('param',id)
-        //             .execute()
-        // console.log(select);
-        // return select.fetchAll();
     }
 
     async insertticket(airline_id, seat_id, start, end, date, number_seat, price) {
@@ -178,7 +168,7 @@ export class TicketService {
                             .where('ticket_id = :param')
                             .bind('param',id)
                             .execute();
-        console.log(deleteOderTicket);
+        // console.log(deleteOderTicket);
     }
 
     async deleteticket(id) {
@@ -188,7 +178,7 @@ export class TicketService {
                             .where('id = :param')
                             .bind('param',id)
                             .execute();
-        console.log(deleteticket);
+        // console.log(deleteticket);
     }
 
     // airport
@@ -196,7 +186,7 @@ export class TicketService {
         await this.connectdatabase();
         let airport = await db.getSchema('mydb').getTable('airport');
         let selectairport =   await airport.select().execute()
-        console.log(selectairport);
+        // console.log(selectairport);
         // await this.close();
         return selectairport.fetchAll();
     }
@@ -230,7 +220,7 @@ export class TicketService {
     }
 
     async deleteairport(id) {
-        console.log(id);
+        // console.log(id);
         await this.connectdatabase();
         let airport = await db.getSchema('mydb').getTable('airport');
         let deleteairport = await airport.delete()

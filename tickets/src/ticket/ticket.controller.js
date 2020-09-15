@@ -10,7 +10,7 @@ export class TicketController {
     constructor(ticketService) {
         this.ticketService = ticketService;
       }
-
+    @Bind(Payload())
     @MessagePattern('selectticket')
     async selectticket(data) {
         // console.log(data);
@@ -36,7 +36,7 @@ export class TicketController {
     @Bind(Payload())
     @MessagePattern('findById')
     findticket(data) {
-        console.log(data);
+        // console.log(data);
         return this.ticketService.findticket(data);
 
         
@@ -145,9 +145,9 @@ export class TicketController {
         async updateairport(data) {
             var airport = data.airport;
             try {
-                console.log(data);
+                // console.log(data);
                 let name = airport.name;
-                console.log(name);
+                // console.log(name);
                 let updateairport = await this.ticketService.updateairport(data.id, name); 
                 return {
                     "mess": "success",

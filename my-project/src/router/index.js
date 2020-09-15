@@ -18,6 +18,7 @@ import Seat from '@/components/category/Seat'
 import AddTypeOfSeat from '@/components/category/AddTypeOfSeat'
 import Category from '@/components/category/Category'
 import OrderClient from '@/components/OrderClient/OrderClient'
+import Management from '@/components/OrderClient/Management'
 // import Header from '@/components/master/Header'
 
 Vue.use(Router)
@@ -37,6 +38,16 @@ export default new Router({
       name: 'OrderClient',
       components: {
         default: OrderClient
+      },
+      meta: {
+        client: true,
+      },
+    },
+    {
+      path: '/order/management',
+      name: 'Management',
+      components: {
+        default: Management
       },
       meta: {
         client: true,
