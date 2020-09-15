@@ -1,37 +1,70 @@
 <template>
   <div>
     <div>
-      <form>
+      <form @submit.prevent="submit">
         <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="alCode">Airline Code</label>
+          <div class="form-group col-md-6" :class="{ 'form-group--error': $v.inputAlCode.$error }">
+            <label class="form__input" for="alCode">Airline Code</label>
             <input
               type="text"
               class="form-control"
               id="alCode"
               placeholder="Airline Code"
-              v-model="input.alCode"
+              v-model.trim="$v.inputAlCode.$model"
             />
+            <div
+              style="color:red"
+              class="error"
+              v-if="!$v.inputAlCode.required"
+            >Airline Code is required</div>
+            <div
+              style="color:red"
+              class="error"
+              v-if="!$v.inputAlCode.minLength"
+            >Airline Code must have at least {{$v.inputAlCode.$params.minLength.min}} letters.</div>
+            <div
+              style="color:red"
+              class="error"
+              v-if="!$v.inputAlCode.maxLength"
+            >Airline Code should have at most {{$v.inputAlCode.$params.maxLength.max}} letters.</div>
           </div>
-           <div class="form-group col-md-6">
-            <label for="alName">Airline Name</label>
+
+          <div class="form-group col-md-6" :class="{ 'form-group--error': $v.inputAlName.$error }">
+            <label class="form__label" for="alName">Airline Name</label>
             <input
               type="text"
               class="form-control"
               id="alName"
               placeholder="Airline Name"
-              v-model="input.alName"
+              v-model.trim="$v.inputAlName.$model"
             />
+            <div
+              style="color:red"
+              class="error"
+              v-if="!$v.inputAlName.required"
+            >Airline Name is required</div>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary" @click="insertAirline(input)">Create Airline</button>
-        <br><br>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          @click="insertAirline({alCode: inputAlCode, alName: inputAlName})"
+          :disabled="submitStatus === 'PENDING'"
+        >Create Airline</button>
+        <p class="typo__p" v-if="submitStatus === 'OK'">NEW AIRLINE CREATED!</p>
+        <p style="color:red" class="typo__p" v-if="submitStatus === 'ERROR'">
+          <br />Please fill the form correctly.
+        </p>
+        <p class="typo__p" v-if="submitStatus === 'PENDING'">Creating...</p>
+        <br />
+        <br />
       </form>
     </div>
 
-<form class="form-inline">
-    <input type="text" class="form-control " placeholder="Search by Airline Name" v-model="search">
-  </form> <br>
+    <form class="form-inline">
+      <input type="text" class="form-control" placeholder="Search by Airline Name" v-model="search" />
+    </form>
+    <br />
 
     <table class="table">
       <thead>
@@ -70,25 +103,45 @@
       </tbody>
     </table>
 
-     <div class="card-footer pb-0 pt-3">
-            <jw-pagination :items="airlines" :pageSize="5" @changePage="onChangePage"></jw-pagination>
-        </div>
+    <div class="card-footer pb-0 pt-3">
+      <jw-pagination :items="airlines" :pageSize="5" @changePage="onChangePage"></jw-pagination>
+    </div>
   </div>
 </template>
 
 <script>
 import DataService from "../services/DataService";
+import {
+  required,
+  minLength,
+  min,
+  maxLength,
+  max,
+} from "vuelidate/lib/validators";
 
 export default {
   data() {
     return {
-      input: { alCode: "", alName: "" },
+      inputAlCode: "",
+      inputAlName: "",
       selected: [],
       airlines: [],
       pageOfItems: [],
       seats: [],
-      search: ''
+      search: "",
+      submitStatus: null,
     };
+  },
+
+  validations: {
+    inputAlCode: {
+      required,
+      minLength: minLength(3),
+      maxLength: maxLength(15),
+    },
+    inputAlName: {
+      required,
+    },
   },
 
   created() {
@@ -133,20 +186,39 @@ export default {
       DataService.insertAirline(data)
         .then((response) => console.log("success"))
         .catch((e) => console.log(e));
-      this.$router.push('/insertCategory')
+         this.$router.push("/insertCategory");
+      // if (this.submitStatus === "OK") {
+      //   this.$router.push("/insertCategory");
+      // }
     },
-onChangePage(pageOfItems) {
-            // update page of items
-            this.pageOfItems = pageOfItems;
-            // console.log(pageOfItems)
-        }
+    onChangePage(pageOfItems) {
+      // update page of items
+      this.pageOfItems = pageOfItems;
+      // console.log(pageOfItems)
+    },
+    submit() {
+      console.log("submit!");
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        this.submitStatus = "ERROR";
+      } else {
+        // do your submit logic here
+        this.submitStatus = "PENDING";
+        setTimeout(() => {
+          this.submitStatus = "OK";
+        }, 500);
+      }
+    },
   },
   computed: {
-    filteredItems () {
-      return this.pageOfItems.filter(pageOfItem => {
-         return pageOfItem.alName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-      })
-    }
-  }
+    filteredItems() {
+      return this.pageOfItems.filter((pageOfItem) => {
+        return (
+          pageOfItem.alName.toLowerCase().indexOf(this.search.toLowerCase()) >
+          -1
+        );
+      });
+    },
+  },
 };
 </script>
