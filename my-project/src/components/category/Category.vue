@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <form class="form-inline">
-    <input type="text" class="form-control " placeholder="Search by Airline Name" v-model="search">
-  </form> <br>
+      <input type="text" class="form-control" placeholder="Search by Airline Name" v-model="search" />
+    </form>
+    <br />
 
     <table class="table">
       <thead>
@@ -30,9 +31,9 @@
         </tr>
       </tbody>
     </table>
-      <div class="card-footer pb-0 pt-3">
-            <jw-pagination :items="categories" :pageSize="5" @changePage="onChangePage"></jw-pagination>
-        </div>
+    <div class="card-footer pb-0 pt-3">
+      <jw-pagination :items="categories" :pageSize="5" @changePage="onChangePage"></jw-pagination>
+    </div>
   </div>
 </template>
 
@@ -42,17 +43,17 @@ import DataService from "../../services/DataService";
 export default {
   data() {
     return {
-    //   input: { alCode: "", alName: "" },
+      //   input: { alCode: "", alName: "" },
       categories: [],
-       pageOfItems: [],
-      search: ''
+      pageOfItems: [],
+      search: "",
     };
   },
 
   created() {
     DataService.getCategory()
       .then((response) => {
-        this.categories = response.data.data
+        this.categories = response.data.data;
         // console.log(response.data.data)
       })
       .catch((e) => {
@@ -66,17 +67,20 @@ export default {
         .catch((e) => console.log(e));
     },
     onChangePage(pageOfItems) {
-            // update page of items
-            this.pageOfItems = pageOfItems;
-            // console.log(pageOfItems)
-        }
+      // update page of items
+      this.pageOfItems = pageOfItems;
+      // console.log(pageOfItems)
+    },
   },
   computed: {
-    filteredItems () {
-      return this.pageOfItems.filter(pageOfItem => {
-         return pageOfItem.alName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-      })
-    }
-  }
+    filteredItems() {
+      return this.pageOfItems.filter((pageOfItem) => {
+        return (
+          pageOfItem.alName.toLowerCase().indexOf(this.search.toLowerCase()) >
+          -1
+        );
+      });
+    },
+  },
 };
 </script>

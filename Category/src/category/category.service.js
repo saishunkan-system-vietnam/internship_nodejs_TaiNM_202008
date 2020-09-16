@@ -45,13 +45,13 @@ export class CategoryService {
     }
 
     async deleteAirline(alID) {
-            await this.deleteCategoryByAl(alID);
-            myTable = await this.getTable('airline');
-            myTable.delete()
+        await this.deleteCategoryByAl(alID);
+        myTable = await this.getTable('airline');
+        myTable.delete()
             .where('alID = :param')
             .bind('param', alID)
             .execute();
-       this.closeSession();
+        this.closeSession();
     }
 
     async findAllAirline() {
@@ -94,13 +94,13 @@ export class CategoryService {
     }
 
     async deleteSeat(sID) {
-            await this.deleteCategoryBySeat(sID);
-            myTable = await this.getTable('seat');
-            myTable.delete()
+        await this.deleteCategoryBySeat(sID);
+        myTable = await this.getTable('seat');
+        myTable.delete()
             .where('sID = :param')
             .bind('param', sID)
             .execute();
-       this.closeSession();
+        this.closeSession();
     }
 
     async findAllSeat() {
@@ -176,7 +176,7 @@ export class CategoryService {
         return result.fetchAll();
     }
 
-    async findSeatByAirline(alCode) {
+    async findSeatByAirline(alID) {
         await this.connectDB();
         await session.sql('USE mydb;').execute();
         var result = await session.sql(`select airline.alName, seat.sName from airline, seat, category where airline.alID=category.alID and seat.sID=category.sID and category.alCode like '${alID}%';`).execute();

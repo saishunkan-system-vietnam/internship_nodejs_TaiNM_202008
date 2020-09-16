@@ -95,4 +95,9 @@ export class CategoryController {
         return this.categoryService.deleteCategory(params)
     }
 
+    @Get('findSeatByAirline/:alID')
+    @Bind(Param())
+    async findSeatByAirline(params) {
+        return this.categoryService.findSeatByAirline(params.alID)
+    }
 }

@@ -10,33 +10,33 @@ export class CategoryService {
 
     onModuleInit() {
         console.log('onModuleInit');
-      }
-    
-      async onApplicationBootstrap() {
+    }
+
+    async onApplicationBootstrap() {
         console.log('onApplicationBootstrap');
         await this.categoryClient.connect();
-      }    
-
-
-    async insertAirline(data){
-       return this.categoryClient.send('insertAirline',data);
     }
 
-    async updateAirline(data){
-        return this.categoryClient.send('updateAirline',data);
+
+    async insertAirline(data) {
+        return this.categoryClient.send('insertAirline', data);
     }
 
-    async findAllAirline(){
+    async updateAirline(data) {
+        return this.categoryClient.send('updateAirline', data);
+    }
+
+    async findAllAirline() {
         let data = {};
-        return this.categoryClient.send('findAllAirline',data);
+        return this.categoryClient.send('findAllAirline', data);
     }
 
-    async findAirlineById(data){
-        return this.categoryClient.send('findAirlineById',data);
+    async findAirlineById(data) {
+        return this.categoryClient.send('findAirlineById', data);
     }
 
-    async deleteAirline(data){
-        return this.categoryClient.send('deleteAirline',data);
+    async deleteAirline(data) {
+        return this.categoryClient.send('deleteAirline', data);
     }
 
     async findAllSeat() {
@@ -71,5 +71,9 @@ export class CategoryService {
 
     async deleteCategory(data) {
         return this.categoryClient.send('deleteCategoryByAlnSeat', data)
+    }
+
+    async findSeatByAirline(data) {
+        return this.categoryClient.send('findSeatByAirline', data)
     }
 }
