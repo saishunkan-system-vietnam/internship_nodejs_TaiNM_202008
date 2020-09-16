@@ -57,46 +57,6 @@ export class TicketService {
     async insertticket(airline_id, seat_id, start, end, date, number_seat, price) {
         await this.connectdatabase();
         let tickets = await this.getSchema();
-        if (!airline_id) {
-            throw "airline_id NOT NULL";
-        }
-        if (!seat_id) {
-            throw "seat_id NOT NULL";
-        }
-        if (!start) {
-            throw "start NOT NULL";
-        }
-        if (!end) {
-            throw "end NOT NULL";
-        }
-        if (!date) {
-            throw "date NOT NULL";
-        }
-        if (!number_seat) {
-            throw "number_seat NOT NULL";
-        }
-        if (!price) {
-            throw "PRICE NOT NULL";
-        }
-        if (isNaN(airline_id)) {
-            throw "id_airline NOT NUMBER";
-        }
-        if (isNaN(seat_id)) {
-            throw "id_seat NOT NUMBER";
-        }
-        if (isNaN(start)) {
-            throw "id_seat NOT NUMBER";
-        }
-        if (isNaN(end)) {
-            throw "id_seat NOT NUMBER";
-        }
-        if (isNaN(number_seat)) {
-            throw "number_seat NOT NUMBER";
-        }
-        if (isNaN(price)) {
-            throw "PRICE NOT NUMBER";
-        }
-      
         let insert = await tickets
                     .insert('airline_id', 'seat_id', 'start', 'end', 'date', 'number_seat', 'price')
                     .values(airline_id, seat_id, start, end, date, number_seat, price)
@@ -106,46 +66,6 @@ export class TicketService {
     async updateticket(id,airline_id, seat_id, start, end, date, number_seat, price) {
         await this.connectdatabase();
         let tickets = await this.getSchema();
-        if (!airline_id) {
-            throw "airline_id NOT NULL";
-        }
-        if (!seat_id) {
-            throw "seat_id NOT NULL";
-        }
-        if (!start) {
-            throw "start NOT NULL";
-        }
-        if (!end) {
-            throw "end NOT NULL";
-        }
-        if (!date) {
-            throw "date NOT NULL";
-        }
-        if (!number_seat) {
-            throw "number_seat NOT NULL";
-        }
-        if (!price) {
-            throw "PRICE NOT NULL";
-        }
-        if (isNaN(airline_id)) {
-            throw "id_airline NOT NUMBER";
-        }
-        if (isNaN(seat_id)) {
-            throw "id_seat NOT NUMBER";
-        }
-        if (isNaN(start)) {
-            throw "id_seat NOT NUMBER";
-        }
-        if (isNaN(end)) {
-            throw "id_seat NOT NUMBER";
-        }
-        if (isNaN(number_seat)) {
-            throw "number_seat NOT NUMBER";
-        }
-        if (isNaN(price)) {
-            throw "PRICE NOT NUMBER";
-        }
-
         let updateticket = await tickets
                             .update()
                             .where('id = :param')
@@ -162,7 +82,7 @@ export class TicketService {
 
     async deleteOderTicket(id) {
         let db = await this.connectdatabase();
-        let order_ticket = await db.getSchema('mydb').getTable('order_ticket');
+        let order_ticket = await db.getSchema('mydb').getTable('orders');
         // let order_ticket = await this.getSchema();
         let deleteOderTicket = await order_ticket.delete()
                             .where('ticket_id = :param')
@@ -194,9 +114,6 @@ export class TicketService {
     async insertairport(name) {
         await this.connectdatabase();
         let airport = await db.getSchema('mydb').getTable('airport');
-        if (!name || name.trim() === "") {
-            throw "name NOT NULL";
-        }
         let insert = await airport
                     .insert('name')
                     .values(name)
@@ -207,9 +124,6 @@ export class TicketService {
     async updateairport(id,name) {
         await this.connectdatabase();
         let airport = await db.getSchema('mydb').getTable('airport');
-        if (!name || name.trim() === "") {
-            throw "name NOT NULL";
-        }
         let updateairport = await airport
                             .update()
                             .where('id = :param')

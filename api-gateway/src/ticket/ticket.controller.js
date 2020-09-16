@@ -1,6 +1,27 @@
-import { Controller,Dependencies, Post, Req, Query, Bind, Put, Param, Get, Delete } from '@nestjs/common';
+import { Controller,Dependencies, Post, Req, Res, Query, Bind, Put, Param, Get, Delete } from '@nestjs/common';
 import { TicketService } from './ticket.service';
+import Joi from '@hapi/joi';
 
+function ValidationError(message) {
+    let Schema = Joi.object().keys({
+      'airline_id': Joi.number().required(),
+      'start': Joi.number().required(),
+      'end': Joi.number().required(),
+      'date': Joi.date().required(),
+      'number_seat': Joi.number().required(),
+      'price': Joi.number().required(),
+      'seat_id': Joi.number().required(),
+      // 'seat_id': Joi.string().required(),
+    })
+    return Schema.validate(message);
+  };
+function ValidationEirport(message) {
+    let Schema = Joi.object().keys({
+      'name': Joi.string().required(),
+    })
+    return Schema.validate(message);
+}
+  
 
 @Controller()
 @Dependencies(TicketService)
@@ -65,12 +86,28 @@ export class TicketController {
     @Post('ticket')
     @Bind(Req())
     async insertticket(req){
+        let {error} = ValidationError(req.body);
+        if(error){
+            return {
+                status: 'erro',
+                code: '404',
+                data: error.details[0].message,
+            };
+        }
         return this.ticketService.insertticket(req.body);
     }
 
     @Put('ticket/:id')
     @Bind(Req(), Param())
     async updateticket(req, params){
+        let {error} = ValidationError(req.body);
+        if(error){
+            return {
+                status: 'erro',
+                code: '404',
+                data: error.details[0].message,
+            };
+        }
         var data = {
             "id": params.id,
             "ticket": req.body
@@ -92,12 +129,28 @@ export class TicketController {
     @Post('airport')
     @Bind(Req())
     async insertairport(req){
+        let {error} = ValidationEirport(req.body);
+            if(error){
+            return ({
+                status: 'erro',
+                code: '404',
+                data: error.details[0].message,
+            });
+        }
         return this.ticketService.insertairport(req.body);
     }
 
     @Put('airport/:id')
     @Bind(Req(), Param())
     async updateairport(req, params){
+        let {error} = ValidationEirport(req.body);
+        if(error){
+            return ({
+                status: 'erro',
+                code: '404',
+                data: error.details[0].message,
+            });
+        }
         var data = {
             "id": params.id,
             "airport": req.body
