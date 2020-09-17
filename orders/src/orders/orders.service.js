@@ -27,21 +27,21 @@ export class OrdersService {
         return myTable; 
     }
 
-    async insert(userId){
+    async insert(userId,total){
         await this.connectDB();
         await session.sql('USE mydb;').execute();
-        await session.sql('INSERT INTO orders(user_id,total,status) VALUES(?,?,1)').bind(userId,total).execute();
+        await session.sql('INSERT INTO orders(user_id,total) VALUES(?,?)').bind(userId,total).execute();
         let order_id = await session.sql('SELECT last_insert_id()').execute();
         this.closeDB();
         return order_id;
     }
 
-    async insertOrder(order_id, ticket_id, quantity){
+    async insertOrder(order_id, ticket_id, quantity, airline, seat, start, end, date, price){
         await this.connectDB();
         await session.sql('USE mydb;').execute();
         try {
             await session.sql('START TRANSACTION;').execute();
-            await session.sql('insert into order_ticket(order_id, ticket_id, quantity) values(?,?,?)').bind(order_id,ticket_id,quantity).execute();
+            await session.sql('insert into order_ticket(order_id, ticket_id, quantity, airline, seat, start, end, date, price) values(?,?,?,?,?,?,?,?,?)').bind(order_id,ticket_id,quantity, airline, seat, start, end, date, price).execute();
             await session.sql('COMMIT;').execute();
         } catch (error) {
             await session.sql('ROLLBACK;').execute();
@@ -87,7 +87,7 @@ export class OrdersService {
         await this.connectDB();
         try {
             await session.sql('USE mydb;').execute();
-            let result = await session.sql('SELECT * FROM orders WHERE user_id = ?;').bind(user_id).execute();
+            let result = await session.sql('SELECT id, total, status, quantity, airline, seat, start, end, date, price FROM orders JOIN order_ticket ON orders.id = order_ticket.order_id where orders.user_id = ?;').bind(user_id).execute();
             this.closeDB();
             return result.fetchAll();
         } catch (error) {

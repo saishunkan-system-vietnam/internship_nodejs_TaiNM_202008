@@ -39,4 +39,5 @@ export class OrdersService {
   async updateStatus(data){
     return this.clientOrders.send('updateStatus',data);
   }
+
 }

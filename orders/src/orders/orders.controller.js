@@ -55,15 +55,24 @@ export class OrdersController {
     @Bind(Payload())
     @MessagePattern('insertOrder')
     async insertOrder(data) {
-        // console.log(data.user_id)
+        console.log(data)
         try {
-            let ticket = data.data;
-            await this.ordersService.insertOrders(data.user_id, ticket.id_ticket, ticket.hang, ticket.loaiGhe, ticket.start, ticket.end, ticket.price, ticket.quantity, ticket.date);
-            await this.ordersService.updateQuantity(ticket.id_ticket);
-            return {
-                "mess": "success",
-                "data": data
+            // let ticket = data.data;
+            // await this.ordersService.insertOrders(data.user_id, ticket.id_ticket, ticket.hang, ticket.loaiGhe, ticket.start, ticket.end, ticket.price, ticket.quantity, ticket.date);
+            // await this.ordersService.updateQuantity(ticket.id_ticket);
+            // return {
+            //     "mess": "success",
+            //     "data": data
+            // }
+            let tickets = data.data;
+            let user_id = data.user_id;
+            let total = data.total;
+            let result = await this.ordersService.insert(user_id,total);
+            let order_id = result.fetchOne();
+            for (let index = 0; index < tickets.length; index++) {
+                await this.ordersService.insertOrder(order_id[0],tickets[index].id, tickets[index].quantity,tickets[index].name, tickets[index].seat, tickets[index].start, tickets[index].end, tickets[index].date, tickets[index].price);
             }
+            await this.ordersService.closeDB();
         } catch (error) {
             return {
                 "mess": "error"
@@ -107,9 +116,11 @@ export class OrdersController {
     @MessagePattern('findOrderByUsers')
     async findOrderByUsers(data) {
         console.log(data);
+        let id = data;
         try {
-            let arr = await this.ordersService.findById(data);
-            var keys = ['id', 'user_id', 'ticket_id', 'airline', 'seat','start', 'end', 'price', 'date', 'quantity', 'status', 'reg_date'
+            let arr = await this.ordersService.findOrderByUsers(id);
+            console.log(arr);
+            var keys = ['id', 'total', 'status', 'quantity', 'airline','seat', 'start', 'end', 'date', 'price'
             ];
 
             //vacate keys from main array
