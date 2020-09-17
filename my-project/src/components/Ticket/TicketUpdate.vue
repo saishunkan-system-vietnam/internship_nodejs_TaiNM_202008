@@ -14,7 +14,7 @@
             </option>
             <option disabled="disabled">{{ posts[1] }}</option>
           </select>
-          <span>Selected: {{ posts[8] }}</span>
+          <!-- <span>Selected: {{ posts[8] }}</span> -->
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Loại Ghế</label>
@@ -31,7 +31,7 @@
             </option>
             <option disabled="disabled">{{ posts[2] }}</option>
           </select>
-          <span>Selected: {{ posts[9] }}</span>
+          <!-- <span>Selected: {{ posts[9] }}</span> -->
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Điểm đi</label>
@@ -48,7 +48,7 @@
             </option>
             <option disabled="disabled">{{ posts[3] }}</option>
           </select>
-          <span>Selected: {{ posts[10] }}</span>
+          <!-- <span>Selected: {{ posts[10] }}</span> -->
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Điểm đến</label>
@@ -65,7 +65,7 @@
             </option>
             <option disabled="disabled">{{ posts[4] }}</option>
           </select>
-          <span>Selected: {{ posts[11] }}</span>
+          <!-- <span>Selected: {{ posts[11] }}</span> -->
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">NGày giờ</label>

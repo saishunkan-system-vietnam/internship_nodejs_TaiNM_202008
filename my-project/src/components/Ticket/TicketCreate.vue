@@ -32,6 +32,7 @@
               >{{ seat.sName }}
             </option>
           </select>
+          <!-- <span>Selected: {{ ticket.seat }}</span> -->
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect1">Điểm đi</label>
