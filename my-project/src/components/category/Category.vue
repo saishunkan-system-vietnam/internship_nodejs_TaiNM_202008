@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="category in filteredItems" :key="category.test">
+        <tr v-for="category in pageOfItems" :key="category.test">
           <th scope="row">{{category.alCode}}</th>
           <td>{{category.alName}}</td>
           <td>{{category.sName}}</td>
@@ -32,7 +32,7 @@
       </tbody>
     </table>
     <div class="card-footer pb-0 pt-3">
-      <jw-pagination :items="categories" :pageSize="5" @changePage="onChangePage"></jw-pagination>
+      <jw-pagination :items="filteredItems" :pageSize="5" @changePage="onChangePage"></jw-pagination>
     </div>
   </div>
 </template>
@@ -66,17 +66,17 @@ export default {
         .then((response) => console.log("success"))
         .catch((e) => console.log(e));
     },
-    onChangePage(pageOfItems) {
+    onChangePage(filteredItems) {
       // update page of items
-      this.pageOfItems = pageOfItems;
+      this.pageOfItems = filteredItems;
       // console.log(pageOfItems)
     },
   },
   computed: {
     filteredItems() {
-      return this.pageOfItems.filter((pageOfItem) => {
+      return this.categories.filter((category) => {
         return (
-          pageOfItem.alName.toLowerCase().indexOf(this.search.toLowerCase()) >
+          category.alName.toLowerCase().indexOf(this.search.toLowerCase()) >
           -1
         );
       });

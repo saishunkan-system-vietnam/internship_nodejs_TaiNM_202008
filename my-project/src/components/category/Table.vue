@@ -44,7 +44,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="airline in filteredItems" :key="airline.alID">
+        <tr v-for="airline in pageOfItems" :key="airline.alID">
           <th scope="row">{{airline.alID}}</th>
           <td>{{airline.alCode}}</td>
           <td>{{airline.alName}}</td>
@@ -71,7 +71,7 @@
     </table>
 
      <div class="card-footer pb-0 pt-3">
-            <jw-pagination :items="airlines" :pageSize="5" @changePage="onChangePage"></jw-pagination>
+            <jw-pagination :items="filteredItems" :pageSize="5" @changePage="onChangePage"></jw-pagination>
         </div>
   </div>
 </template>
@@ -135,16 +135,16 @@ export default {
         .catch((e) => console.log(e));
       this.$router.push('/admin/insertCategory')
     },
-onChangePage(pageOfItems) {
+onChangePage(filteredItems) {
             // update page of items
-            this.pageOfItems = pageOfItems;
+            this.pageOfItems = filteredItems;
             // console.log(pageOfItems)
         }
   },
   computed: {
     filteredItems () {
-      return this.pageOfItems.filter(pageOfItem => {
-         return pageOfItem.alName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+      return this.airlines.filter(airline => {
+         return airline.alName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
       })
     }
   }
