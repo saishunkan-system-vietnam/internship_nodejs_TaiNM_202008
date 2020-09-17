@@ -277,7 +277,7 @@
           try {
               let arr = await this.categoryService.findSeatByAirline(data);
               //   return arr;
-              var keys = ['alName', 'sName ', 'sID'];
+              var keys = ['alName', 'sName', 'sID'];
               var newArr = arr.slice(0, arr.length);
 
               var formatted = [],
