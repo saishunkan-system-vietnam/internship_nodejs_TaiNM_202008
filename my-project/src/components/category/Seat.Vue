@@ -29,8 +29,8 @@
     <tr v-for="seat in pageOfItems" :key="seat.sID">
       <th scope="row">{{seat.sID}}</th>
       <td>{{seat.sName}}</td>
-        <td><a href="" class="btn waves-effect waves-light red darken-2" @click="updateSeat(seat.sID)"><font-awesome-icon icon="user-secret" /></a></td>
-         <td><a href="" class="btn waves-effect waves-light red darken-2" @click="deleteSeat(seat.sID)"><font-awesome-icon icon="user-secret" /></a></td>
+        <td><a href="" class="btn waves-effect waves-light red darken-2" @click="updateSeat(seat.sID)"><i style="color:green" class="fas fa-pen"></i></a></td>
+         <td><a href="" class="btn waves-effect waves-light red darken-2" @click="deleteSeat(seat.sID)"><i style="color: red" class="fas fa-trash-alt"></i></a></td>
     </tr>
   </tbody>
 </table>

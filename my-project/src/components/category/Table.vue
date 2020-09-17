@@ -13,7 +13,7 @@
               v-model="input.alCode"
             />
           </div>
-           <div class="form-group col-md-6">
+          <div class="form-group col-md-6">
             <label for="alName">Airline Name</label>
             <input
               type="text"
@@ -25,19 +25,25 @@
           </div>
         </div>
         <button type="submit" class="btn btn-primary" @click="insertAirline(input)">Create Airline</button>
-        <br><br>
+        <br />
+        <br />
       </form>
     </div>
 
-<form class="form-inline">
-    <input type="text" class="form-control " placeholder="Search by Airline Name" v-model="search">
-  </form> <br>
+    <form class="form-inline">
+      <input type="text" class="form-control" placeholder="Search by Airline Name" v-model="search" />
+    </form>
+    <br />
 
     <table class="table">
       <thead>
         <tr>
           <th scope="col">ID</th>
-          <th scope="col">Airline Code</th>
+          <th scope="col">
+            Airline Code
+            <i @click="sortInc" class="fas fa-long-arrow-alt-up"></i>
+            <i @click="sortDec" class="fas fa-long-arrow-alt-down"></i>
+          </th>
           <th scope="col">Airline Name</th>
           <th scope="col">Edit</th>
           <th scope="col">Delete</th>
@@ -54,7 +60,7 @@
               class="btn waves-effect waves-light red darken-2"
               @click="updateAirline(airline.alID)"
             >
-              <font-awesome-icon icon="user-secret" />
+              <i style="color:green" class="fas fa-pen"></i>
             </a>
           </td>
           <td>
@@ -63,16 +69,16 @@
               class="btn waves-effect waves-light red darken-2"
               @click="deleteAirline(airline.alID)"
             >
-              <font-awesome-icon icon="user-secret" />
+              <i style="color: red" class="fas fa-trash-alt"></i>
             </a>
           </td>
         </tr>
       </tbody>
     </table>
 
-     <div class="card-footer pb-0 pt-3">
-            <jw-pagination :items="filteredItems" :pageSize="5" @changePage="onChangePage"></jw-pagination>
-        </div>
+    <div class="card-footer pb-0 pt-3">
+      <jw-pagination :items="filteredItems" :pageSize="5" @changePage="onChangePage"></jw-pagination>
+    </div>
   </div>
 </template>
 
@@ -87,7 +93,7 @@ export default {
       airlines: [],
       pageOfItems: [],
       seats: [],
-      search: ''
+      search: "",
     };
   },
 
@@ -133,21 +139,37 @@ export default {
       DataService.insertAirline(data)
         .then((response) => console.log("success"))
         .catch((e) => console.log(e));
-      this.$router.push('/admin/insertCategory')
-      this.$router.go()
+      this.$router.push("/admin/insertCategory");
+      this.$router.go();
     },
-onChangePage(filteredItems) {
-            // update page of items
-            this.pageOfItems = filteredItems;
-            // console.log(pageOfItems)
-        }
+    onChangePage(filteredItems) {
+      // update page of items
+      this.pageOfItems = filteredItems;
+      // console.log(pageOfItems)
+    },
+    sortDec() {
+      return this.airlines.sort((a, b) =>
+        a.alCode.toLowerCase() > b.alCode.toLowerCase() ? 1 : -1
+      );
+      //       return this.airlines.sort(function(a, b) {
+      //    return a.alCode.toLowerCase().localeCompare(b.alCode.toLowerCase());
+      // });
+    },
+
+    sortInc() {
+      return this.airlines.sort((a, b) =>
+        a.alCode.toLowerCase() < b.alCode.toLowerCase() ? 1 : -1
+      );
+    },
   },
   computed: {
-    filteredItems () {
-      return this.airlines.filter(airline => {
-         return airline.alName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-      })
-    }
-  }
+    filteredItems() {
+      return this.airlines.filter((airline) => {
+        return (
+          airline.alName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        );
+      });
+    },
+  },
 };
 </script>

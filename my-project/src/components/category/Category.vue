@@ -5,10 +5,10 @@
     </form>
     <br />
 
-    <table class="table">
+    <table class="table" id="myTable">
       <thead>
         <tr>
-          <th scope="col">Airline Code</th>
+          <th style="cursor: pointer" scope="col" @click="sortTable(0)">Airline Code</th>
           <th scope="col">Airline Name</th>
           <th scope="col">Type of Seat</th>
           <th scope="col">Delete</th>
@@ -25,7 +25,7 @@
               class="btn waves-effect waves-light red darken-2"
               @click="deleteCategory(category.alID, category.sID)"
             >
-              <font-awesome-icon icon="user-secret" />
+              <i style="color: red" class="fas fa-trash-alt"></i>
             </a>
           </td>
         </tr>
@@ -71,13 +71,74 @@ export default {
       this.pageOfItems = filteredItems;
       // console.log(pageOfItems)
     },
+    sortTable(n) {
+      var table,
+        rows,
+        switching,
+        i,
+        x,
+        y,
+        shouldSwitch,
+        dir,
+        switchcount = 0;
+      table = document.getElementById("myTable");
+      switching = true;
+      //Set the sorting direction to ascending:
+      dir = "asc";
+      /*Make a loop that will continue until
+  no switching has been done:*/
+      while (switching) {
+        //start by saying: no switching is done:
+        switching = false;
+        rows = table.rows;
+        /*Loop through all table rows (except the
+    first, which contains table headers):*/
+        for (i = 1; i < rows.length - 1; i++) {
+          //start by saying there should be no switching:
+          shouldSwitch = false;
+          /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+          x = rows[i].getElementsByTagName("TD")[n];
+          y = rows[i + 1].getElementsByTagName("TD")[n];
+          /*check if the two rows should switch place,
+      based on the direction, asc or desc:*/
+          if (dir == "asc") {
+            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+              //if so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          } else if (dir == "desc") {
+            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+              //if so, mark as a switch and break the loop:
+              shouldSwitch = true;
+              break;
+            }
+          }
+        }
+        if (shouldSwitch) {
+          /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+          //Each time a switch is done, increase this count by 1:
+          switchcount++;
+        } else {
+          /*If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again.*/
+          if (switchcount == 0 && dir == "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
+    },
   },
   computed: {
     filteredItems() {
       return this.categories.filter((category) => {
         return (
-          category.alName.toLowerCase().indexOf(this.search.toLowerCase()) >
-          -1
+          category.alName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
         );
       });
     },
