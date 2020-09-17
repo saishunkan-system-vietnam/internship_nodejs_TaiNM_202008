@@ -11,9 +11,11 @@ export class OrdersController {
     @Post()
     @Bind(Req())
     async insertOrder(req){
+        // console.log(req.body);
         let data = {
             'user_id': req.session.user.id,
-            'data': req.body
+            'data': req.body.items,
+            'total':  req.body.subtotal
         };
         return this.ordersService.insertOrder(data);
     }

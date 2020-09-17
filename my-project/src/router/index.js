@@ -19,6 +19,7 @@ import AddTypeOfSeat from '@/components/category/AddTypeOfSeat'
 import Category from '@/components/category/Category'
 import OrderClient from '@/components/OrderClient/OrderClient'
 import Management from '@/components/OrderClient/Management'
+import Cart from '@/components/OrderClient/Cart'
 // import Header from '@/components/master/Header'
 
 Vue.use(Router)
@@ -184,6 +185,14 @@ export default new Router({
       component: Category,
       meta: {
         plainLayout: true,
+      },
+    },
+    {
+      path: '/cart',
+      name: 'Cart',
+      component: Cart,
+      meta: {
+        client: true,
       },
     },
     {

@@ -13,13 +13,13 @@
             <th>Giá/vé</th>
             <th>Số lượng</th>
             <th>Ngày đặt</th>
+            <th>Thành Tiền</th>
             <th>Trạng thái</th>
             <th>Hủy Đơn</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody style="text-align: center">
           <tr class="table-light abc" v-for="order in orders" :key="order.id">
-            <!-- <td>{{index}}</td> -->
             <td>{{ order.id }}</td>
             <td>{{ order.airline }}</td>
             <td>{{ order.seat }}</td>
@@ -28,6 +28,7 @@
             <td>{{ Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.price) }}</td>
             <td>{{ order.quantity }}</td>
             <td>{{ Intl.DateTimeFormat('vi-VN').format(order.reg_date) }}</td>
+            <td>{{ Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.price*order.quantity) }}</td>
             <td v-if="order.status === 1">Chờ xử lý</td>
             <td v-if="order.status === 2">Đã xử lý</td>
             <td v-if="order.status === 3">Đã thanh toán</td>
@@ -40,6 +41,7 @@
           </tr>
         </tbody>
       </table>
+      <div style="text-align: right; font-weight: bold;">Tổng tiền: <span style="color: red;">{{ Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total) }}</span></div>
     </div>
   </div>
 </template>
@@ -49,21 +51,22 @@
   export default {
     data() {
       return {
-        orders: []
+        orders: [],
+        total: 0
       }
     },
     mounted () {
         callAPI.get('/orders/findById').then(response=>{
-            // console.log(response.data.data);
+            console.log(response.data.data);
             this.orders = response.data.data;
+            for (let index = 0; index < this.orders.length; index++) {
+              this.total += this.orders[index].total;
+            }
         });
     },
     methods: {
       deleteOrder: function(id) {
-          callAPI.put('orders/'+id,{
-              "id": id,
-              "status": 4
-          });
+          callAPI.delete('orders/'+id);
       }
     },
   }

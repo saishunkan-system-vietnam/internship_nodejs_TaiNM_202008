@@ -101,7 +101,7 @@
                         <i style="color:red" class="fas fa-trash"></i>
                       </a>
                     </td>
-                    <td>{{item.price}}</td>
+                    <td>{{ Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price) }}</td>
                     <!-- <td>
                       <a href class="btn waves-effect waves-light red darken-2">
                         <i class="fas fa-minus"></i>
@@ -117,10 +117,10 @@
               </table>
               <p>
                 <strong>Total:</strong>
-                {{carts.subtotal}}
+                {{Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(carts.subtotal)}}
               </p>
             </div>
-            <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Close</b-button>
+            <b-button class="mt-3" variant="outline-success" block @click="orderAll">Order</b-button>
           </b-modal>
         </div>
       </form>
@@ -258,12 +258,13 @@ export default {
         end: end,
         date: date,
         seat: loaiGhe,
+        keep_item_price: true
       });
       ecomCart.save();
       ecomCart.on("save", ({ data }) => {
         // console.log(data);
         this.carts = data;
-        console.log(this.carts);
+        // console.log(this.carts);
       });
     },
 
@@ -279,6 +280,13 @@ export default {
     hideModal() {
       this.$refs["my-modal"].hide();
     },
+
+    orderAll(){
+       callAPI.post("orders", this.carts).then(res=>{
+        ecomCart.clear();
+        this.$router.push('/order/management');
+       });
+    }
   },
 };
 </script>
