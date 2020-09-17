@@ -179,11 +179,7 @@ export class CategoryService {
     async findSeatByAirline(alID) {
         await this.connectDB();
         await session.sql('USE mydb;').execute();
-        var result = await session.sql(`select airline.alName, seat.sName 
-        from airline
-        LEFT join category on airline.alID = category.alID
-        LEFT join seat on category.sID = seat.sID
-        where airline.alID = ${alID};`).execute();
+        var result = await session.sql(`select airline.alName, seat.sName, seat.sID from airline LEFT join category on airline.alID = category.alID LEFT join seat on category.sID = seat.sID where airline.alID = '${alID}';`).execute();
         this.closeSession();
         return result.fetchAll();
     }

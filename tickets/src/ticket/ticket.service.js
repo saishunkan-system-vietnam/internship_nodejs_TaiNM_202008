@@ -82,7 +82,7 @@ export class TicketService {
 
     async deleteOderTicket(id) {
         let db = await this.connectdatabase();
-        let order_ticket = await db.getSchema('mydb').getTable('orders');
+        let order_ticket = await db.getSchema('mydb').getTable('order_ticket');
         // let order_ticket = await this.getSchema();
         let deleteOderTicket = await order_ticket.delete()
                             .where('ticket_id = :param')

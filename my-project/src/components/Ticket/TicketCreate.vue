@@ -3,7 +3,7 @@
     <h1>Create Ticket</h1>
     <div>
       <form v-on:submit="saveForm()">
-        <div class="form-group">
+        <div class="form-group" @click="findAllSeat">
           <label for="exampleFormControlSelect1">Hãng Bay</label>
           <select
             class="form-control"
@@ -108,7 +108,6 @@ import callAPI from '../../conf/axios';
 export default {
   data() {
     return {
-      // selected: null,
       airports: [],
       airlines: [],
       seats: [],
@@ -125,38 +124,30 @@ export default {
     };
   },
   mounted() {
-    // axios
-    //   .get(urlAirport)
-    //   .then(response => {
-    //     console.log(response.data.data);
-    //     this.airports = response.data.data;
-    //   })
-    //   .catch(e => {
-    //     this.errors.push(e);
-    //   });
+
      axios
       .all([
-        // axios.get(`http://localhost:3000/ticket/` + id),
         callAPI.get(`airport`),
         callAPI.get(`category/findAllAirline`),
-        callAPI.get(`category/findAllSeat`)
+        // callAPI.get(`category/findAllSeat`)
       ])
       .then(
-        axios.spread((responseOne, responseTwo, responseThree) => {
-          console.log("responseOne");
-          console.log(responseOne.data.data);
-          console.log("responseOne");
-          console.log(responseTwo.data.data);
-          console.log(responseThree.data.data[0]);
-          // console.log(responseFor.data.data);
+        axios.spread((responseOne, responseTwo) => {
           this.airports = responseOne.data.data;
           this.airlines = responseTwo.data.data;
-          this.seats = responseThree.data.data;
-          // this.seats = responseFor.data.data;
+          // this.seats = responseThree.data.data;
         })
       )
   },
   methods: {
+    findAllSeat() {
+      let airline_id = this.ticket.airline;
+      console.log(airline_id);
+      callAPI.get(`category/findSeatByAirline/`+ airline_id).then(Response => {
+        console.log(Response.data.data);
+        this.seats = Response.data.data;
+      });
+    },
     saveForm() {
       event.preventDefault();
       const data = {
