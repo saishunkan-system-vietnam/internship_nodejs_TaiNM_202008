@@ -30,22 +30,17 @@ export default {
   },
 
   created() {
+    // location.reload();
     DataService.getAirline()
       .then((response) => {
         this.airlines = response.data.data;
-        // console.log(response.data.data);
-      })
-      .catch((e) => {
-        console.log(e);
+        console.log(response.data.data); 
       });
     DataService.getSeat()
       .then((response) => {
         this.seats = response.data.data;
         // console.log(seats[0].sName);
         console.log(response.data.data[0].sName);
-      })
-      .catch((e) => {
-        console.log(e);
       });
   },
   methods: {

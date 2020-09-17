@@ -134,6 +134,7 @@ export default {
         .then((response) => console.log("success"))
         .catch((e) => console.log(e));
       this.$router.push('/admin/insertCategory')
+      this.$router.go()
     },
 onChangePage(filteredItems) {
             // update page of items
