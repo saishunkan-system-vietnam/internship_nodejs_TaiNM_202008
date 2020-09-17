@@ -72,7 +72,7 @@ export class OrdersService {
         // session.startTransaction();
         try {
             await session.sql('USE mydb;').execute();
-            let result = await session.sql('SELECT * FROM orders JOIN users ON orders.user_id = users.id').execute();
+            let result = await session.sql('SELECT orders.id, total, status, quantity, airline, seat, start, end, date, price, email FROM orders JOIN order_ticket ON orders.id = order_ticket.order_id JOIN users ON orders.user_id = users.id;').execute();
             // session.commit();
             this.closeDB();
             return result.fetchAll(); 

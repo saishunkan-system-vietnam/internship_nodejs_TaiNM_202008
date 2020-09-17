@@ -23,8 +23,7 @@ export class OrdersController {
     async finAll(data) {
         try {
             let arr = await this.ordersService.findAll();
-            var keys = ['id', 'user_id', 'ticket_id', 'airline', 'seat',
-                'start', 'end', 'price', 'date', 'quantity', 'status', 'reg_date', 'id_user', 'email'
+            var keys = ['id', 'total', 'status', 'quantity', 'airline','seat', 'start', 'end', 'date', 'price', 'email'
             ];
 
             //vacate keys from main array

@@ -64,7 +64,7 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="exampleInputEmail1">NGày giờ</label>
+          <label for="exampleInputEmail1">Ngày giờ</label>
           <input
             type="datetime-local"
             class="form-control"
