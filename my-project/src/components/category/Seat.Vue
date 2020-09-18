@@ -53,7 +53,7 @@ export default {
     };
   },
 
-  created() {
+  beforeCreate() {
     DataService.getSeat()
      .then((response) => {
           this.seats = response.data.data;

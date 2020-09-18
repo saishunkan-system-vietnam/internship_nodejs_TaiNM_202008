@@ -50,7 +50,7 @@ export default {
     };
   },
 
-  created() {
+  beforeCreate() {
     DataService.getCategory()
       .then((response) => {
         this.categories = response.data.data;

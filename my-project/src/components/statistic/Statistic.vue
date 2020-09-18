@@ -45,7 +45,7 @@ import VueCookies from 'vue-cookies';
               statistic: []
           }
       },
-      created () {
+      beforeCreate () {
         if ($cookies.isKey('login')) {
         callAPI.get('statistic').then(response => {
               // console.log(response);

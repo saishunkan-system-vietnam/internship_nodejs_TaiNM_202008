@@ -38,7 +38,7 @@ export default {
     }
   },
 
-  created() {
+  beforeCreate() {
       DataService.getAirlineByID(this.$route.params.id)
         .then((response) => {
           this.airline = response.data.data[0];

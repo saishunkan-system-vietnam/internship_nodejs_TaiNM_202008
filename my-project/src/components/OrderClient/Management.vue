@@ -19,7 +19,7 @@
           </tr>
         </thead>
         <tbody style="text-align: center">
-          <tr class="table-light abc" v-for="order in orders" :key="order.id">
+          <tr class="table-light abc" v-for="order in orders">
             <td>{{ order.id }}</td>
             <td>{{ order.airline }}</td>
             <td>{{ order.seat }}</td>
@@ -34,7 +34,7 @@
             <td v-if="order.status === 3">Đã thanh toán</td>
             <td v-if="order.status === 4">Hủy đơn</td>
             <td v-if="order.status != 4">
-              <a href="" class="btn waves-effect waves-light red darken-2" @click="deleteOrder(order.id)"><i
+              <a href="" class="btn waves-effect waves-light red darken-2" @click="deleteOrder(order.id, order.ticket_id, total-(order.price*order.quantity))"><i
                   class="fas fa-trash">Hủy</i>
               </a>
             </td>
@@ -55,18 +55,20 @@
         total: 0
       }
     },
-    mounted () {
+    beforeCreate () {
         callAPI.get('/orders/findById').then(response=>{
             console.log(response.data.data);
             this.orders = response.data.data;
             for (let index = 0; index < this.orders.length; index++) {
-              this.total += this.orders[index].total;
+              if (this.orders[index].status != 4) {
+                this.total += this.orders[index].price*this.orders[index].quantity;
+              }
             }
         });
     },
     methods: {
-      deleteOrder: function(id) {
-          callAPI.delete('orders/'+id);
+      deleteOrder: function(id, ticket_id, total) {
+        callAPI.delete('orders/'+ticket_id+'/'+id+'/'+total);
       }
     },
   }

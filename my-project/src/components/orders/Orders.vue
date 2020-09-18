@@ -37,24 +37,19 @@
             <td v-if="order.status === 4">Hủy đơn</td>
             <td v-if="order.status === 4">
             </td>
-            <td v-if="order.status === 1">
-              <a href="" class="btn waves-effect waves-light yellow darken-2" @click="editOrder(order.id)"><i
-                  class="fas fa-pen-square">Xử lý</i>
-              </a>
-            </td>
-            <td v-if="order.status === 2">
+            <td v-if="order.status != 4">
               <a href="" class="btn waves-effect waves-light yellow darken-2" @click.prevent="editOrder(order.id)"><i
                   class="fas fa-pen-square">Xử lý</i>
               </a>
             </td>
-            <td v-if="order.status === 3">
-              <a href="" class="btn waves-effect waves-light yellow darken-2" @click.prevent="editOrder(order.id)"><i
-                  class="fas fa-pen-square">Xử lý</i>
-              </a>
-            </td>
-            <td>
+            <td v-if="order.status != 4">
               <a href="" class="btn waves-effect waves-light red darken-2" @click="deleteOrder(order.id)"><i
                   class="fas fa-trash">Hủy</i>
+              </a>
+            </td>
+            <td v-if="order.status === 4">
+              <a href="" class="btn waves-effect waves-light red darken-2" @click="deleteRecord(order.id)"><i
+                  class="fas fa-trash">Xóa</i>
               </a>
             </td>
           </tr>
@@ -104,6 +99,9 @@
               "id": id,
               "status": 4
           });
+      },
+      deleteRecord: function(id) {
+          callAPI.delete('orders/'+id);
       }
     },
   }

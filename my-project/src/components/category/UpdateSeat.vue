@@ -23,7 +23,7 @@ export default {
     }
   },
 
-  created() {
+  beforeCreate() {
       DataService.getSeatbyID(this.$route.params.id)
         .then((response) => {
           this.seat = response.data.data[0]

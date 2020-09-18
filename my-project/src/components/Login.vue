@@ -37,10 +37,11 @@ import { required, minLength, email } from 'vuelidate/lib/validators';
                 password:""
             }
         },
-        created () {
-            var cookie = $cookies;
-            if (!cookie.isKey('login')) {
-                this.$router.push('/login');
+        beforeCreate () {
+            if ($cookies.isKey('login')) {
+                this.$router.push('/admin');
+            }else{
+                console.log('pls login!')
             }
         },
         validations: {

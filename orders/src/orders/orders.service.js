@@ -87,7 +87,7 @@ export class OrdersService {
         await this.connectDB();
         try {
             await session.sql('USE mydb;').execute();
-            let result = await session.sql('SELECT id, total, status, quantity, airline, seat, start, end, date, price FROM orders JOIN order_ticket ON orders.id = order_ticket.order_id where orders.user_id = ?;').bind(user_id).execute();
+            let result = await session.sql('SELECT id, total, status, quantity, airline, seat, start, end, date, price, ticket_id FROM orders JOIN order_ticket ON orders.id = order_ticket.order_id where orders.user_id = ?;').bind(user_id).execute();
             this.closeDB();
             return result.fetchAll();
         } catch (error) {
@@ -140,6 +140,27 @@ export class OrdersService {
         let quantity = update[0][0]-1;
         await session.sql('UPDATE tickets SET number_seat = ? WHERE id = ?').bind(quantity,ticket_id).execute();
         this.closeDB();
+    }
+
+    async deleteOrderTicket(order_id, ticket_id, total){
+        await this.connectDB();
+        await session.sql('USE mydb;').execute();
+        try {
+            await session.sql('START TRANSACTION;').execute();
+            await session.sql('DELETE FROM order_ticket WHERE order_id = ? AND ticket_id = ?;').bind(order_id,ticket_id).execute();
+            let result = await session.sql('SELECT COUNT(order_id) FROM order_ticket WHERE order_id = ?').bind(order_id).execute();
+            await session.sql('UPDATE orders SET total = ? WHERE id = ?').bind(total, order_id).execute();
+            let count = result.fetchAll();
+            if (count[0][0] == 0) {
+                await session.sql('DELETE FROM orders WHERE id = ?;').bind(order_id).execute();
+            }
+            await session.sql('COMMIT;').execute();
+            this.closeDB();
+        } catch (error) {
+            console.log(error);
+            await session.sql('ROLLBACK;').execute();
+            this.closeDB();
+        }
     }
 
 }

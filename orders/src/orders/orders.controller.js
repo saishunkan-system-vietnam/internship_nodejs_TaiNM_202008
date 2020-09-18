@@ -54,7 +54,7 @@ export class OrdersController {
     @Bind(Payload())
     @MessagePattern('insertOrder')
     async insertOrder(data) {
-        console.log(data)
+        // console.log(data)
         try {
             // let ticket = data.data;
             // await this.ordersService.insertOrders(data.user_id, ticket.id_ticket, ticket.hang, ticket.loaiGhe, ticket.start, ticket.end, ticket.price, ticket.quantity, ticket.date);
@@ -94,11 +94,27 @@ export class OrdersController {
             }
         }
     }
+    
+    @Bind(Payload())
+    @MessagePattern('deleteOrderTicket')
+    deleteOrderTicket(data) {
+        // console.log(data.ticket_id);
+        try {
+            this.ordersService.deleteOrderTicket(data.order_id,data.ticket_id, data.total);
+            return {
+                'mess': 'Xóa thành công!'
+            }
+        } catch (error) {
+            return {
+                'mess': 'Xóa thất bại!'
+            }
+        }
+    }
 
     @Bind(Payload())
     @MessagePattern('updateStatus')
     async updateStatus(data) {
-        console.log(data);
+        // console.log(data);
         try {
             await this.ordersService.updateStatus(data.id, data.status);
             return {
@@ -114,12 +130,12 @@ export class OrdersController {
     @Bind(Payload())
     @MessagePattern('findOrderByUsers')
     async findOrderByUsers(data) {
-        console.log(data);
+        // console.log(data);
         let id = data;
         try {
             let arr = await this.ordersService.findOrderByUsers(id);
-            console.log(arr);
-            var keys = ['id', 'total', 'status', 'quantity', 'airline','seat', 'start', 'end', 'date', 'price'
+            // console.log(arr);
+            var keys = ['id', 'total', 'status', 'quantity', 'airline','seat', 'start', 'end', 'date', 'price', 'ticket_id'
             ];
 
             //vacate keys from main array

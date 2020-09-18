@@ -52,7 +52,7 @@ export default {
     };
   },
 
-  mounted () {
+  beforeCreate () {
     if ($cookies.isKey('login')) {
         callAPI
         .get(`users`).then(response => {

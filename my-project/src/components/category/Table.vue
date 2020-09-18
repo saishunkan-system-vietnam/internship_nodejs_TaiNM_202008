@@ -97,7 +97,7 @@ export default {
     };
   },
 
-  created() {
+  beforeCreate() {
     DataService.getAirline()
       .then((response) => {
         this.airlines = response.data.data;

@@ -36,6 +36,10 @@ export class OrdersService {
     return this.clientOrders.send('removeOrder',data);
   }
 
+  async deleteOrderTicket(data){
+    return this.clientOrders.send('deleteOrderTicket',data);
+  }
+
   async updateStatus(data){
     return this.clientOrders.send('updateStatus',data);
   }

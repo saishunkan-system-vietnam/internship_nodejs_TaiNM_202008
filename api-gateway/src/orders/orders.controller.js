@@ -26,6 +26,18 @@ export class OrdersController {
         return this.ordersService.removeOrder(params.id);
     }
 
+    @Delete('/:ticket/:id/:total')
+    @Bind(Param())
+    async removeOrder(params) {
+        //  console.log(params);
+        let data = {
+            'ticket_id': params.ticket,
+            'order_id': params.id,
+            'total': params.total
+        }
+        return this.ordersService.deleteOrderTicket(data);
+    }
+
     @Get()
     @Bind(Req())
     async findAll(req){

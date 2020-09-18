@@ -55,7 +55,7 @@
     },
 
     // lấy dữ liệu khi component được tạo thành công
-    mounted() {
+    beforeCreate() {
       callAPI
         .get('ticket')
         .then(response => {

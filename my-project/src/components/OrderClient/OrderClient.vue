@@ -149,7 +149,7 @@
             <td>{{ post[4] }}</td>
             <td>{{ Intl.DateTimeFormat('vi-VN',{ year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: false, timeZone: 'UTC'}).format(post[5]) }}</td>
             <td>{{ post[6] }}</td>
-            <td>{{ post[7] }}</td>
+            <td>{{ Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(post[7]) }}</td>
             <td>
               <a
                 href
@@ -194,7 +194,7 @@ export default {
       carts: [],
     };
   },
-  mounted() {
+  beforeCreate() {
     axios
       .all([
         callAPI.get(`ticket`),

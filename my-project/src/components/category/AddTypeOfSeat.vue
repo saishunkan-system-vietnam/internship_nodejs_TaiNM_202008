@@ -29,7 +29,7 @@ export default {
     };
   },
 
-  created() {
+  beforeCreate() {
     // location.reload();
     DataService.getAirline()
       .then((response) => {
