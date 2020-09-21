@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 
 var myTable;
 var session;
+// var client;
 @Injectable()
 @Dependencies('Users')
 export class UsersService {
@@ -13,12 +14,13 @@ export class UsersService {
 
     onModuleInit() {
         console.log('onModuleInit');
-      }
+    }
     
-      async onApplicationBootstrap() {
+    async onApplicationBootstrap() {
         console.log('onUsersBootstrap');
         await this.clientUsers.connect();
-      }    
+        // return client;
+    }    
 
     async connectDB(){
         session = await mysqlx
@@ -51,7 +53,7 @@ export class UsersService {
     }
 
     async findAll(data){
-        return this.clientUsers.send('get',data);
+        return this.clientUsers.send('getUser',data);
     }
 
     async findById(data){

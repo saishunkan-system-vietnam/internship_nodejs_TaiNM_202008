@@ -10,7 +10,7 @@ export class StatisticController {
     }
 
     @Bind()
-    @MessagePattern('get')
+    @MessagePattern('getStatistic')
     async getData(){
         try {
             let array1 = await this.statisticService.findStatus(1);

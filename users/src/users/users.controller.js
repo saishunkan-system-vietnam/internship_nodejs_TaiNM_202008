@@ -13,7 +13,7 @@ export class UsersController {
     }
 
     @Bind(Payload())
-    @MessagePattern('get')
+    @MessagePattern('getUser')
     async findAll(data){
         // console.log(data);
         try {

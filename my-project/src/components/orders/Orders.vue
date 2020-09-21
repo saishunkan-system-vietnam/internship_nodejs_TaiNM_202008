@@ -38,7 +38,7 @@
             <td v-if="order.status === 4">
             </td>
             <td v-if="order.status != 4">
-              <a href="" class="btn waves-effect waves-light yellow darken-2" @click.prevent="editOrder(order.id)"><i
+              <a href="" class="btn waves-effect waves-light yellow darken-2" @click="editOrder(order.id)"><i
                   class="fas fa-pen-square">Xử lý</i>
               </a>
             </td>

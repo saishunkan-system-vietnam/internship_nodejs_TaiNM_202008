@@ -151,13 +151,6 @@
             <td>{{ post[6] }}</td>
             <td>{{ Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(post[7]) }}</td>
             <td>
-              <a
-                href
-                class="btn waves-effect waves-light yellow darken-2"
-                @click.prevent="orderClient(post[0],post[1],post[2],post[3],post[4],post[5],post[7])"
-              >
-                <i class="fas fa-cart-plus"></i>
-              </a>
               <button
                 v-on:click.prevent="addToCart(post[0],post[1],post[2],post[3],post[4],post[5],post[7])"
               >

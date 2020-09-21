@@ -1,59 +1,83 @@
-import { Module } from '@nestjs/common';
-import { OrdersService } from './orders/orders.service';
-import { UsersService } from './users/users.service';
-import { StatisticService } from './statistic/statistic.service';
-import { ClientsModule, Transport } from "@nestjs/microservices";
-import { OrdersController } from './orders/orders.controller';
-import { UsersController } from './users/users.controller';
-import { StatisticController } from './statistic/statistic.controller';
-import { TicketController } from './ticket/ticket.controller';
-import { TicketService } from './ticket/ticket.service';
+import {
+  Module
+} from '@nestjs/common';
+import {
+  OrdersService
+} from './orders/orders.service';
+import {
+  UsersService
+} from './users/users.service';
+import {
+  StatisticService
+} from './statistic/statistic.service';
+import {
+  ClientsModule,
+  Transport
+} from "@nestjs/microservices";
+import {
+  OrdersController
+} from './orders/orders.controller';
+import {
+  UsersController
+} from './users/users.controller';
+import {
+  StatisticController
+} from './statistic/statistic.controller';
+import {
+  TicketController
+} from './ticket/ticket.controller';
+import {
+  TicketService
+} from './ticket/ticket.service';
 // import { from } from '../node_modules/rxjs/index';
-import { CategoryService } from './category/category.service';
-import { CategoryController } from './category/category.controller';
+import {
+  CategoryService
+} from './category/category.service';
+import {
+  CategoryController
+} from './category/category.controller';
 
 
 @Module({
   imports: [
-    ClientsModule.register([
-      {
+    ClientsModule.register([{
         name: "Statistic",
-        transport: Transport.TCP,
+        transport: Transport.MQTT,
         options: {
-          host: "127.0.0.1",
-          port: 8877
+          url: 'mqtt://localhost:1883',
+          topic: 'statistic'
         }
       },
       {
         name: "Users",
-        transport: Transport.TCP,
+        transport: Transport.MQTT,
         options: {
-          host: "127.0.0.1",
-          port: 8888
+          url: 'mqtt://localhost:1883',
+          topic: 'users',
         }
       },
       {
         name: "Orders",
-        transport: Transport.TCP,
+        transport: Transport.MQTT,
         options: {
-          host: "127.0.0.1",
-          port: 8899
+          url: 'mqtt://localhost:1883',
+          topic: 'orders'
         }
       },
       {
         name: "Ticket",
-        transport: Transport.TCP,
+        transport: Transport.MQTT,
         options: {
-          host: "127.0.0.1",
-          port: 8866
+          url: 'mqtt://localhost:1883',
+          topic: 'tickets'
         }
       },
       {
         name: "Category",
-        transport: Transport.TCP,
+        transport: Transport.MQTT,
         options: {
-          host: "127.0.0.1",
-          port: 1998
+          url: 'mqtt://localhost:1883',
+          topic: 'category'
         }
       }
     ])

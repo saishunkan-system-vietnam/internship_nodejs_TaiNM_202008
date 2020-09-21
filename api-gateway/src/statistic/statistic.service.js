@@ -25,8 +25,8 @@ export class StatisticService {
         const payload = {};
         // test
         return zip(
-            this.clientStatistic.send('get',payload),
-            this.clientUsers.send('get',payload)
+            this.clientStatistic.send('getStatistic',payload),
+            this.clientUsers.send('getUser',payload)
         );
 
     }

@@ -6,10 +6,10 @@ import { Transport } from '@nestjs/microservices';
 const logger = new Logger('Main');
 
 const microserviceOptions = {
-  transport: Transport.TCP,
+  transport: Transport.MQTT,
   options: {
-    host: '127.0.0.1',
-    port: 8866,
+    url: 'mqtt://localhost:1883',
+    topic: 'tickets'
   },
 };
 
