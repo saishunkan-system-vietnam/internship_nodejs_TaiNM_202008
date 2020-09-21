@@ -27,7 +27,7 @@ CREATE TABLE `airline` (
   `alCode` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   `alName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`alID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `airline` (
 
 LOCK TABLES `airline` WRITE;
 /*!40000 ALTER TABLE `airline` DISABLE KEYS */;
-INSERT INTO `airline` VALUES (1,'VNA','Vietnam Airlines'),(2,'VJA','Vietjet Airlines'),(3,'JSA','Jetstar Airlines'),(4,'BBA','Bamboo Airlines');
+INSERT INTO `airline` VALUES (95,'VNA','Vietnam Airlines'),(96,'VJ','Vietjet Air'),(97,'BL','Jetstar Pacific Airlines'),(98,'QH','Bamboo Airways');
 /*!40000 ALTER TABLE `airline` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -51,7 +51,7 @@ CREATE TABLE `airport` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -60,7 +60,7 @@ CREATE TABLE `airport` (
 
 LOCK TABLES `airport` WRITE;
 /*!40000 ALTER TABLE `airport` DISABLE KEYS */;
-INSERT INTO `airport` VALUES (1,'HN'),(2,'HCM'),(5,'Hue2');
+INSERT INTO `airport` VALUES (1,'HN'),(2,'HCM'),(8,'Vinh'),(23,'Hai Phong'),(24,'Nha Trang');
 /*!40000 ALTER TABLE `airport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,8 +87,33 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,1),(1,2),(1,3),(1,4),(2,2),(2,3),(2,4),(3,3),(3,4),(4,3),(4,4);
+INSERT INTO `category` VALUES (95,1),(95,2),(95,3),(95,4),(96,1),(96,2),(96,3),(97,4),(97,3),(97,2),(98,1),(98,2);
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `jwts`
+--
+
+DROP TABLE IF EXISTS `jwts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `jwts` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `jwt` varchar(555) COLLATE utf8_unicode_ci NOT NULL,
+  `reg_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `jwts`
+--
+
+LOCK TABLES `jwts` WRITE;
+/*!40000 ALTER TABLE `jwts` DISABLE KEYS */;
+INSERT INTO `jwts` VALUES (1,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCQwQ2RsZmM5S2tLeWY5OThiVGN4aWp1TmlUa3p1a2dTdHhlTWRVZFR6WUVVeDRsbzYxcXRnRyIsImlhdCI6MTU5ODYwMTU5NywiZXhwIjoxNTk5MjA2Mzk3fQ.7QBckBA-eVH8NJkU09AxUYpI3RE9dj893uE1PUnW5rc','2020-08-28 08:00:03'),(2,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCROMXB3cThoN2JVUXdBNEhNMHgxdVB1VW4uZUlCWkpHUU9TdDlnZ3lPZGMzOS9kZ2lNLnBQcSIsImlhdCI6MTU5ODYwMTk1MywiZXhwIjoxNTk5MjA2NzUzfQ.iZV0JFV6Hvivyn2ffeegxa4MK4TqxMwUY6g8VxKfibA','2020-08-28 08:05:59'),(3,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCR4bllkcUxzWmxGWXowSjhBWUUvWEd1WWloWWJiajlNdHdybnJDQnRpYUpQLnIzaEdFUHRaNiIsImlhdCI6MTU5ODYwMjEwMywiZXhwIjoxNTk5MjA2OTAzfQ.N3k5A7EUdc5Egh3JSfTCg6lvCSw6GPfn6E5bTj-Shxs','2020-08-28 08:08:29'),(4,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTU5ODYwNzIyNywiZXhwIjoxNTk5MjEyMDI3fQ.TyApnGhBIZgvwGVBcwiE_EScb8xh4E6DpKc2j-I6XZg','2020-08-28 09:33:53'),(5,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTU5ODYwNzI5OSwiZXhwIjoxNTk5MjEyMDk5fQ.5YM0U9guw_76KS9qYloFKui4KkqVZYY9saSFRizz6FM','2020-08-28 09:35:05'),(6,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTU5ODYwNzMyNSwiZXhwIjoxNTk5MjEyMTI1fQ.OKiONdHb5Q9QLsVWbLJB5BtGz95f6aX3qtZONrsNcGM','2020-08-28 09:35:31'),(7,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTU5ODYwNzM5NiwiZXhwIjoxNTk5MjEyMTk2fQ.xeIjngfa8_80qqyQ8ovfQoJoszrzHOezuWemC2AXOZA','2020-08-28 09:36:42'),(8,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTU5ODYwNzY4MywiZXhwIjoxNTk5MjEyNDgzfQ.Rw69FzoLPO9NMKgZmH_RAU26as0uyjb5CDimYTfsXNc','2020-08-28 09:41:29'),(9,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTU5ODYwNzcyMywiZXhwIjoxNTk5MjEyNTIzfQ.T7YvPVkosZsRJAxH2s7qdDoJgB_xpZ51VAiuSRjqKuo','2020-08-28 09:42:09'),(10,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTU5ODYwOTA3MCwiZXhwIjoxNTk5MjEzODcwfQ.Ztyd1YcTLuIjtX2KVBacmxV3-q7fSvlfYuUBOk5vgT4','2020-08-28 10:04:37'),(11,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTU5ODYwOTMxNiwiZXhwIjoxNTk5MjE0MTE2fQ.Cvb397vzsqaqTxALBVITInxnq9WiXkvik3vBkqKm_po','2020-08-28 10:08:43'),(12,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTU5ODg0NDQ1NSwiZXhwIjoxNTk5NDQ5MjU1fQ.yPdIE2YJpqMrH8xba_lRp7BSGvHzrGuqGb1sDzY_qxo','2020-08-31 03:27:47'),(13,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTU5ODg0NDY1MywiZXhwIjoxNTk5NDQ5NDUzfQ.U_K5gY3z2c6fiFMDXukALAYBqbxXuf7T8Mqx0Wx90QU','2020-08-31 03:31:05'),(14,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTU5ODg0NTIwMSwiZXhwIjoxNTk5NDUwMDAxfQ.HmfPxebsHfa4Oz-102JGADZU05nOB8WvN5r99KgCHuY','2020-08-31 03:40:13'),(15,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTU5ODg0NTMwNCwiZXhwIjoxNTk5NDUwMTA0fQ.2b2mRWGMYs78cMjgpjGHota3hQ18-84YahgsGoRTikc','2020-08-31 03:41:55'),(16,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTU5ODg0Njc4OSwiZXhwIjoxNTk5NDUxNTg5fQ.i0XZY2O_81D-6cEur9Tgxw_KCm-po8zijwVZGzqNsC4','2020-08-31 04:06:41'),(17,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTU5ODg2Njc5NSwiZXhwIjoxNTk5NDcxNTk1fQ.75RUEbbccW0e7zabddunWuKRN52cMrjtfJsJONTG7os','2020-08-31 09:40:06'),(21,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5jaHVuZ0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzQ1NiIsImlhdCI6MTU5ODkzMDE1OSwiZXhwIjoxNTk5NTM0OTU5fQ.m73Fj-8Xsyjl-yC56hQSQMwGn7KYm4lZMkahgY_5THs','2020-09-01 03:15:59'),(24,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBoYW5AZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkL1VXUThCZ2tkVE5xaTVKZm5VdXloLjBreTZtNkhYVWNLN3pSTkNObnF4bHJGY2hybWhsNTYiLCJpYXQiOjE1OTg5NDY3MzcsImV4cCI6MTU5OTU1MTUzN30.7WINfwH8s_W3xYgD5wuNQS3MUBu6W5vqi98ddXydOgc','2020-09-01 07:52:18');
+/*!40000 ALTER TABLE `jwts` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -102,6 +127,12 @@ CREATE TABLE `order_ticket` (
   `order_id` bigint unsigned DEFAULT NULL,
   `ticket_id` bigint unsigned DEFAULT NULL,
   `quantity` int NOT NULL,
+  `airline` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `seat` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `start` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `end` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `price` bigint DEFAULT NULL,
+  `date` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   KEY `orders` (`order_id`),
   KEY `tickets` (`ticket_id`),
   CONSTRAINT `orders` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
@@ -115,6 +146,7 @@ CREATE TABLE `order_ticket` (
 
 LOCK TABLES `order_ticket` WRITE;
 /*!40000 ALTER TABLE `order_ticket` DISABLE KEYS */;
+INSERT INTO `order_ticket` VALUES (17,109,2,'Bamboo Airways','Business Class','Vinh','HCM',700000,'1600447140000'),(17,108,2,'Jetstar Pacific Airlines','Business Class','HN','Hai Phong',1000000,'1600447440000'),(17,107,2,'Vietjet Air','Business Class','HN','Nha Trang',600000,'1600447080000'),(18,109,2,'Bamboo Airways','Business Class','Vinh','HCM',700000,'1600447140000'),(18,108,2,'Jetstar Pacific Airlines','Business Class','HN','Hai Phong',1000000,'1600447440000'),(18,105,2,'Vietnam Airlines','Economy Class','HN','HCM',5000000,'1600447080000');
 /*!40000 ALTER TABLE `order_ticket` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,11 +160,11 @@ DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint NOT NULL,
-  `total` int NOT NULL,
-  `status` int NOT NULL,
+  `total` bigint NOT NULL,
+  `status` int DEFAULT '1',
   `reg_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +173,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,1,150000,1,'2020-08-27 06:08:52'),(2,1,250000,1,'2020-08-27 06:28:57'),(6,1,250000,1,'2020-08-27 06:53:25'),(7,1,250000,1,'2020-08-27 06:53:25'),(8,1,250000,1,'2020-08-27 06:55:17'),(9,1,250000,1,'2020-08-27 06:55:17'),(10,1,250000,1,'2020-08-27 06:57:26'),(11,1,250000,1,'2020-08-27 06:57:26'),(12,1,250000,1,'2020-08-27 07:02:14'),(13,1,250000,1,'2020-08-27 07:03:21'),(14,1,250000,1,'2020-08-27 07:17:46'),(15,1,250000,1,'2020-08-27 07:17:47'),(16,1,250000,1,'2020-08-27 07:24:28'),(17,1,250000,1,'2020-08-27 07:26:28'),(18,1,250000,1,'2020-08-27 07:27:06'),(19,1,250000,1,'2020-08-27 07:27:46'),(20,1,250000,1,'2020-08-27 07:28:14'),(21,1,250000,1,'2020-08-27 07:30:31'),(22,1,250000,1,'2020-08-27 07:31:19'),(23,1,250000,1,'2020-08-27 07:31:46'),(24,1,250000,1,'2020-08-27 07:32:32');
+INSERT INTO `orders` VALUES (17,78,4600000,2,'2020-09-21 01:58:21'),(18,78,18000000,2,'2020-09-21 01:58:35');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -156,7 +188,7 @@ CREATE TABLE `seat` (
   `sID` int NOT NULL AUTO_INCREMENT,
   `sName` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`sID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -165,7 +197,7 @@ CREATE TABLE `seat` (
 
 LOCK TABLES `seat` WRITE;
 /*!40000 ALTER TABLE `seat` DISABLE KEYS */;
-INSERT INTO `seat` VALUES (1,'First Class'),(2,'Business Class'),(3,'Comfort Class'),(4,'Economy Class');
+INSERT INTO `seat` VALUES (1,'First Class '),(2,'Business Class'),(3,'Comfort Class'),(4,'Economy Class');
 /*!40000 ALTER TABLE `seat` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -211,7 +243,7 @@ CREATE TABLE `tickets` (
   PRIMARY KEY (`id`),
   KEY `airline` (`airline_id`),
   CONSTRAINT `airline` FOREIGN KEY (`airline_id`) REFERENCES `airline` (`alID`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,7 +252,7 @@ CREATE TABLE `tickets` (
 
 LOCK TABLES `tickets` WRITE;
 /*!40000 ALTER TABLE `tickets` DISABLE KEYS */;
-INSERT INTO `tickets` VALUES (4,1,2,1,2,'2020-09-07 00:00:00',6,5000,'2020-08-27 07:41:43'),(5,1,2,2,1,'2020-09-07 00:00:00',6,5000,'2020-08-27 07:42:13'),(7,2,2,2,1,'2020-09-07 00:00:00',6,5000,'2020-08-27 07:53:25'),(8,2,1,1,2,'2020-09-07 00:00:00',6,5000,'2020-08-27 07:53:37'),(9,2,2,1,2,'2020-09-07 00:00:00',6,5000,'2020-08-27 08:48:02'),(10,2,2,1,2,'2020-09-07 00:00:00',6,5000,'2020-08-27 08:48:26'),(11,1,3,2,1,'2020-09-07 00:00:00',6,5000,'2020-08-27 08:56:38'),(12,1,2,2,1,'2020-09-07 00:00:00',10,5000,'2020-08-27 09:21:12'),(13,1,2,2,1,'2020-09-07 00:00:00',6,5000,'2020-08-27 09:07:04'),(14,1,2,2,1,'2020-09-07 00:00:00',10,5000,'2020-08-27 09:08:13'),(15,1,2,2,1,'2020-09-07 00:00:00',10,5000,'2020-08-27 09:13:40'),(17,1,2,2,1,'2020-09-07 00:00:00',10,5000,'2020-08-27 09:38:00'),(18,1,2,1,2,'2020-09-07 00:00:00',10,5000,'2020-08-27 09:41:41'),(19,2,2,2,1,'2020-09-07 00:00:00',12,5000,'2020-08-27 09:42:59');
+INSERT INTO `tickets` VALUES (102,95,1,1,2,'2020-09-18 16:37:00',50,1500000,'2020-09-18 09:37:29'),(103,95,2,1,2,'2020-09-18 16:37:00',50,1600000,'2020-09-18 09:37:51'),(104,95,3,1,2,'2020-09-18 16:38:00',20,2000000,'2020-09-18 09:38:12'),(105,95,4,1,2,'2020-09-18 16:38:00',10,5000000,'2020-09-18 09:38:28'),(106,96,1,1,8,'2020-09-18 16:38:00',100,500000,'2020-09-18 09:38:46'),(107,96,2,1,24,'2020-09-18 16:38:00',50,600000,'2020-09-18 09:39:03'),(108,97,2,1,23,'2020-09-18 16:44:00',500,1000000,'2020-09-18 09:39:23'),(109,98,2,8,2,'2020-09-18 16:39:00',200,700000,'2020-09-18 09:39:44');
 /*!40000 ALTER TABLE `tickets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,7 +273,7 @@ CREATE TABLE `users` (
   `level` int DEFAULT NULL,
   `reg_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -250,7 +282,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'truongbanghia123@gmail.com','$2b$10$4CQUzYQDj4u5mk72.o8aHeBKL1SktnibYhs7/Mi9EL5eC6I7kLCdi','222222',975424512,'HN',1,'2020-08-26 03:38:27'),(2,'nghia1@gmail.com','123456','nghia',976454141,'HN',1,'2020-08-25 02:26:10'),(3,'nghia2@gmail.com','123456','nghia',976454141,'HN',1,'2020-08-25 02:26:14'),(5,'truongbanghia123@gmail.com','123456','1111111',975424512,'HN',1,'2020-08-25 09:11:49'),(6,'truongbanghia123@gmail.com','$2b$04$gBeF.AlXdSXySJhuV9F1VeH0AQ7jMCuo6JxT/3yr32RceCA8HoONa','222222',975424512,'HN',1,'2020-08-25 10:16:07'),(7,'truongbanghia123@gmail.com','$2b$10$NiqvFYH0qUOift9H.r6ZEupiOJsrM3CGm02Ycva52REmqAjYMCFsO','222222',975424512,'HN',1,'2020-08-25 10:25:05'),(8,'truongbanghia123@gmail.com','$2b$10$pzLppB2rU0FzkRruCOeHvuPDTM9IlC3.z6W3Q5PuXtsJBEKx9TMea','222222',975424512,'HN',1,'2020-08-25 10:26:07'),(9,'truongbanghia123@gmail.com','$2b$10$P9zGaYgLCDaS9gFB6vZChO6itwdj2I.5En54ht1dCBpewxOzzYbqS','222222',975424512,'HN',1,'2020-08-26 08:27:40'),(10,'truongbanghia123@gmail.com','$2b$10$P0RbBhnfNhMY/3cOc0yMhOnyxaaVHaJ/2VPUUcC1bV8TaenkJzsdq','222222',975424512,'HN',1,'2020-08-26 08:28:27'),(11,'truongbanghia123@gmail.com','$2b$10$YctdXj55cnw5zvbNhl4i.ObHNUiEUHp3AGYspzm.n.VJWzKMQa2S2','222222',975424512,'HN',1,'2020-08-26 08:41:21'),(12,'truongbanghia@gmail.com','$2b$10$c9W0Wy8sOxcoMO4wtNLyoetw/Mv9rEvoCOhYY9hgSjr3x9BOcI5ga','222222',975424512,'HN',1,'2020-08-26 09:02:31'),(13,'truongbanghia@gmail.com','$2b$10$geLG62dS/waCxQ4eGIDsPOnq2EC9MyMaVMSXJu9q636pRmZkfaBh2','222222',975424512,'HN',1,'2020-08-26 09:04:48'),(14,'truongbanghia@gmail.com','$2b$10$WVvSEAjslcAqMS8ZVadb/eRrNcyQ8CyOtRqpcnTF3Y/GOtpWScPsi','222222',975424512,'HN',1,'2020-08-26 09:04:55'),(15,'truongbanghia@gmail.com','$2b$10$k3RA6Ia.xJom8DxZTXzrhOxiX6N7g/jnRFR3QTyurFEmkScy0TIDS','222222',975424512,'HN',1,'2020-08-26 09:04:59'),(16,'truongbanghia@gmail.com','$2b$10$C6DXlk4K2rvLqsgOwS3ZFexoZSP41DWNpg8ygcAOf1kQ85ZRNBaEm','222222',975424512,'HN',1,'2020-08-26 09:05:24'),(17,'truongbanghia@gmail.com','$2b$10$.Egj0Ma4U3wAEtKU5CDud.jwt8wVlBgTbZIYSZzmkj6434ql6xOC6','222222',975424512,'HN',1,'2020-08-26 09:06:27'),(18,'truongbanghia@gmail.com','$2b$10$7B8zNqwe7UpHtTOySjIpAuxY1tiXy75gJd2Wu2E27EO0O0.LQnkay','    ',975424512,'HN',1,'2020-08-26 09:06:32'),(19,'truongbanghia@gmail.com','$2b$10$KMCLv8qDSefVuuQ9T98v4eWCNKo2/EmSCeck44l9O2url44G2Thva','    ',975424512,'HN',1,'2020-08-26 09:07:00'),(20,'truongbanghia@gmail.com','$2b$10$3FR/x/xo3N/GCOUzVr6a8u2PwNr5A8ahY8xqLDZPfwI2.1SD7ui7q','    ',975424512,'HN',1,'2020-08-26 09:07:01'),(21,'truongbanghia@gmail.com','$2b$10$qGZCt5ex1/.jf4KvGlkiC..AfnBlZuYDCzB2qojP6JH7ufMNuHO1S','    ',975424512,'HN',1,'2020-08-26 09:07:02'),(22,'truongbanghia@gmail.com','$2b$10$M/Q2Q6Vta6kAlzMB7ovpB.Di7eX1ZiHeZY0T8A3hKwqVCO1hQrpRW','     ',975424512,'HN',1,'2020-08-26 09:07:25'),(23,'truongbanghia@gmail.com','$2b$10$WLfc9iIIbUhFCJB4PE5q3Od.xEQZTnrbL9qTCszbfADP/HlmjLBD6','     ',975424512,'HN',1,'2020-08-26 09:07:45'),(24,'truongbanghia@gmail.com','$2b$10$wFrtE2v4XS1c6bJWlhxpF.67OFN41M16TavJMEeTggvc8nwtihcMG','aaa',975424512,'HN',1,'2020-08-26 09:11:18'),(25,'truongbanghia@gmail.com','$2b$10$jDMlx9D2SYa4p0LwRhBjQ.tkJ7cfZVqsvdVNP.SOOPCDhojOMbKuO','dfdsfd',975424512,'HN',1,'2020-08-26 09:11:32'),(26,'truongbanghia@gmail.co','$2b$10$ec7muIBmfyzxh6xGMHNycuOExIp8.Li//1wUJspZhkEFQEqVhw3Zy','ádsads',975424512,'HN',1,'2020-08-26 09:11:55'),(27,'truongbanghia@gmail.co','$2b$10$ovbK4ThMHCL0Vj/1G2TXxu4Bh0lt2bs1lvyu7aD09pQHjBaZg5gSO','truong ba nghia',975424512,'HN',1,'2020-08-26 09:12:36'),(28,'truongbanghia@gmail.co','$2b$10$HjYLgGcwcoHaFBcRXGQZ8.lN4cpM9a09zpiP8mtkcORq5myNms0j.','    nghia',975424512,'HN',1,'2020-08-26 09:12:45'),(29,'truongbanghia@gmail.co','$2b$10$3itOWTBqyeRsssZC7U5YP.aQ1BWOeKiQryqxcf7hVRTjgKpuL5LUa','ádasd',975424512,'HN',1,'2020-08-26 09:13:03'),(30,'truongbanghia@gmail.co','$2b$10$bZUidOyO/tl9Ad3zDMwwUOh//ugdSGAYB4cxNv53JJsMVMWA4jRAq','ádasd',975424512,'HN',1,'2020-08-26 09:21:10'),(31,'truongbanghia@gmail.co','$2b$10$A8b5i8H8wAJkDPuBMBECxuCklPVC9U/XMUEsr4tUPy7cpg.vt5cua','ádasd',975424512,'HN',1,'2020-08-27 01:40:34'),(32,'truongbanghia@gmail.com','$2b$10$XIqmGwWnaeFd.VELe1Av7eOWhYV0Cd1dyKtyuGkdkGzP75Jiw55Py','ádasd',975424512,'HN',1,'2020-08-27 01:42:56'),(33,'truongbanghia@gmail.com','$2b$10$biY95cjvQyhkcHQ5WBZUAeVCgqvXLFB3WNOBTicD2K95RmKWU6BNa','ádasd',975424512,'HN',1,'2020-08-27 02:07:45');
+INSERT INTO `users` VALUES (57,'phan10@gmail.com','$2b$10$V4NSCe8aA0fsbq2I1IDNT./bS/5L53TdvlI9t6t59RIYgJF1Gi3d2','chung',362060601,'HN',1,'2020-09-04 05:57:20'),(64,'test123ddd321@gmail.com','$2b$10$nxs1VBBD3JUJuIux5FvUquusQT9xR1Drh9ukDsJduf5HhI9qCnHtu','nghiatest123',975415424,'HN',1,'2020-09-21 02:05:35'),(65,'test@gmail.com','$2b$10$kSISsoEW31otoGzWHMfn2uExgOBtXVz7Z3sH/PE0BlXpCE79/BACC','nghiatest123',975415424,'HN',1,'2020-09-09 06:07:00'),(68,'aasdasa3@gmail.com','$2b$10$elYlzTIOssSzUoMxWFeJ1.dEc0Ume49..manBRio9fME25sIBfgK2','nghia@gmail.com',976404956,'asdas',1,'2020-09-09 08:03:57'),(69,'truongddddd@gmail.com','$2b$10$zbvrjY3RTEKmxf0gJj27Iukw/AVknf1GWwvVfn.rR4ys/I.7Gy8dy','phan10@gmail.com',92323232,'dasdasds',1,'2020-09-09 08:04:25'),(71,'nghia@gmail.com','$2b$10$ZbW6qKM4pHyCJSAuDFVjpem8iwETj46I2JREAqCpCNLixL12.2Fc.','nghia',976404956,'HN',2,'2020-09-11 02:37:23'),(72,'truongbanghiadsadsdsds@gmail.com','$2b$10$/BBw5rvT9073HJenjtXP0O2U7AE.hsAs3IvfN.6cqtIt.h5FKRvWS','asddsds',976404956,'asdasds',1,'2020-09-11 03:43:05'),(73,'truongbanghia123@gmail.com','$2b$10$U9jK1aZ0Sa8QnU5WlQEkXenMa76ffO5A9qcqBxFjh7J1DiyrVeXT2','nghia@gmail.com',976404956,'dasds',1,'2020-09-11 03:45:22'),(74,'truongbanghia123@gmail.com','$2b$10$/hIoS3Uno2KyPtfWu6bIBullZdv9R2dfTLEQgJVfb4AD4VNkiAvD2','nghia@gmail.com',976404956,'12323',1,'2020-09-11 03:46:57'),(75,'truongbanghia12d3@gmail.com','$2b$10$U7Q55szyawRIbiIVkTYvmuSdShYNTsUn69CTwdCJ3vze4lYzwoxmq','adsd',976404956,'sdasds',1,'2020-09-11 03:48:12'),(76,'truongbanghia1đas23@gmail.com','$2b$10$uK8NsRETRvxo4y3Tyc62au0dCXbT.3K9zjWYuF6GVmoFoAsxWGIfm','dasdsd',976404956,'dasdasds',1,'2020-09-11 03:49:14'),(78,'client@gmail.com','$2b$10$psJG58icsPFRAaj56WXtcOKSKW2G8jlfCJLSotsRfQdka/XUr2PTK','Trương Bá Nghĩa',976404956,'Hà Nội',2,'2020-09-14 07:16:01'),(80,'sdashjdgsa@gmail.com','$2b$10$TCmD9ZIaFbxZ1EisMYkyGuyBqbp8YeX6CLW5vCHGyCD./NYv7lj/W','asdasd',976404956,'dsfds ds fds fdsf',2,'2020-09-18 09:19:53');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -263,4 +295,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-08-27 16:54:37
+-- Dump completed on 2020-09-21 11:09:00
