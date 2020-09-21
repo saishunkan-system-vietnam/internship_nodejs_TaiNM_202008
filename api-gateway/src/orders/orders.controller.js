@@ -1,84 +1,81 @@
 import {
-    Controller,
-    Dependencies,
-    Get,
-    Post,
-    Req,
-    Bind,
-    Param,
-    Delete,
-    Put
+  Controller,
+  Dependencies,
+  Get,
+  Post,
+  Req,
+  Bind,
+  Param,
+  Delete,
+  Put,
 } from '@nestjs/common';
-import {
-    OrdersService
-} from './orders.service';
+import { OrdersService } from './orders.service';
 
 @Controller('orders')
 @Dependencies(OrdersService)
 export class OrdersController {
-    constructor(ordersService) {
-        this.ordersService = ordersService;
-    }
+  constructor(ordersService) {
+    this.ordersService = ordersService;
+  }
 
-    @Post()
-    @Bind(Req())
-    async insertOrder(req) {
-        // console.log(req.body);
-        let data = {
-            'user_id': req.session.user.id,
-            'data': req.body.items,
-            'total': req.body.subtotal
-        };
-        return this.ordersService.insertOrder(data);
-    }
+  @Post()
+  @Bind(Req())
+  async insertOrder(req) {
+    // console.log(req.body);
+    let data = {
+      user_id: req.session.user.id,
+      data: req.body.items,
+      total: req.body.subtotal,
+    };
+    return this.ordersService.insertOrder(data);
+  }
 
-    @Delete(':id')
-    @Bind(Param())
-    async removeOrder(params) {
-        return this.ordersService.removeOrder(params.id);
-    }
+  @Delete(':id')
+  @Bind(Param())
+  async removeOrder(params) {
+    return this.ordersService.removeOrder(params.id);
+  }
 
-    @Delete('/:ticket/:id/:total')
-    @Bind(Param())
-    async removeOrder(params) {
-        //  console.log(params);
-        let data = {
-            'ticket_id': params.ticket,
-            'order_id': params.id,
-            'total': params.total
-        }
-        return this.ordersService.deleteOrderTicket(data);
-    }
+  @Delete('/:ticket/:id/:total')
+  @Bind(Param())
+  async removeOrder(params) {
+    //  console.log(params);
+    let data = {
+      ticket_id: params.ticket,
+      order_id: params.id,
+      total: params.total,
+    };
+    return this.ordersService.deleteOrderTicket(data);
+  }
 
-    @Get()
-    @Bind(Req())
-    async findAll(req) {
-        if (!req.session || !req.session.user || req.session.user.level == 2) {
-            return {
-                "mess": "levelFail"
-            }
-        } else {
-            return this.ordersService.findAll();
-        }
+  @Get()
+  @Bind(Req())
+  async findAll(req) {
+    if (!req.session || !req.session.user || req.session.user.level == 2) {
+      return {
+        mess: 'levelFail',
+      };
+    } else {
+      return this.ordersService.findAll();
     }
+  }
 
-    @Get('findById')
-    @Bind(Req())
-    async findById(req) {
-        // console.log(req.session.user.id);
-        return this.ordersService.findById(req.session.user.id);
+  @Get('findById')
+  @Bind(Req())
+  async findById(req) {
+    // console.log(req.session.user.id);
+    return this.ordersService.findById(req.session.user.id);
+  }
+
+  @Put(':id')
+  @Bind(Req())
+  async updateStatus(req) {
+    if (!req.session || !req.session.user) {
+      return {
+        mess: 'error',
+      };
+    } else {
+      return this.ordersService.updateStatus(req.body);
     }
-
-    @Put(':id')
-    @Bind(Req())
-    async updateStatus(req) {
-        if (!req.session || !req.session.user) {
-            return {
-                "mess": "error"
-            }
-        } else {
-            return this.ordersService.updateStatus(req.body);
-        }
-    }
-
+  }
 }

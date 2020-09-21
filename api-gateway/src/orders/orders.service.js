@@ -1,10 +1,5 @@
-import {
-  Injectable,
-  Dependencies
-} from '@nestjs/common';
-import {
-  zip
-} from '../../node_modules/rxjs/index';
+import { Injectable, Dependencies } from '@nestjs/common';
+import { zip } from '../../node_modules/rxjs/index';
 // import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 
 @Injectable()
@@ -22,7 +17,6 @@ export class OrdersService {
     console.log('onOrdersBootstrap');
     await this.clientOrders.connect();
   }
-
 
   async insertOrder(data) {
     return this.clientOrders.send('insertOrder', data);
@@ -48,5 +42,4 @@ export class OrdersService {
   async updateStatus(data) {
     return this.clientOrders.send('updateStatus', data);
   }
-
 }
