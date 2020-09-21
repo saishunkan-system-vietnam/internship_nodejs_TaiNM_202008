@@ -9,12 +9,15 @@ const microserviceOptions = {
   transport: Transport.MQTT,
   options: {
     url: 'mqtt://localhost:1883',
-    topic: 'tickets'
+    topic: 'tickets',
   },
 };
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice(TicketModule,microserviceOptions);
+  const app = await NestFactory.createMicroservice(
+    TicketModule,
+    microserviceOptions,
+  );
   await app.listen(() => {
     logger.log('TicketService is listening...');
   });
