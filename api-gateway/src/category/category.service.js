@@ -1,4 +1,7 @@
-import { Injectable, Dependencies } from '@nestjs/common';
+import {
+    Injectable,
+    Dependencies
+} from '@nestjs/common';
 
 
 @Injectable()

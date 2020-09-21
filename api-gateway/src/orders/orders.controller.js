@@ -1,21 +1,33 @@
-import { Controller, Dependencies, Get, Post, Req, Bind, Param, Delete, Put } from '@nestjs/common';
-import { OrdersService } from './orders.service';
+import {
+    Controller,
+    Dependencies,
+    Get,
+    Post,
+    Req,
+    Bind,
+    Param,
+    Delete,
+    Put
+} from '@nestjs/common';
+import {
+    OrdersService
+} from './orders.service';
 
 @Controller('orders')
 @Dependencies(OrdersService)
 export class OrdersController {
-    constructor(ordersService){
+    constructor(ordersService) {
         this.ordersService = ordersService;
     }
 
     @Post()
     @Bind(Req())
-    async insertOrder(req){
+    async insertOrder(req) {
         // console.log(req.body);
         let data = {
             'user_id': req.session.user.id,
             'data': req.body.items,
-            'total':  req.body.subtotal
+            'total': req.body.subtotal
         };
         return this.ordersService.insertOrder(data);
     }
@@ -40,31 +52,31 @@ export class OrdersController {
 
     @Get()
     @Bind(Req())
-    async findAll(req){
+    async findAll(req) {
         if (!req.session || !req.session.user || req.session.user.level == 2) {
             return {
                 "mess": "levelFail"
             }
-        }else{
+        } else {
             return this.ordersService.findAll();
         }
     }
 
     @Get('findById')
     @Bind(Req())
-    async findById(req){
+    async findById(req) {
         // console.log(req.session.user.id);
         return this.ordersService.findById(req.session.user.id);
     }
 
     @Put(':id')
     @Bind(Req())
-    async updateStatus(req){
+    async updateStatus(req) {
         if (!req.session || !req.session.user) {
             return {
                 "mess": "error"
             }
-        }else{
+        } else {
             return this.ordersService.updateStatus(req.body);
         }
     }

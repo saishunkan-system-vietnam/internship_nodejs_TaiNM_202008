@@ -1,4 +1,7 @@
-import { Injectable, Dependencies } from '@nestjs/common';
+import {
+    Injectable,
+    Dependencies
+} from '@nestjs/common';
 import mysqlx from '@mysql/xdevapi';
 import bcrypt from 'bcrypt';
 
@@ -15,87 +18,87 @@ export class UsersService {
     onModuleInit() {
         console.log('onModuleInit');
     }
-    
+
     async onApplicationBootstrap() {
         console.log('onUsersBootstrap');
         await this.clientUsers.connect();
         // return client;
-    }    
+    }
 
-    async connectDB(){
+    async connectDB() {
         session = await mysqlx
-          .getSession({
-            user: 'root',
-            password: '123456',
-            host: 'localhost',
-            port: 33060
-          })
+            .getSession({
+                user: 'root',
+                password: '123456',
+                host: 'localhost',
+                port: 33060
+            })
         return session;
     }
 
-    closeDB(){
+    closeDB() {
         session.close();
     }
 
-    async getSchema(){
+    async getSchema() {
         myTable = await session.getSchema('mydb').getTable('users');
-        return myTable; 
+        return myTable;
     }
 
 
-    async insertUser(data){
+    async insertUser(data) {
         // console.log(data);
-       return this.clientUsers.send('insertUser',data);
+        return this.clientUsers.send('insertUser', data);
     }
 
-    async updateUser(data){
-        return this.clientUsers.send('updateUser',data);
+    async updateUser(data) {
+        return this.clientUsers.send('updateUser', data);
     }
 
-    async findAll(data){
-        return this.clientUsers.send('getUser',data);
+    async findAll(data) {
+        return this.clientUsers.send('getUser', data);
     }
 
-    async findById(data){
-        return this.clientUsers.send('findById',data);
+    async findById(data) {
+        return this.clientUsers.send('findById', data);
     }
 
-    async deleteUser(data){
-        return this.clientUsers.send('deleteUser',data);
+    async deleteUser(data) {
+        return this.clientUsers.send('deleteUser', data);
     }
 
     // async login(data){
     //     return this.clientUsers.send('login',data);
     // }
 
-    async register(data){
-        return this.clientUsers.send('register',data);
+    async register(data) {
+        return this.clientUsers.send('register', data);
     }
 
     async loginUser(email, password, session) {
         await this.connectDB();
         await this.getSchema();
         let findEmail = await myTable.select()
-        .where('email = :param')
-        .bind('param',email)
-        .execute();
+            .where('email = :param')
+            .bind('param', email)
+            .execute();
         let user = findEmail.fetchAll();
         //console.log(findEmail.fetchAll().length);
-        if(user.length == 0){
+        if (user.length == 0) {
             throw "Email NOT FOUND"
         }
         let data = bcrypt.compareSync(password, user[0][2]);
-        if( data == false){
+        if (data == false) {
             throw "Passwor NOT FOUND"
         }
         // console.log(session);
-        if(!session.user){
+        if (!session.user) {
             session.user = {
                 id: user[0][0],
                 email: user[0][1],
                 level: user[0][6]
             };
-        }else{
+        } else {
             session.user = {
                 id: user[0][0],
                 email: user[0][1],

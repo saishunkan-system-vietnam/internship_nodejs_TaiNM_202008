@@ -1,76 +1,91 @@
-import { Controller,Dependencies, Post, Req, Res, Query, Bind, Put, Param, Get, Delete } from '@nestjs/common';
-import { TicketService } from './ticket.service';
+import {
+    Controller,
+    Dependencies,
+    Post,
+    Req,
+    Res,
+    Query,
+    Bind,
+    Put,
+    Param,
+    Get,
+    Delete
+} from '@nestjs/common';
+import {
+    TicketService
+} from './ticket.service';
 import Joi from '@hapi/joi';
 
 function ValidationError(message) {
     let Schema = Joi.object().keys({
-      'airline_id': Joi.number().required(),
-      'start': Joi.number().required(),
-      'end': Joi.number().required(),
-      'date': Joi.date().required(),
-      'number_seat': Joi.number().required(),
-      'price': Joi.number().required(),
-      'seat_id': Joi.number().required(),
-      // 'seat_id': Joi.string().required(),
+        'airline_id': Joi.number().required(),
+        'start': Joi.number().required(),
+        'end': Joi.number().required(),
+        'date': Joi.date().required(),
+        'number_seat': Joi.number().required(),
+        'price': Joi.number().required(),
+        'seat_id': Joi.number().required(),
+        // 'seat_id': Joi.string().required(),
     })
     return Schema.validate(message);
-  };
+};
+
 function ValidationEirport(message) {
     let Schema = Joi.object().keys({
-      'name': Joi.string().required(),
+        'name': Joi.string().required(),
     })
     return Schema.validate(message);
 }
-  
+
 
 @Controller()
 @Dependencies(TicketService)
 export class TicketController {
-    constructor(ticketService){
+    constructor(ticketService) {
         this.ticketService = ticketService;
     }
 
     @Get('ticket')
     @Bind(Query())
-    async selectticket(query){
+    async selectticket(query) {
         let airline = query.airline;
-            let seat = query.seat;
-            let start = query.start;
-            let end = query.end;
-            let date = query.date;
-            let price = query.price;
-            if (airline === undefined) {
-                airline = String(airline);
-                airline = '';
-              }
-            if (seat === undefined) {
-                seat = String(seat);
-                seat = '';
-              }
-             
-              if (start === undefined) {
-                start = String(start);
-                start = '';
-              }
-              if (end === undefined) {
-                end = String(end);
-                end = '';
-              }
-              if (date === undefined) {
-                date = String(date);
-                date = '';
-              }
-              if (price === undefined) {
-                price = String(price);
-                price = '';
-              }
+        let seat = query.seat;
+        let start = query.start;
+        let end = query.end;
+        let date = query.date;
+        let price = query.price;
+        if (airline === undefined) {
+            airline = String(airline);
+            airline = '';
+        }
+        if (seat === undefined) {
+            seat = String(seat);
+            seat = '';
+        }
+
+        if (start === undefined) {
+            start = String(start);
+            start = '';
+        }
+        if (end === undefined) {
+            end = String(end);
+            end = '';
+        }
+        if (date === undefined) {
+            date = String(date);
+            date = '';
+        }
+        if (price === undefined) {
+            price = String(price);
+            price = '';
+        }
         var data = {
-            airline : airline,
-            seat : seat,
-            start : start,
-            end : end,
-            date : date,
-            price : price,
+            airline: airline,
+            seat: seat,
+            start: start,
+            end: end,
+            date: date,
+            price: price,
         }
         // console.log(data);
         return this.ticketService.selectticket(data);
@@ -78,16 +93,18 @@ export class TicketController {
 
     @Get('ticket/:id')
     @Bind(Param())
-    async findById(params){
+    async findById(params) {
         // console.log(params.id)
         return this.ticketService.findById(params.id);
     }
 
     @Post('ticket')
     @Bind(Req())
-    async insertticket(req){
-        let {error} = ValidationError(req.body);
-        if(error){
+    async insertticket(req) {
+        let {
+            error
+        } = ValidationError(req.body);
+        if (error) {
             return {
                 status: 'erro',
                 code: '404',
@@ -99,9 +116,11 @@ export class TicketController {
 
     @Put('ticket/:id')
     @Bind(Req(), Param())
-    async updateticket(req, params){
-        let {error} = ValidationError(req.body);
-        if(error){
+    async updateticket(req, params) {
+        let {
+            error
+        } = ValidationError(req.body);
+        if (error) {
             return {
                 status: 'erro',
                 code: '404',
@@ -122,15 +141,17 @@ export class TicketController {
     }
 
     @Get('airport')
-    async selectairport(){
+    async selectairport() {
         return this.ticketService.selectairport();
     }
 
     @Post('airport')
     @Bind(Req())
-    async insertairport(req){
-        let {error} = ValidationEirport(req.body);
-            if(error){
+    async insertairport(req) {
+        let {
+            error
+        } = ValidationEirport(req.body);
+        if (error) {
             return ({
                 status: 'erro',
                 code: '404',
@@ -142,9 +163,11 @@ export class TicketController {
 
     @Put('airport/:id')
     @Bind(Req(), Param())
-    async updateairport(req, params){
-        let {error} = ValidationEirport(req.body);
-        if(error){
+    async updateairport(req, params) {
+        let {
+            error
+        } = ValidationEirport(req.body);
+        if (error) {
             return ({
                 status: 'erro',
                 code: '404',

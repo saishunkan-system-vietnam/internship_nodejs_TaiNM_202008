@@ -1,5 +1,17 @@
-import { Controller, Dependencies, Post, Req, Bind, Put, Param, Get, Delete } from '@nestjs/common'
-import { CategoryService } from './category.service'
+import {
+    Controller,
+    Dependencies,
+    Post,
+    Req,
+    Bind,
+    Put,
+    Param,
+    Get,
+    Delete
+} from '@nestjs/common'
+import {
+    CategoryService
+} from './category.service'
 
 @Controller('category')
 @Dependencies(CategoryService)
